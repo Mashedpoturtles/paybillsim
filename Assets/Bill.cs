@@ -3,7 +3,7 @@ public class Bill : IBill
 {
     public static int numberOfBills;
     private int amount;
-    private int issue;
+    private string issue;
     private int due;
     private string name;
     public string BillType  // read-write instance property
@@ -28,7 +28,7 @@ public class Bill : IBill
             due = value;
         }
     }
-    public int IssueDate
+    public string IssueDate
     {
         get
         {

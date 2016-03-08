@@ -16,7 +16,7 @@ interface IBill
         get;
         set;
     }
-    int IssueDate
+   string IssueDate
     {
         get;
         set;

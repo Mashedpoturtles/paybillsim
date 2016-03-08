@@ -7,9 +7,9 @@ public class TimeManager : MonoBehaviour {
 
     public Text timeToTextUI;
     public static TimeManager instance;
-    public TimeSpan current = new TimeSpan(0, 0, 0);
+    public TimeSpan current = new TimeSpan();
     //Timer variables
-    private float hour;
+    private int hour;
     private int day;
     private int month;
     private int year;
@@ -18,7 +18,7 @@ public class TimeManager : MonoBehaviour {
     public bool _speedUpTimeTimes4 = false;
     public bool _speedUpTimeTimes8 = false;
   
-    public  float Hour
+    public  int Hour
     {
         get
         {
@@ -67,9 +67,10 @@ public class TimeManager : MonoBehaviour {
     //Hours are seconds and time passes in 24 hour cycles.
     public void Timer()
     {
-        hour += Time.deltaTime;
+        
+        hour += (int)Time.deltaTime;
         timeToTextUI.text = timeToTextUI.text = string.Format(" Hours : {0}  Days : {1}    Month : {2}    Year: {3}", hour.ToString("0"), day, month, year);
-        current.Add((new TimeSpan((int)Time.deltaTime, 0, 0)));
+        current.Add((new TimeSpan(year, month, day, hour)));
         Debug.Log(current);
         if (hour >= 24)
         {
@@ -88,15 +89,15 @@ public class TimeManager : MonoBehaviour {
         }
         if (_speedUpTimeTimes2 == true)
         {
-            hour += Time.deltaTime * 2;
+            hour += (int)Time.deltaTime * 2;
         }
         if(_speedUpTimeTimes4 == true)
         {
-            hour += Time.deltaTime * 4;
+            hour += (int)Time.deltaTime * 4;
         }
         if (_speedUpTimeTimes8 == true)
         {
-            hour += Time.deltaTime * 8;
+            hour += (int)Time.deltaTime * 8;
         }
     }
 	void Start ()

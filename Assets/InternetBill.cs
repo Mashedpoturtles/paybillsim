@@ -12,7 +12,7 @@ public class InternetBill : MonoBehaviour {
       
        internet.BillType = "Internet";
        internet.DueDate = 10;
-       internet.IssueDate = 1;
+        internet.IssueDate = "";
        internet.Amount = 500;
 
         BillInformation.text = string.Format("Bill number: {0} Bill type: {1} Due date: {2} Issue date: {3} Amount to pay: {4}",
