@@ -7,7 +7,7 @@ public class TimeManager : MonoBehaviour {
 
     public Text timeToTextUI;
     public static TimeManager instance;
-
+    public TimeSpan current = new TimeSpan(0, 0, 0);
     //Timer variables
     private float hour;
     private int day;
@@ -17,7 +17,7 @@ public class TimeManager : MonoBehaviour {
     public bool _speedUpTimeTimes2 = false;
     public bool _speedUpTimeTimes4 = false;
     public bool _speedUpTimeTimes8 = false;
-
+  
     public  float Hour
     {
         get
@@ -69,7 +69,8 @@ public class TimeManager : MonoBehaviour {
     {
         hour += Time.deltaTime;
         timeToTextUI.text = timeToTextUI.text = string.Format(" Hours : {0}  Days : {1}    Month : {2}    Year: {3}", hour.ToString("0"), day, month, year);
-      
+        current.Add((new TimeSpan((int)Time.deltaTime, 0, 0)));
+        Debug.Log(current);
         if (hour >= 24)
         {
             day += 1;
