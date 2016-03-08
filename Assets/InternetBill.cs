@@ -11,9 +11,9 @@ public class InternetBill : MonoBehaviour {
         Bill internet = new Bill();
       
        internet.BillType = "Internet";
-       internet.DueDate = 10;
-       internet.IssueDate = 1;
-       internet.Amount = 500;
+       internet.DueDate = TimeManager.instance.curentTime;
+        internet.IssueDate = TimeManager.instance.curentTime;
+        internet.Amount = 500;
 
         BillInformation.text = string.Format("Bill number: {0} Bill type: {1} Due date: {2} Issue date: {3} Amount to pay: {4}",
             internet.Counter, internet.BillType, internet.DueDate, internet.IssueDate, internet.Amount);

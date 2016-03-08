@@ -7,12 +7,12 @@ public class TimeManager : MonoBehaviour {
 
     public Text timeToTextUI;
     public static TimeManager instance;
-    public DateTime currentTime;   
+    public DateTime curentTime;   
     //Timer variables
     private float hour;
-    private DateTime day;
-    private DateTime month;
-    private DateTime year;  
+    private int day;
+    private int month;
+    private int year;    
     public bool _speedUpTimeTimes2 = false;
     public bool _speedUpTimeTimes4 = false;
     public bool _speedUpTimeTimes8 = false;
@@ -29,7 +29,7 @@ public class TimeManager : MonoBehaviour {
         }
     }
 
-    public DateTime Month
+    public int Month
     {
         get
         {
@@ -40,7 +40,7 @@ public class TimeManager : MonoBehaviour {
             month = value;
         }
     }
-    public DateTime Day
+    public int Day
     {
         get
         {
@@ -51,7 +51,7 @@ public class TimeManager : MonoBehaviour {
             day = value;
         }
     }
-    public  DateTime Year
+    public  int Year
     {
         get
         {
@@ -66,7 +66,7 @@ public class TimeManager : MonoBehaviour {
     //Hours are seconds and time passes in 24 hour cycles.
     public void Timer()
     {
-        DateTime time = new DateTime(year, month, day, (int)hour, 0, 0);
+        DateTime time = new DateTime(year, month, day);
         Debug.Log(time);
         hour += Time.deltaTime;
         timeToTextUI.text = timeToTextUI.text = string.Format(" Hours : {0}  Days : {1}    Month : {2}    Year: {3}", hour.ToString("0"), day, month, year);
