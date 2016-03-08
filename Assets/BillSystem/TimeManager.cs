@@ -2,12 +2,14 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using System.Linq;
 
 public class TimeManager : MonoBehaviour {
 
     public Text timeToTextUI;
     public static TimeManager instance;
     public static DateTime currentTime;
+    //TODO create better way of setting more dynamic duedates
     public static DateTime duedateelect;
  
     void Start()
@@ -29,6 +31,7 @@ public class TimeManager : MonoBehaviour {
         currentTime = currentTime.AddHours(1 * Time.deltaTime);
         timeToTextUI.text = timeToTextUI.text = currentTime.DayOfWeek.ToString() + currentTime.ToString(" MMMM , yyyy ") + "Current Time: " +currentTime.ToString("HH: tt") + ".";
     }
+
     [SerializeField]
     float speedUp = 1.0f;
     IEnumerator AddHours()

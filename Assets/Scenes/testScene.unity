@@ -113,9 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToTextUI: {fileID: 129921812}
-  _speedUpTimeTimes2: 0
-  _speedUpTimeTimes4: 0
-  _speedUpTimeTimes8: 0
+  speedUp: 20
 --- !u!4 &84106261
 Transform:
   m_ObjectHideFlags: 0

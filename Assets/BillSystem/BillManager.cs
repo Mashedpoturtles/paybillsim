@@ -12,7 +12,7 @@ public class BillManager : MonoBehaviour {
 
     //issue all the bills at their set times in update.
     void Update()
-    {
+   { 
         IssueElectricityBill();
         IssueInternetBill();
     }
@@ -33,8 +33,7 @@ public class BillManager : MonoBehaviour {
     {
         if (TimeManager.currentTime.DayOfWeek == System.DayOfWeek.Tuesday ||
             TimeManager.currentTime.DayOfWeek == System.DayOfWeek.Thursday)
-            // so long as this bill does not already exist it may currently spawn.
-            //TODO bill list.
+            // so long as this bill does not already exist it may currently spawn.         
             if (InternetBill.instance.Exists != true) { InternetBill.instance.Internet(); } 
 
     }
