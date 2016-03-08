@@ -21,9 +21,9 @@ public class ElectricityBill : MonoBehaviour {
 
         electricity.Amount = 500;
 
-        BillInformation.text = string.Format("Bill number: {0} Bill type: {1} Due date: {2} Issue date: {3} Amount to pay: {4}",
-            electricity.Counter, electricity.BillType, 
-            electricity.DueDate.ToString("d"), electricity.IssueDate.ToString("d"), electricity.Amount);
+        BillInformation.text = string.Format("Bill number: {0} Bill type: {1} Issue date: {2}  Due date: {3} Amount to pay: {4}",
+            electricity.Counter, electricity.BillType, electricity.IssueDate.ToString("d"),
+            electricity.DueDate.ToString("d"), electricity.Amount);
 
         // if an instance of this bill already exists then it is not null so exists is set to true.
         if (electricity != null)

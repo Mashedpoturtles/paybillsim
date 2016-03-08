@@ -284,32 +284,7 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 92942f1fcfb0f1240826dc0e3192dd37, type: 2}
-  m_RootGameObject: {fileID: 462828138}
   m_IsPrefabParent: 0
---- !u!1 &462828138
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 123494, guid: 92942f1fcfb0f1240826dc0e3192dd37, type: 2}
-  m_PrefabInternal: {fileID: 175445927}
-  serializedVersion: 4
-  m_Component:
-  - 224: {fileID: 899567513}
-  - 222: {fileID: 462828139}
-  - 114: {fileID: 899567514}
-  m_Layer: 5
-  m_Name: BillInformation
-  m_TagString: billInfo
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!222 &462828139
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 22233282, guid: 92942f1fcfb0f1240826dc0e3192dd37,
-    type: 2}
-  m_PrefabInternal: {fileID: 175445927}
-  m_GameObject: {fileID: 462828138}
 --- !u!1 &746420143
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,7 +377,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 22437062, guid: 92942f1fcfb0f1240826dc0e3192dd37,
     type: 2}
   m_PrefabInternal: {fileID: 175445927}
-  m_GameObject: {fileID: 462828138}
+  m_GameObject: {fileID: 1890008303}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -420,7 +395,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 11403840, guid: 92942f1fcfb0f1240826dc0e3192dd37,
     type: 2}
   m_PrefabInternal: {fileID: 175445927}
-  m_GameObject: {fileID: 462828138}
+  m_GameObject: {fileID: 1890008303}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
@@ -601,6 +576,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!1 &1890008303
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 123494, guid: 92942f1fcfb0f1240826dc0e3192dd37, type: 2}
+  m_PrefabInternal: {fileID: 175445927}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 899567513}
+  - 222: {fileID: 1890008304}
+  - 114: {fileID: 899567514}
+  m_Layer: 5
+  m_Name: BillInformation
+  m_TagString: billInfo
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!222 &1890008304
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 22233282, guid: 92942f1fcfb0f1240826dc0e3192dd37,
+    type: 2}
+  m_PrefabInternal: {fileID: 175445927}
+  m_GameObject: {fileID: 1890008303}
 --- !u!1 &1900536625
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,7 +672,6 @@ GameObject:
   - 114: {fileID: 2132981854}
   - 114: {fileID: 2132981858}
   - 114: {fileID: 2132981857}
-  - 114: {fileID: 2132981856}
   m_Layer: 0
   m_Name: BillManager
   m_TagString: Untagged
@@ -706,17 +704,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
---- !u!114 &2132981856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2132981853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 770d5e692bd357d46b7851c85e3bda6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2132981857
 MonoBehaviour:
   m_ObjectHideFlags: 0
