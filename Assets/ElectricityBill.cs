@@ -11,7 +11,7 @@ public class ElectricityBill : MonoBehaviour {
         Bill electricity = new Bill();     
         electricity.BillType = "Electricity";
         electricity.DueDate = 1;
-        electricity.IssueDate = TimeManager.instance.current.ToString(); //not sure how to set this;
+        electricity.IssueDate = 1;
         electricity.Amount = 500;
 
         BillInformation.text = string.Format("Bill number: {0} Bill type: {1} Due date: {2} Issue date: {3} Amount to pay: {4}",

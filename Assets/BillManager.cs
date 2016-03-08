@@ -14,7 +14,7 @@ public class BillManager : MonoBehaviour {
 
     void IssueElectricityBill()
     {
-        if (TimeManager.instance.Day == 1 || TimeManager.instance.Day == 7 || TimeManager.instance.Day == 14 || TimeManager.instance.Day == 21)
+        if (TimeManager.instance.Day == 2 || TimeManager.instance.Day == 7 || TimeManager.instance.Day == 14 || TimeManager.instance.Day == 21)
         {
             // so long as this bill does not already exist it may currently spawn.
             //TODO bill list.
@@ -24,7 +24,7 @@ public class BillManager : MonoBehaviour {
             }
         }
     }
-
+    
     void IssueInternetBill()
     {
         if (TimeManager.instance.Day == 3 || TimeManager.instance.Day == 9 || TimeManager.instance.Day == 18 || TimeManager.instance.Day == 26)

@@ -50,7 +50,6 @@
      <Compile Include="Assets\ElectricityBill.cs" />
      <Compile Include="Assets\IBill.cs" />
      <Compile Include="Assets\InternetBill.cs" />
-     <Compile Include="Assets\SpawnAtTime.cs" />
      <Compile Include="Assets\TimeManager.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
