@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 interface IBill  
 {
     string BillType
@@ -11,12 +13,12 @@ interface IBill
         get;
         set;
     }
-    int DueDate
+    DateTime DueDate
     {
         get;
         set;
     }
-    int IssueDate
+    DateTime IssueDate
     {
         get;
         set;

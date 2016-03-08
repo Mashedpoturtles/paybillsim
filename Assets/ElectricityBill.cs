@@ -10,8 +10,8 @@ public class ElectricityBill : MonoBehaviour {
     {
         Bill electricity = new Bill();     
         electricity.BillType = "Electricity";
-        electricity.DueDate = 10;
-        electricity.IssueDate =  TimeManager.current.Seconds;
+        electricity.DueDate = TimeManager.instance.currentTime(10);
+        electricity.IssueDate = TimeManager.instance.currentTime.Day;
         electricity.Amount = 500;
 
         BillInformation.text = string.Format("Bill number: {0} Bill type: {1} Due date: {2} Issue date: {3} Amount to pay: {4}",

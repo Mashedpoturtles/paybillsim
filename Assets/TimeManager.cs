@@ -7,13 +7,12 @@ public class TimeManager : MonoBehaviour {
 
     public Text timeToTextUI;
     public static TimeManager instance;
-    public static TimeSpan current = new TimeSpan();
+    public DateTime currentTime;   
     //Timer variables
     private float hour;
-    private int day;
-    private int month;
-    private int year;
-    private int currentTime;
+    private DateTime day;
+    private DateTime month;
+    private DateTime year;  
     public bool _speedUpTimeTimes2 = false;
     public bool _speedUpTimeTimes4 = false;
     public bool _speedUpTimeTimes8 = false;
@@ -30,7 +29,7 @@ public class TimeManager : MonoBehaviour {
         }
     }
 
-    public int Month
+    public DateTime Month
     {
         get
         {
@@ -41,7 +40,7 @@ public class TimeManager : MonoBehaviour {
             month = value;
         }
     }
-    public int Day
+    public DateTime Day
     {
         get
         {
@@ -52,7 +51,7 @@ public class TimeManager : MonoBehaviour {
             day = value;
         }
     }
-    public  int Year
+    public  DateTime Year
     {
         get
         {
@@ -67,11 +66,11 @@ public class TimeManager : MonoBehaviour {
     //Hours are seconds and time passes in 24 hour cycles.
     public void Timer()
     {
-        
+        DateTime time = new DateTime(year, month, day, (int)hour, 0, 0);
+        Debug.Log(time);
         hour += Time.deltaTime;
         timeToTextUI.text = timeToTextUI.text = string.Format(" Hours : {0}  Days : {1}    Month : {2}    Year: {3}", hour.ToString("0"), day, month, year);
-        current = current.Add((new TimeSpan((int)Time.deltaTime, 0, 1)));
-        Debug.Log(current);
+      
         if (hour >= 24)
         {
             day += 1;
@@ -113,5 +112,14 @@ public class TimeManager : MonoBehaviour {
     {
         Timer();
 	}
- 
+    /*
+    IEnumerator AddSecond()
+    {
+        while (true)
+        {
+            someDateTime = someDateTime.Add(TimeSpan.FromSeconds(1));
+            yield return new WaitForSeconds(1);
+        }
+    }
+    */
 }

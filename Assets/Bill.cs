@@ -1,10 +1,12 @@
 ﻿
+using System;
+
 public class Bill : IBill
 {
     public static int numberOfBills;
     private int amount;
-    private int issue;
-    private int due;
+    private DateTime issue;
+    private DateTime due;
     private string name;
     public string BillType  // read-write instance property
     {
@@ -17,7 +19,7 @@ public class Bill : IBill
             name = value;
         }
     }
-    public int DueDate
+    public DateTime DueDate
     {
         get
         {
@@ -28,7 +30,7 @@ public class Bill : IBill
             due = value;
         }
     }
-    public int IssueDate
+    public DateTime IssueDate
     {
         get
         {
