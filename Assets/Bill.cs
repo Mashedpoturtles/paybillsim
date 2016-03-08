@@ -4,10 +4,12 @@ using System;
 public class Bill : IBill
 {
     public static int numberOfBills;
+    private static int counter;
     private int amount;
     private DateTime issue;
     private DateTime due;
     private string name;
+
     public string BillType  // read-write instance property
     {
         get
@@ -19,6 +21,7 @@ public class Bill : IBill
             name = value;
         }
     }
+
     public DateTime DueDate
     {
         get
@@ -30,6 +33,7 @@ public class Bill : IBill
             due = value;
         }
     }
+
     public DateTime IssueDate
     {
         get
@@ -41,6 +45,7 @@ public class Bill : IBill
             issue = value;
         }
     }
+
     public int Amount
     {
         get
@@ -53,7 +58,6 @@ public class Bill : IBill
         }
     }
        
-    private static int counter;
     public int Counter  // read-only instance property
     {
         get
