@@ -9,11 +9,7 @@ public class TimeManager : MonoBehaviour {
     public static TimeManager instance;
     public static DateTime currentTime;
     public static DateTime duedateelect;
-    //Timer variables
-    public bool _speedUpTimeTimes2 = false;
-    public bool _speedUpTimeTimes4 = false;
-    public bool _speedUpTimeTimes8 = false;
-
+ 
     void Start()
     {
         currentTime = new DateTime(2016, 1, 1);
@@ -33,25 +29,14 @@ public class TimeManager : MonoBehaviour {
         currentTime = currentTime.AddHours(1 * Time.deltaTime);
         timeToTextUI.text = timeToTextUI.text = currentTime.DayOfWeek.ToString() + currentTime.ToString(" MMMM , yyyy ") + "Current Time: " +currentTime.ToString("HH: tt") + ".";
     }
-
+    [SerializeField]
+    float speedUp = 1.0f;
     IEnumerator AddHours()
     {
         while (true)
         {
-            currentTime = currentTime.AddHours(1 * Time.deltaTime);
-            if(_speedUpTimeTimes2 == true)
-            {
-                currentTime = currentTime.AddHours(2);
-            }
-            if(_speedUpTimeTimes4 == true)
-            {
-                currentTime = currentTime.AddHours(4);
-            }
-            if(_speedUpTimeTimes8 == true)
-            {
-                currentTime = currentTime.AddHours(8);
-            }
-            yield return new WaitForSeconds(1);
+            currentTime = currentTime.AddHours(1);
+            yield return new WaitForSeconds(1.0f / speedUp);
         }
     }
 }
