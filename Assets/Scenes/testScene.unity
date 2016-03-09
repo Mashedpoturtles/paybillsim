@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToTextUI: {fileID: 129921812}
-  speedUp: 20
+  speedUp: 1
 --- !u!4 &84106261
 Transform:
   m_ObjectHideFlags: 0
@@ -668,8 +668,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2132981855}
   - 114: {fileID: 2132981854}
-  - 114: {fileID: 2132981858}
-  - 114: {fileID: 2132981857}
+  - 114: {fileID: 2132981856}
   m_Layer: 0
   m_Name: BillManager
   m_TagString: Untagged
@@ -685,11 +684,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2132981853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dad24be0dba68b14e8fabf0737f8b442, type: 3}
+  m_Script: {fileID: 11500000, guid: 87d76d821fb63084ab31b60520fc9e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BillInformation: {fileID: 899567514}
-  Exists: 0
 --- !u!4 &2132981855
 Transform:
   m_ObjectHideFlags: 0
@@ -702,7 +699,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
---- !u!114 &2132981857
+--- !u!114 &2132981856
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -710,19 +707,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2132981853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87d76d821fb63084ab31b60520fc9e5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2132981858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2132981853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10f2bbe5cf4a7c041b305b91cce3e7b1, type: 3}
+  m_Script: {fileID: 11500000, guid: 70d5776dc05c2464c813a15aab70c293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   BillInformation: {fileID: 899567514}
-  Exists: 0

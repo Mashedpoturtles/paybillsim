@@ -26,13 +26,12 @@ public class TimeManager : MonoBehaviour {
 
     //Hours are seconds and time passes in 24 hour cycles.
     public void Timer()
-    { 
-        currentTime = currentTime.AddHours(1 * Time.deltaTime);
+    {
         timeToTextUI.text = timeToTextUI.text = currentTime.DayOfWeek.ToString() + currentTime.ToString(" MMMM , yyyy ") + "Current Time: " +currentTime.ToString("HH: tt") + ".";
     }
 
 	[SerializeField]
-	private const float speedUp = 1.0f;
+    float speedUp = 1.0f;
 
 	private IEnumerator AddHours()
     {
