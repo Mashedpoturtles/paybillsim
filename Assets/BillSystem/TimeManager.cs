@@ -32,11 +32,17 @@ public class TimeManager : MonoBehaviour {
         timeToTextUI.text = timeToTextUI.text = currentTime.DayOfWeek.ToString() + currentTime.ToString(" MMMM , yyyy ") + "Current Time: " +currentTime.ToString("HH: tt") + ".";
     }
 
+    private string temporaryDay = "";
     void DayIsChanged()
     {
-        if(currentTime.Hour >= 23)
+      if(temporaryDay == "")
+        {
+            temporaryDay = currentTime.Day.ToString();
+        }
+        if (temporaryDay != currentTime.Day.ToString()) 
         {
             OnDayChange();
+            temporaryDay = currentTime.Day.ToString(); 
         }
     }
   

@@ -21,11 +21,10 @@ public class BillManager : MonoBehaviour {
     //issue all the bills at their set times in update.
     void Update()
     {
-        if (_billingDone)
-            return;
-       
-        IssueBill(BillType.Electricity);
-		IssueBill(BillType.Internet);
+        
+        TimeManager.OnDayChange + IssueBill(BillType.Electricity); // not working
+
+        IssueBill(BillType.Internet);
         _billingDone = true;
     }
 
