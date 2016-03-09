@@ -6,17 +6,33 @@ namespace Assets.BillSystem
 {
     public class Bill : MonoBehaviour, IBill
     {
+        /// <summary>
+        /// Display the bill information to text components.
+        /// </summary>
         public Text BillInformation;
-        public static int numberOfBills;
-
+        /// <summary>
+        /// BillType comparrison to string?
+        /// </summary>
         public string BillType { get; set; }
         /// <summary>
-        /// amount to pay
+        /// The amount you must pay for this bill initially.
         /// </summary>
         public int Amount { get; set; }
+        /// <summary>
+        /// The kind of bill, for e.g. internet, electricity or water bills.
+        /// </summary>
         public BillType Type { get; set; }
+        /// <summary>
+        /// The Date the bill is due for payment.
+        /// </summary>
         public DateTime DueDate { get; set; }
+        /// <summary>
+        /// The date the bill is issued.
+        /// </summary>
         public DateTime IssueDate { get; set; }
+        /// <summary>
+        /// This will add to the total amount of issued bills.
+        /// </summary>
         public int Counter { get; set; }
 
         public Bill(BillType type)

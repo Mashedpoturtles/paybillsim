@@ -11,7 +11,7 @@ public class TimeManager : MonoBehaviour {
     public static DateTime currentTime;
     //TODO create better way of setting more dynamic duedates
     public static DateTime duedateelect;
-    public delegate void DayChanged(BillType type);
+    public delegate void DayChanged();
     public static event DayChanged OnDayChange;
 
     void Start()
@@ -25,6 +25,7 @@ public class TimeManager : MonoBehaviour {
     void Update()
     {
         Timer();
+        DayIsChanged();
     }
 
     //Hours are seconds and time passes in 24 hour cycles.
@@ -44,10 +45,8 @@ public class TimeManager : MonoBehaviour {
             }
             if (temporaryDay != currentTime.Day.ToString())
             {
-                OnDayChange(BillType.Electricity); // Call the event, passing an "electricityBill" as the bill type.
-                OnDayChange(BillType.Internet); // // and Call the event, passing an "internetBill" as the bill type.
+                OnDayChange();  
                 temporaryDay = currentTime.Day.ToString();
-                Debug.Log("OndayChange is triggered");
             }
         }
     }
