@@ -1,11 +1,8 @@
 ﻿using System.Collections;
 using System;
-<<<<<<< HEAD
 using UnityEngine.UI;
- 
-=======
+using UnityEngine;
 
->>>>>>> 37a16440b6db5249009a8e29adeab002d40fd2e1
 public class TimeManager : MonoBehaviour {
 
     public Text timeToTextUI;

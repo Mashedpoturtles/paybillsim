@@ -1,29 +1,22 @@
-<<<<<<< HEAD
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-=======
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using Assets.BillSystem;
->>>>>>> 37a16440b6db5249009a8e29adeab002d40fd2e1
+
 
 public class BillManager : MonoBehaviour {
 
     public static BillManager instance;
-<<<<<<< HEAD
-    public static List<ElectricityBill> electricitybills;
-    void Start()
-=======
+
+  
 
 	public static List<Bill> Bills = new List<Bill>();
 
 	public void Start()
->>>>>>> 37a16440b6db5249009a8e29adeab002d40fd2e1
+ 
     {
         instance = this;
-        electricitybills = new List<ElectricityBill>();
     }
 
     //issue all the bills at their set times in update.
@@ -39,14 +32,14 @@ public class BillManager : MonoBehaviour {
 		Bills.Add(new Bill(type));
 	}
 
-<<<<<<< HEAD
-    }
+ 
+   /*
+    IEnumerable<Bill> bills =
+        from Bill in Bills   
+        where Bill.Type == BillType.Electricity
 
-    IEnumerable<ElectricityBill> electricitybill =
-        from ElectricityBill in electricitybills     
-        where ElectricityBill.Exists = true
-        select ElectricityBill;
-=======
+        */
+ 
 	public static bool IsBillDay(DayOfWeek day) {
 		return day == DayOfWeek.Tuesday ||
 			   day == DayOfWeek.Thursday;
@@ -55,6 +48,9 @@ public class BillManager : MonoBehaviour {
 	public static int GetBillCount(BillType type) {
 		return Bills.Select(bill => bill.Type == type).ToList().Count;
 	}
->>>>>>> 37a16440b6db5249009a8e29adeab002d40fd2e1
+    public static List<Bill> GetBillsByType(BillType type)
+    {
+        return Bills.Select(bill => bill.Type == type).ToList();
+    }
 }
  
