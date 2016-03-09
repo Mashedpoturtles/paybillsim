@@ -47,9 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\BillSystem\Bill.cs" />
      <Compile Include="Assets\BillSystem\BillManager.cs" />
-     <Compile Include="Assets\BillSystem\ElectricityBill.cs" />
      <Compile Include="Assets\BillSystem\IBill.cs" />
-     <Compile Include="Assets\BillSystem\InternetBill.cs" />
      <Compile Include="Assets\BillSystem\TimeManager.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

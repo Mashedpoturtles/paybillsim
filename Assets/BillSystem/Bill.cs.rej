@@ -1,0 +1,20 @@
+diff a/Assets/BillSystem/Bill.cs b/Assets/BillSystem/Bill.cs	(rejected hunks)
+@@ -10,17 +10,7 @@
+     private DateTime due;
+     private string name;
+ 
+-    public string BillType  // read-write instance property
+-    {
+-        get
+-        {
+-            return name;
+-        }
+-        set
+-        {
+-            name = value;
+-        }
+-    }
++    public string BillType { get; set; }
+ 
+     public DateTime DueDate
+     {

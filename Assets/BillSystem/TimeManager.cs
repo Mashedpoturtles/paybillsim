@@ -1,8 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System;
+<<<<<<< HEAD
 using UnityEngine.UI;
  
+=======
+
+>>>>>>> 37a16440b6db5249009a8e29adeab002d40fd2e1
 public class TimeManager : MonoBehaviour {
 
     public Text timeToTextUI;
@@ -31,9 +34,10 @@ public class TimeManager : MonoBehaviour {
         timeToTextUI.text = timeToTextUI.text = currentTime.DayOfWeek.ToString() + currentTime.ToString(" MMMM , yyyy ") + "Current Time: " +currentTime.ToString("HH: tt") + ".";
     }
 
-    [SerializeField]
-    float speedUp = 1.0f;
-    IEnumerator AddHours()
+	[SerializeField]
+	private const float speedUp = 1.0f;
+
+	private IEnumerator AddHours()
     {
         while (true)
         {
