@@ -1,11 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Assets.BillSystem;
 
 public class BillManager : MonoBehaviour {
 
     public static BillManager instance;
 
-    void Start()
+	public static List<Bill> Bills = new List<Bill>();
+
+	public void Start()
     {
         instance = this;
     }
@@ -13,29 +17,23 @@ public class BillManager : MonoBehaviour {
     //issue all the bills at their set times in update.
     void Update()
    { 
-        IssueElectricityBill();
-        IssueInternetBill();
+        IssueBill(BillType.Electricity);
+		IssueBill(BillType.Internet);
     }
 
-    void IssueElectricityBill()
-    {
-        if (TimeManager.currentTime.DayOfWeek == System.DayOfWeek.Tuesday || 
-            TimeManager.currentTime.DayOfWeek == System.DayOfWeek.Thursday)
-        {
-            // so long as this bill does not already exist it may currently spawn.
-            //TODO bill list.
-            if (ElectricityBill.instance.Exists != true) { ElectricityBill.instance.Electricity(); }
-          
-        }
-    }
+	public void IssueBill(BillType type) {
+		if (!IsBillDay(TimeManager.currentTime.DayOfWeek)) return;
 
-    void IssueInternetBill()
-    {
-        if (TimeManager.currentTime.DayOfWeek == System.DayOfWeek.Tuesday ||
-            TimeManager.currentTime.DayOfWeek == System.DayOfWeek.Thursday)
-            // so long as this bill does not already exist it may currently spawn.         
-            if (InternetBill.instance.Exists != true) { InternetBill.instance.Internet(); } 
+		Bills.Add(new Bill(type));
+	}
 
-    }
+	public static bool IsBillDay(DayOfWeek day) {
+		return day == DayOfWeek.Tuesday ||
+			   day == DayOfWeek.Thursday;
+	}
+
+	public static int GetBillCount(BillType type) {
+		return Bills.Select(bill => bill.Type == type).ToList().Count;
+	}
 }
  
