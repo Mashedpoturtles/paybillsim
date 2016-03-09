@@ -2,8 +2,7 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
-using System.Linq;
-
+ 
 public class TimeManager : MonoBehaviour {
 
     public Text timeToTextUI;

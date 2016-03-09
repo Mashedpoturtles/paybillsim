@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class BillManager : MonoBehaviour {
 
     public static BillManager instance;
-
+    public static List<ElectricityBill> electricitybills;
     void Start()
     {
         instance = this;
+        electricitybills = new List<ElectricityBill>();
     }
 
     //issue all the bills at their set times in update.
@@ -37,5 +39,10 @@ public class BillManager : MonoBehaviour {
             if (InternetBill.instance.Exists != true) { InternetBill.instance.Internet(); } 
 
     }
+
+    IEnumerable<ElectricityBill> electricitybill =
+        from ElectricityBill in electricitybills     
+        where ElectricityBill.Exists = true
+        select ElectricityBill;
 }
  

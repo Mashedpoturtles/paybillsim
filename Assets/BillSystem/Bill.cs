@@ -10,17 +10,7 @@ public class Bill : IBill
     private DateTime due;
     private string name;
 
-    public string BillType  // read-write instance property
-    {
-        get
-        {
-            return name;
-        }
-        set
-        {
-            name = value;
-        }
-    }
+    public string BillType { get; set; }
 
     public DateTime DueDate
     {
