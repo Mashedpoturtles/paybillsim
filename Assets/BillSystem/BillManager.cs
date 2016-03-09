@@ -6,7 +6,6 @@ using Assets.BillSystem;
 
 
 public class BillManager : MonoBehaviour {
-    private bool _billingDone = false;
     public GameObject _Holder;
     public static BillManager instance;
 	public static List<Bill> Bills = new List<Bill>();
@@ -16,22 +15,19 @@ public class BillManager : MonoBehaviour {
     {
         Application.runInBackground = true;
         instance = this;
+        TimeManager.OnDayChange += IssueBill; // Subscribe to the OnDayChange event.
     }
 
     //issue all the bills at their set times in update.
     void Update()
     {
-        
-        TimeManager.OnDayChange + IssueBill(BillType.Electricity); // not working
-
-        IssueBill(BillType.Internet);
-        _billingDone = true;
+       
     }
 
 	public void IssueBill(BillType type)
     {
 		if (!IsBillDay(TimeManager.currentTime.DayOfWeek)) return;
-         
+        Debug.Log("issuebill triggered");
         Bill bill = _Holder.AddComponent<Bill>();
 	}
 

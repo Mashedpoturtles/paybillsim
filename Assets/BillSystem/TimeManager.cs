@@ -2,6 +2,7 @@
 using System;
 using UnityEngine.UI;
 using UnityEngine;
+using Assets.BillSystem;
 
 public class TimeManager : MonoBehaviour {
 
@@ -10,9 +11,9 @@ public class TimeManager : MonoBehaviour {
     public static DateTime currentTime;
     //TODO create better way of setting more dynamic duedates
     public static DateTime duedateelect;
-    public delegate void DayChanged();
+    public delegate void DayChanged(BillType type);
     public static event DayChanged OnDayChange;
- 
+
     void Start()
     {
         currentTime = new DateTime(2016, 1, 1);
@@ -35,14 +36,19 @@ public class TimeManager : MonoBehaviour {
     private string temporaryDay = "";
     void DayIsChanged()
     {
-      if(temporaryDay == "")
+        if (OnDayChange != null) // Check that there are subscribers to the OnDayChange event.
         {
-            temporaryDay = currentTime.Day.ToString();
-        }
-        if (temporaryDay != currentTime.Day.ToString()) 
-        {
-            OnDayChange();
-            temporaryDay = currentTime.Day.ToString(); 
+            if (temporaryDay == "")
+            {
+                temporaryDay = currentTime.Day.ToString();
+            }
+            if (temporaryDay != currentTime.Day.ToString())
+            {
+                OnDayChange(BillType.Electricity); // Call the event, passing an "electricityBill" as the bill type.
+                OnDayChange(BillType.Internet); // // and Call the event, passing an "internetBill" as the bill type.
+                temporaryDay = currentTime.Day.ToString();
+                Debug.Log("OndayChange is triggered");
+            }
         }
     }
   
