@@ -10,6 +10,8 @@ public class TimeManager : MonoBehaviour {
     public static DateTime currentTime;
     //TODO create better way of setting more dynamic duedates
     public static DateTime duedateelect;
+    public delegate void DayChanged();
+    public static event DayChanged OnDayChange;
  
     void Start()
     {
@@ -30,6 +32,14 @@ public class TimeManager : MonoBehaviour {
         timeToTextUI.text = timeToTextUI.text = currentTime.DayOfWeek.ToString() + currentTime.ToString(" MMMM , yyyy ") + "Current Time: " +currentTime.ToString("HH: tt") + ".";
     }
 
+    void DayIsChanged()
+    {
+        if(currentTime.Hour >= 23)
+        {
+            OnDayChange();
+        }
+    }
+  
 	[SerializeField]
     float speedUp = 1.0f;
 

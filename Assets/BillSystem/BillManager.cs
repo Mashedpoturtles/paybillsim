@@ -23,7 +23,7 @@ public class BillManager : MonoBehaviour {
     {
         if (_billingDone)
             return;
-
+       
         IssueBill(BillType.Electricity);
 		IssueBill(BillType.Internet);
         _billingDone = true;
