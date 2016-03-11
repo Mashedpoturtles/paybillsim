@@ -5,13 +5,20 @@ using UnityEngine;
 using Assets.BillSystem;
 
 public class TimeManager : MonoBehaviour {
-
+    /// <summary>
+    /// Display the time to UI.
+    /// </summary>
     public Text timeToTextUI;
     public static TimeManager instance;
+    /// <summary>
+    /// Custom datetime.
+    /// </summary>
     public static DateTime currentTime;
-    //TODO create better way of setting more dynamic duedates
     public static DateTime duedateelect;
     public delegate void DayChanged();
+    /// <summary>
+    /// This event checks of a day has changed from previous to the next.
+    /// </summary>
     public static event DayChanged OnDayChange;
 
     void Start()
@@ -28,13 +35,20 @@ public class TimeManager : MonoBehaviour {
         DayIsChanged();
     }
 
-    //Hours are seconds and time passes in 24 hour cycles.
+    /// <summary>
+    ///  Hours are seconds and time passes in 24 hour cycles.
+    /// </summary>
     public void Timer()
     {
         timeToTextUI.text = timeToTextUI.text = currentTime.DayOfWeek.ToString() + currentTime.ToString(" MMMM , yyyy ") + "Current Time: " +currentTime.ToString("HH: tt") + ".";
     }
-
+    /// <summary>
+    /// Store the current time temporarily to this string to compare if a day is changed in the OndayChange method.
+    /// </summary>
     private string temporaryDay = "";
+    /// <summary>
+    /// Fires the OnDayChange event.
+    /// </summary>
     void DayIsChanged()
     {
         if (OnDayChange != null) // Check that there are subscribers to the OnDayChange event.
@@ -53,7 +67,10 @@ public class TimeManager : MonoBehaviour {
   
 	[SerializeField]
     float speedUp = 1.0f;
-
+    /// <summary>
+    /// Speeds up time in the inspector mainly for testing purposes.
+    /// </summary>
+    /// <returns></returns>
 	private IEnumerator AddHours()
     {
         while (true)
