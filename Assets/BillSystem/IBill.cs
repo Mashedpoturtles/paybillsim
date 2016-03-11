@@ -9,7 +9,9 @@ namespace Assets.BillSystem {
 
 		int Counter { get; }
 	}
-
+    /// <summary>
+    /// For e.g. electricity , internet, water or gas bill.
+    /// </summary>
 	public enum BillType {
 		Electricity = 0,
 		Internet,
