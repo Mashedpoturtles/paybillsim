@@ -7,7 +7,7 @@ using System;
 namespace Assets.BillSystem {
     public class BillManager : MonoBehaviour {
 
-        #region
+        #region <public variables>
         public GameObject _Holder;
         public static BillManager instance;
         public static List<Bill> Bills = new List<Bill>();
@@ -52,6 +52,9 @@ namespace Assets.BillSystem {
             IssueBill(BillType.Electricity);
         }
     }
+    /// <summary>
+    /// This handles the dictionary and list of days and billtypes.
+    /// </summary>
         static class Billing
         {
             private static Dictionary<DayOfWeek, List<BillType>> dict = new Dictionary<DayOfWeek, List<BillType>>();
