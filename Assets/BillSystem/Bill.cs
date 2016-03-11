@@ -4,12 +4,11 @@ using UnityEngine.UI;
 
 namespace Assets.BillSystem
 {
-    public class Bill : MonoBehaviour, IBill
+    public class Bill :  IBill
     {
         /// <summary>
         /// Display the bill information to text components.
         /// </summary>
-        public Text BillInformation;
         /// <summary>
         /// BillType comparrison to string?
         /// </summary>
@@ -34,22 +33,31 @@ namespace Assets.BillSystem
         /// This will add to the total amount of issued bills.
         /// </summary>
         public int Counter { get; set; }
-
+        /// <summary>
+        /// Stores the bill information such as the type, issue date, due date and amount to be paid.
+        /// </summary>
+        /// <param name="type"></param>
         public Bill(BillType type)
         {
-
+            Text BillInformation = GameObject.FindGameObjectWithTag("billInfo").GetComponent<Text>();
+            Debug.Log("bill created");
             Type = type;
             DueDate = TimeManager.currentTime.AddDays(1);
             IssueDate = TimeManager.currentTime;
             Amount = 50;
 
-            BillInformation.text = string.Format("Bill number: {0} Bill type: {1} Issue date: {2}  Due date: {3} Amount to pay: {4}",
-                 BillManager.GetBillCount(type),
+            BillInformation.text = (string.Format("Bill type: {0} Issue date: {1}  Due date: {2} Amount to pay: {3}",
+           
                  Enum.GetName(typeof(BillType), type),
                  IssueDate.ToString("d"),
                  DueDate.ToString("d"),
-                 Amount);
-
+                 Amount));
+          Debug.Log(string.Format("Bill type: {0} Issue date: {1}  Due date: {2} Amount to pay: {3}",
+           
+                 Enum.GetName(typeof(BillType), type),
+                 IssueDate.ToString("d"),
+                 DueDate.ToString("d"),
+                 Amount));
         }
     }
 }
