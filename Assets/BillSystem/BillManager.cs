@@ -11,69 +11,79 @@ namespace Assets.BillSystem {
         public GameObject _Holder;
         public static BillManager instance;
         public static List<Bill> Bills = new List<Bill>();
-        public  Dictionary<DayOfWeek, List<BillType>> IssueDays = new Dictionary<DayOfWeek, List<BillType>>();
         #endregion
-
+        public static List<Bill> GetBillsByType(BillType type)
+        {
+            return Bills.Select(bill => bill).ToList();
+        }
 
         public void Start()
-
         {
             Application.runInBackground = true;
             instance = this;
-            TimeManager.OnDayChange += IssueBills; // Subscribe to the OnDayChange event.
+            TimeManager.OnDayChange += IssueBills;// Subscribe to the OnDayChange event.
         }
-
-        //issue all the bills at their set times in update.
-        void Update()
+      
+        /// <summary>
+        /// Sets which days to issue a bill.
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public static bool IsDay(DayOfWeek day)
         {
-
+            return day == DayOfWeek.Tuesday;
         }
-
-        public void IssueBill(BillType type)
+        /// <summary>
+        /// Issues the bills into the scene depending on the day.
+        /// </summary>
+        /// <param name="type"></param>
+        public static void IssueBill(BillType type)
         {
             if (!IsDay(TimeManager.currentTime.DayOfWeek))
                 return;
-            Bill bill = _Holder.AddComponent<Bill>();
+            Bill bill = new Bill(type);
+            Billing.AddIssueBill(DayOfWeek.Monday, BillType.Electricity);
+            Billing.AddIssueBill(DayOfWeek.Monday, BillType.Internet);
+            Billing.ReadFromDict();
         }
-
         public void IssueBills()
         {
             IssueBill(BillType.Internet);
             IssueBill(BillType.Electricity);
         }
-        public static bool IsDay(DayOfWeek day)
+    }
+        static class Billing
         {
-            return day == DayOfWeek.Tuesday;
-        }
+            private static Dictionary<DayOfWeek, List<BillType>> dict = new Dictionary<DayOfWeek, List<BillType>>();
 
+            public static void ReadFromDict()
+            {
+                foreach (var issueDays in dict)
+                {
+                    Console.WriteLine("Key: " + issueDays.Key.ToString());
+                    foreach (var billTypes in issueDays.Value)
+                        Console.WriteLine("Value: " + billTypes);
+                }
+            }
+      
+            public static void AddIssueBill(DayOfWeek day, BillType type)
+            {
+                List<BillType> bill = new List<BillType>();
+                foreach (var issueDays in dict)
+                {
+                    if (issueDays.Key == day)
+                    {
+                        bill = issueDays.Value;
+                        bill.Add(type);
+                    }
+                }
 
-        public void IssueStartingPoint()
-        {
-            AddIssueDay(DayOfWeek.Thursday, List<BillType>; // issue here
-           
-        }
+                if (bill.Count == 0)
+                    bill.Add(type);
+                else
+                    dict.Remove(day);
 
-        public void AddIssueDay(DayOfWeek day, List<BillType> type)
-        {
-            IssueDays.Add(day, type);
-            /// issue here 
-        }
-    
-
-        public void RemoveIssueDay(DayOfWeek day)
-        {
-            IssueDays.Remove(DayOfWeek.Tuesday);
-            IssueDays.Remove(DayOfWeek.Thursday);
-        }
-
-        public static int GetBillCount(BillType type)
-        {
-            return Bills.Select(bill => bill.Type == type).ToList().Count;
-        }
-
-        public static List<Bill> GetBillsByType(BillType type)
-        {
-            return Bills.Select(bill => bill).ToList();
-        }
+                dict.Add(day, bill);
+            }     
     }
 }
