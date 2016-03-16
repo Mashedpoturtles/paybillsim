@@ -1,92 +1,66 @@
-using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
-
-namespace Assets.BillSystem {
-    public class BillManager : MonoBehaviour {
-
-        #region <public variables>
-        public GameObject _Holder;
+namespace Assets.BillSystem
+{
+    public class BillManager : MonoBehaviour
+    {
         public static BillManager instance;
-        public static List<Bill> Bills = new List<Bill>();
-        #endregion
-        public static List<Bill> GetBillsByType(BillType type)
+        static Canvas canvas;
+        public static List<Bill> Billholder = new List<Bill>();
+
+        public void AddToList()
         {
-            return Bills.Select(bill => bill).ToList();
+            foreach (Bill bill in Billholder)
+            {
+                GameObject billInformation = (GameObject)(Resources.Load("billInfo"));
+                billInformation.GetComponentInChildren<Text>().text =
+                    (string.Format("Bill type:\\n {0} Issue date:\\n {1}  Due date:\\n {2} Amount to pay:\\n {3}",
+
+                    Enum.GetName(typeof(BillType), bill.Type).Replace("\\n", "\n"),
+                     bill.IssueDate.ToString("d").Replace("\\n", "\n"),
+                     bill.DueDate.ToString("d"),
+                     bill.Amount));
+            }
+        }
+
+        void Update()
+        {
+            AddToList();
+            Debug.Log(Billholder.Count);
         }
 
         public void Start()
         {
+            canvas = GameObject.FindWithTag("Canvas").GetComponent<Canvas>();
             Application.runInBackground = true;
             instance = this;
-            TimeManager.OnDayChange += IssueBills;// Subscribe to the OnDayChange event.
+            TimeManager.OnDayChange += IssueBill;
         }
-      
-        /// <summary>
-        /// Sets which days to issue a bill.
-        /// </summary>
-        /// <param name="day"></param>
-        /// <returns></returns>
-        public static bool IsDay(DayOfWeek day)
-        {
-            return day == DayOfWeek.Tuesday;
-        }
-        /// <summary>
-        /// Issues the bills into the scene depending on the day.
-        /// </summary>
-        /// <param name="type"></param>
-        public static void IssueBill(BillType type)
-        {
-            if (!IsDay(TimeManager.currentTime.DayOfWeek))
-                return;
-            Bill bill = new Bill(type);
-            Billing.AddIssueBill(DayOfWeek.Monday, BillType.Electricity);
-            Billing.AddIssueBill(DayOfWeek.Monday, BillType.Internet);
-            Billing.ReadFromDict();
-        }
-        public void IssueBills()
-        {
-            IssueBill(BillType.Internet);
-            IssueBill(BillType.Electricity);
-        }
-    }
-    /// <summary>
-    /// This handles the dictionary and list of days and billtypes.
-    /// </summary>
-        static class Billing
-        {
-            private static Dictionary<DayOfWeek, List<BillType>> dict = new Dictionary<DayOfWeek, List<BillType>>();
 
-            public static void ReadFromDict()
+        public static void IssueBill()
+        {
+            if (TimeManager.currentTime.DayOfWeek == DayOfWeek.Tuesday)
             {
-                foreach (var issueDays in dict)
-                {
-                    Console.WriteLine("Key: " + issueDays.Key.ToString());
-                    foreach (var billTypes in issueDays.Value)
-                        Console.WriteLine("Value: " + billTypes);
-                }
+                Bill internet = new Bill(BillType.Internet);
+                GameObject billInformation = (GameObject)GameObject.Instantiate(Resources.Load("billInfo"));
+                billInformation.transform.SetParent(canvas.transform, false);
+                billInformation.transform.localPosition = Vector3.zero;
+
+                Billholder.Add(internet);
             }
-      
-            public static void AddIssueBill(DayOfWeek day, BillType type)
+
+            else if (TimeManager.currentTime.DayOfWeek == DayOfWeek.Thursday)
             {
-                List<BillType> bill = new List<BillType>();
-                foreach (var issueDays in dict)
-                {
-                    if (issueDays.Key == day)
-                    {
-                        bill = issueDays.Value;
-                        bill.Add(type);
-                    }
-                }
+                Bill electricity = new Bill(BillType.Electricity);
+                GameObject billInformation = (GameObject)GameObject.Instantiate(Resources.Load("billInfo"));
+                billInformation.transform.SetParent(canvas.transform, false);
+                billInformation.transform.localPosition = Vector3.zero;
 
-                if (bill.Count == 0)
-                    bill.Add(type);
-                else
-                    dict.Remove(day);
-
-                dict.Add(day, bill);
-            }     
+                Billholder.Add(electricity);
+            }
+        }
     }
 }

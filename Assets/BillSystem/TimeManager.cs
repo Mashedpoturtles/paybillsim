@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System;
-using UnityEngine.UI;
+﻿using System;
+using System.Collections;
 using UnityEngine;
-using Assets.BillSystem;
+using UnityEngine.UI;
 
-public class TimeManager : MonoBehaviour {
+public class TimeManager : MonoBehaviour
+{
     /// <summary>
     /// Display the time to UI.
     /// </summary>
@@ -40,7 +40,7 @@ public class TimeManager : MonoBehaviour {
     /// </summary>
     public void Timer()
     {
-        timeToTextUI.text = timeToTextUI.text = currentTime.DayOfWeek.ToString() + currentTime.ToString(" MMMM , yyyy ") + "Current Time: " +currentTime.ToString("HH: tt") + ".";
+        timeToTextUI.text = timeToTextUI.text = currentTime.DayOfWeek.ToString() + currentTime.ToString(" MMMM , yyyy ") + "Current Time: " + currentTime.ToString("HH: tt") + ".";
     }
     /// <summary>
     /// Store the current time temporarily to this string to compare if a day is changed in the OndayChange method.
@@ -59,19 +59,19 @@ public class TimeManager : MonoBehaviour {
             }
             if (temporaryDay != currentTime.Day.ToString())
             {
-                OnDayChange();  
+                OnDayChange();
                 temporaryDay = currentTime.Day.ToString();
             }
         }
     }
-  
-	[SerializeField]
+
+    [SerializeField]
     float speedUp = 1.0f;
     /// <summary>
     /// Speeds up time in the inspector mainly for testing purposes.
     /// </summary>
     /// <returns></returns>
-	private IEnumerator AddHours()
+    private IEnumerator AddHours()
     {
         while (true)
         {
