@@ -38,7 +38,6 @@ namespace Assets.BillSystem
             DueDate = TimeManager.currentTime.AddDays(1);
             IssueDate = TimeManager.currentTime;
             Amount = 50;
-
         }
     }
 }
