@@ -15,14 +15,17 @@ namespace Assets.BillSystem
         {
             foreach (Bill bill in Billholder)
             {
-                GameObject billInformation = (GameObject)(Resources.Load("billInfo"));
+                GameObject billInformation = (GameObject)GameObject.Instantiate(Resources.Load("billInfo"));
                 billInformation.GetComponentInChildren<Text>().text =
-                    (string.Format("Bill type:\\n {0} Issue date:\\n {1}  Due date:\\n {2} Amount to pay:\\n {3}",
+                (string.Format("Bill type:\\n {0} Issue date:\\n {1}  Due date:\\n {2} Amount to pay:\\n {3}",
 
-                    Enum.GetName(typeof(BillType), bill.Type).Replace("\\n", "\n"),
-                     bill.IssueDate.ToString("d").Replace("\\n", "\n"),
-                     bill.DueDate.ToString("d"),
-                     bill.Amount));
+                Enum.GetName(typeof(BillType), bill.Type).Replace("\\n", "\n"),
+                 bill.IssueDate.ToString("d").Replace("\\n", "\n"),
+                 bill.DueDate.ToString("d").Replace("\\n", "\n"),
+                 bill.Amount).Replace("\\n", "\n"));
+
+                billInformation.transform.SetParent(canvas.transform, false);
+                billInformation.transform.localPosition = Vector3.zero;
             }
         }
 
@@ -42,24 +45,14 @@ namespace Assets.BillSystem
 
         public static void IssueBill()
         {
-            if (TimeManager.currentTime.DayOfWeek == DayOfWeek.Tuesday)
+            switch (TimeManager.currentTime.DayOfWeek)
             {
-                Bill internet = new Bill(BillType.Internet);
-                GameObject billInformation = (GameObject)GameObject.Instantiate(Resources.Load("billInfo"));
-                billInformation.transform.SetParent(canvas.transform, false);
-                billInformation.transform.localPosition = Vector3.zero;
-
-                Billholder.Add(internet);
-            }
-
-            else if (TimeManager.currentTime.DayOfWeek == DayOfWeek.Thursday)
-            {
-                Bill electricity = new Bill(BillType.Electricity);
-                GameObject billInformation = (GameObject)GameObject.Instantiate(Resources.Load("billInfo"));
-                billInformation.transform.SetParent(canvas.transform, false);
-                billInformation.transform.localPosition = Vector3.zero;
-
-                Billholder.Add(electricity);
+                case DayOfWeek.Tuesday:
+                    Billholder.Add(new Bill(BillType.Internet));
+                    break;
+                case DayOfWeek.Thursday:
+                    Billholder.Add(new Bill(BillType.Electricity));
+                    break;
             }
         }
     }
