@@ -16,19 +16,23 @@ namespace Assets.BillSystem
 
             foreach (Bill bill in Billholder)
             {
+                if (!bill.IsShown)
+                {
+                    bill.IsShown = true;
 
 
-                string billInformation = "";
+                    string billInformation = "";
 
-                billInformation = "Random";
+                    billInformation = "Random";
 
-                billInformation = string.Format("Bill type: {0} \\n Issue date: {1} \\n  Due date: {2} \\n Amount to pay: {3} \\n",
-                                  Enum.GetName(typeof(BillType), bill.Type),
-                                  bill.IssueDate.ToString("d"),
-                                  bill.DueDate.ToString("d"),
-                                  bill.Amount).Replace("\\n", "\n");
+                    billInformation = string.Format("Bill type: {0} \\n Issue date: {1} \\n  Due date: {2} \\n Amount to pay: {3} \\n",
+                                      Enum.GetName(typeof(BillType), bill.Type),
+                                      bill.IssueDate.ToString("d"),
+                                      bill.DueDate.ToString("d"),
+                                      bill.Amount).Replace("\\n", "\n");
 
-                CreateUILogic(billInformation); // this is what calls for the creation of the UI
+                    CreateUILogic(billInformation);
+                }
             }
         }
 
@@ -73,7 +77,7 @@ namespace Assets.BillSystem
             switch (TimeManager.currentTime.DayOfWeek)
             {
                 case DayOfWeek.Tuesday:
-                    Billholder.Add(new Bill(BillType.Internet)); //should the adding and bill creation perhaps be merged?
+                    Billholder.Add(new Bill(BillType.Internet));
                     CreateBill();
                     break;
                 case DayOfWeek.Thursday:
@@ -87,17 +91,14 @@ namespace Assets.BillSystem
         {
             Debug.Log("You paid!");
 
-            foreach (Bill bill in Billholder)
+            for (int i = 0; i >= Billholder.Count; i++) { /* other logic */ Billholder.RemoveAt(i); }
             {
-                if (!bill.IsPaid)
-                {
-                    bill.IsPaid = true;
-                    Billholder.Remove(bill); //remove the bill from list if paid
-                }
-                // keep track of whether the bill is paid
+
+
             }
 
-            Destroy(GameObject.FindWithTag("billinfo")); // supposedly destroy the bill
+
+            Destroy(GameObject.FindWithTag("billinfo"));
         }
 
         public void ReturnBill()
