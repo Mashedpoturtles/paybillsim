@@ -31,6 +31,9 @@ namespace Assets.BillSystem
         /// Stores the bill information such as the type, issue date, due date and amount to be paid.
         /// </summary>
         /// <param name="type"></param>
+        public bool isShown { get; set; }
+
+        public bool IsPaid { get; set; }
 
         public Bill(BillType type)
         {

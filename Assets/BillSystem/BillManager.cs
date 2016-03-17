@@ -7,67 +7,97 @@ namespace Assets.BillSystem
 {
     public class BillManager : MonoBehaviour
     {
-        public static BillManager instance;
+
         static Canvas canvas;
         public static List<Bill> Billholder = new List<Bill>();
 
-        public void AddToList()
+        public void CreateBill()
         {
+
             foreach (Bill bill in Billholder)
             {
-                GameObject billInformation = (GameObject)(Resources.Load("billInfo"));
 
-                Button buttonPay = GameObject.FindWithTag("buttonPay").GetComponent<Button>();
-                buttonPay.onClick.AddListener(() => PayBill());
 
-                Button buttonReturn = GameObject.FindWithTag("buttonReturn").GetComponent<Button>();
-                buttonReturn.onClick.AddListener(() => ReturnBill());
-                billInformation.GetComponentInChildren<Text>().text =
-                (string.Format("Bill type: {0} \\n Issue date: {1} \\n  Due date: {2} \\n Amount to pay: {3} \\n",
+                string billInformation = "";
 
-           Enum.GetName(typeof(BillType), bill.Type),
-                 bill.IssueDate.ToString("d"),
-                 bill.DueDate.ToString("d"),
-                 bill.Amount).Replace("\\n", "\n"));
+                billInformation = "Random";
+
+                billInformation = string.Format("Bill type: {0} \\n Issue date: {1} \\n  Due date: {2} \\n Amount to pay: {3} \\n",
+                                  Enum.GetName(typeof(BillType), bill.Type),
+                                  bill.IssueDate.ToString("d"),
+                                  bill.DueDate.ToString("d"),
+                                  bill.Amount).Replace("\\n", "\n");
+
+                CreateUILogic(billInformation); // this is what calls for the creation of the UI
             }
+        }
 
+        // this is what puts the UI together
+        public void CreateUILogic(string billInformationText)
+        {
+            //spawn the ui prefab
+            GameObject billInformation = (GameObject)GameObject.Instantiate(Resources.Load("billInfo"));
+
+            //find the text component inside the prefab and assign it the billinformation 
+            billInformation.GetComponentInChildren<Text>().text = billInformationText;
+
+            //find the pay button in the prefab by its tag and give it an onlick listener with Paybill() assigned to it
+            Button buttonPay = GameObject.FindWithTag("buttonPay").GetComponent<Button>();
+            buttonPay.onClick.AddListener(() => PayBill());
+            // find the return button in the prefab by its tag and give it an onlick listener with ReturnBill() assigned to it
+            Button buttonReturn = GameObject.FindWithTag("buttonReturn").GetComponent<Button>();
+            buttonReturn.onClick.AddListener(() => ReturnBill());
+
+            //position the UI elements by parenting it to the canvas in the scene.
+            billInformation.transform.SetParent(canvas.transform, false);
+            billInformation.transform.localPosition = Vector3.zero;
         }
 
         void Update()
         {
-            AddToList();
-            Debug.Log(Billholder.Count);
+            Debug.Log(Billholder.Count); // keep count of the total added bills to list
         }
 
         public void Start()
         {
+            //grabs the Canvas component
             canvas = GameObject.FindWithTag("Canvas").GetComponent<Canvas>();
             Application.runInBackground = true;
-            instance = this;
-            TimeManager.OnDayChange += IssueBill;
+
+            TimeManager.OnDayChange += IssueBill; // this event makes sure that a bill wont issue bills more than once on its assigned day
         }
 
-        public static void IssueBill()
+        //Create a bill on the set days below and add one to the list
+        public void IssueBill()
         {
             switch (TimeManager.currentTime.DayOfWeek)
             {
                 case DayOfWeek.Tuesday:
-                    Billholder.Add(new Bill(BillType.Internet));
-                    GameObject billInformation = (GameObject)GameObject.Instantiate(Resources.Load("billInfo"));
-                    billInformation.transform.SetParent(canvas.transform, false);
-                    billInformation.transform.localPosition = Vector3.zero;
+                    Billholder.Add(new Bill(BillType.Internet)); //should the adding and bill creation perhaps be merged?
+                    CreateBill();
                     break;
                 case DayOfWeek.Thursday:
                     Billholder.Add(new Bill(BillType.Electricity));
-                    GameObject billInformationTwo = (GameObject)GameObject.Instantiate(Resources.Load("billInfo"));
-                    billInformationTwo.transform.SetParent(canvas.transform, false);
-                    billInformationTwo.transform.localPosition = Vector3.zero;
+                    CreateBill();
                     break;
             }
         }
+
         public void PayBill()
         {
             Debug.Log("You paid!");
+
+            foreach (Bill bill in Billholder)
+            {
+                if (!bill.IsPaid)
+                {
+                    bill.IsPaid = true;
+                    Billholder.Remove(bill); //remove the bill from list if paid
+                }
+                // keep track of whether the bill is paid
+            }
+
+            Destroy(GameObject.FindWithTag("billinfo")); // supposedly destroy the bill
         }
 
         public void ReturnBill()

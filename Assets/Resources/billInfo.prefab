@@ -169,8 +169,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Bill type:\n Electricity Issue date:\n 1/7/2016  Due date:\n 1/8/2016 Amount
-    to pay:\n 50"
+  m_Text: "Bill type: Electricity \n Issue date: 1/14/2016 \n  Due date: 1/15/2016
+    \n Amount to pay: 50 \n"
 --- !u!114 &11415772
 MonoBehaviour:
   m_ObjectHideFlags: 1
