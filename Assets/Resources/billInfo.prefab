@@ -28,6 +28,7 @@ GameObject:
   - 224: {fileID: 22433768}
   - 222: {fileID: 22244756}
   - 114: {fileID: 11460232}
+  - 225: {fileID: 22516982}
   m_Layer: 5
   m_Name: billInfo
   m_TagString: billinfo
@@ -510,6 +511,17 @@ RectTransform:
   m_AnchoredPosition: {x: 1387, y: 198}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 2.5, y: 0.5}
+--- !u!225 &22516982
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117634}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
