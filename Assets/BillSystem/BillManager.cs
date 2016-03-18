@@ -20,6 +20,8 @@ namespace Assets.BillSystem
                 {
                     bill.IsShown = true;
 
+
+
                     string billInformation = "";
                     billInformation = "Random";
                     billInformation = string.Format("Bill type: {0} \\n Issue date: {1} \\n  Due date: {2} \\n Amount to pay: {3} \\n",
@@ -39,13 +41,16 @@ namespace Assets.BillSystem
 
             billInformation.GetComponentInChildren<Text>().text = billInformationText;
 
-            Button buttonPay;
-            buttonPay = billInformation.GetComponentInChildren<Button>();
+            Button buttonPay = billInformation.transform.FindChild("Button_Pay").GetComponent<Button>();
+
             buttonPay.onClick.AddListener(() => PayBill());
 
-            Button buttonReturn;
-            buttonReturn = billInformation.GetComponentInChildren<Button>();
+
+
+            Button buttonReturn = billInformation.transform.FindChild("Button_Return").GetComponent<Button>();
+
             buttonReturn.onClick.AddListener(() => ReturnBill());
+
 
             billInformation.transform.SetParent(canvas.transform, false);
             billInformation.transform.localPosition = Vector3.zero;
@@ -84,8 +89,11 @@ namespace Assets.BillSystem
             Destroy(GameObject.FindWithTag("billinfo"));
             foreach (Bill bill in Billholder.ToList())
             {
-                Debug.Log("You paid!");
-
+                if (bill.IsShown)
+                {
+                    bill.IsShown = false;
+                    Debug.Log("You paid!");
+                }
                 Billholder.Remove(bill);
             }
         }
@@ -93,6 +101,13 @@ namespace Assets.BillSystem
         public void ReturnBill()
         {
             Debug.Log("You returned the bill!");
+
+            GameObject.FindWithTag("billinfo");
+        }
+
+        public void OnClickShowBill()
+        {
+            GameObject.FindWithTag("billinfo").layer = 8; // show bill on layer
         }
     }
 }
