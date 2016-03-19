@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,45 +7,47 @@ namespace Assets.BillSystem
 {
     public class BillManager : MonoBehaviour
     {
-
         static Canvas canvas;
-        public static List<Bill> Billholder = new List<Bill>();
+
+        public static Dictionary<int, Bill> Billholder = new Dictionary<int, Bill>();
+        public static Dictionary<int, GameObject> InfoHolder = new Dictionary<int, GameObject>();
 
         public void CreateBill()
         {
-            foreach (Bill bill in Billholder)
+            foreach (KeyValuePair<int, Bill> pair in Billholder)
             {
-                if (!bill.IsShown)
+                if (!InfoHolder.ContainsKey(pair.Key)) // i hid some bills, then paid some unhidden bills ( while there were still hidden bills  ) , then error
                 {
-                    bill.IsShown = true;
+                    pair.Value.IsShown = true;
 
                     string billInformation = "";
                     billInformation = "Random";
                     billInformation = string.Format("Bill type: {0} \\n Issue date: {1} \\n  Due date: {2} \\n Amount to pay: {3} \\n",
-                                      Enum.GetName(typeof(BillType), bill.Type),
-                                      bill.IssueDate.ToString("d"),
-                                      bill.DueDate.ToString("d"),
-                                      bill.Amount).Replace("\\n", "\n");
+                                        Enum.GetName(typeof(BillType), pair.Value.Type),
+                                        pair.Value.IssueDate.ToString("d"),
+                                        pair.Value.DueDate.ToString("d"),
+                                        pair.Value.Amount).Replace("\\n", "\n");
 
-                    CreateUILogic(billInformation);
+                    CreateUILogic(billInformation, pair.Key);
                 }
             }
         }
 
-        public void CreateUILogic(string billInformationText)
+        public void CreateUILogic(string billInformationText, int billID)
         {
-            GameObject billInformation = (GameObject)GameObject.Instantiate(Resources.Load("billInfo"));
+            InfoHolder.Add(billID, (GameObject)Instantiate(Resources.Load("billInfo")));
+            InfoHolder[billID].GetComponentInChildren<Text>().text = billInformationText;
 
-            billInformation.GetComponentInChildren<Text>().text = billInformationText;
+            Button buttonPay = InfoHolder[billID].transform.FindChild("Button_Pay").GetComponent<Button>();
+            buttonPay.onClick.AddListener(() => PayBill(buttonPay.name));
+            buttonPay.name = billID.ToString();
 
-            Button buttonPay = billInformation.transform.FindChild("Button_Pay").GetComponent<Button>();
-            buttonPay.onClick.AddListener(() => PayBill());
+            Button buttonReturn = InfoHolder[billID].transform.FindChild("Button_Return").GetComponent<Button>();
+            buttonReturn.onClick.AddListener(() => ReturnBill(buttonReturn.name));
+            buttonReturn.name = billID.ToString();
 
-            Button buttonReturn = billInformation.transform.FindChild("Button_Return").GetComponent<Button>();
-            buttonReturn.onClick.AddListener(() => ReturnBill());
-
-            billInformation.transform.SetParent(canvas.transform, false);
-            billInformation.transform.localPosition = Vector3.zero;
+            InfoHolder[billID].transform.SetParent(canvas.transform, false);
+            InfoHolder[billID].transform.localPosition = Vector3.zero;
         }
 
         void Update()
@@ -67,44 +68,55 @@ namespace Assets.BillSystem
             switch (TimeManager.currentTime.DayOfWeek)
             {
                 case DayOfWeek.Tuesday:
-                    Billholder.Add(new Bill(BillType.Internet));
+                    Billholder.Add(GetKey(), new Bill(BillType.Internet));
                     CreateBill();
                     break;
                 case DayOfWeek.Thursday:
-                    Billholder.Add(new Bill(BillType.Electricity));
+                    Billholder.Add(GetKey(), new Bill(BillType.Electricity));
                     CreateBill();
                     break;
             }
         }
 
-        public void PayBill()
+        public int GetKey()
         {
-            Destroy(GameObject.FindWithTag("billinfo"));
-            foreach (Bill bill in Billholder.ToList())
+            for (int i = 0; i < Billholder.Count + 1; i++)
             {
-                if (bill.IsShown)
-                {
-                    bill.IsShown = false;
-                    Debug.Log("You paid!");
-                }
-                Billholder.Remove(bill);
+                if (!Billholder.ContainsKey(i))
+                    return i;
             }
+            return 0;
         }
 
-        public void ReturnBill()
+        public void PayBill(string billId)
         {
-            CanvasGroup canvasGroup = GameObject.FindWithTag("billinfo").GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 0f; //this makes everything transparent
-            canvasGroup.blocksRaycasts = false; //this prevents the UI element to receive input events
-            Debug.Log("You returned the bill! it is now hidden");
+            Billholder.Remove(Convert.ToInt32(billId));
+            Destroy(InfoHolder[Convert.ToInt32(billId)]);
+            InfoHolder.Remove(Convert.ToInt32(billId));
         }
+
+        public void ReturnBill(string billId)
+        {
+            CanvasGroup canvasGroup = (InfoHolder[Convert.ToInt32(billId)]).GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 0f;
+            canvasGroup.blocksRaycasts = false;
+            Billholder[Convert.ToInt32(billId)].IsShown = false;
+        }
+
 
         public void OnClickShowBill()
         {
-            CanvasGroup canvasGroup = GameObject.FindWithTag("billinfo").GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 1f;
-            canvasGroup.blocksRaycasts = true;
-            Debug.Log("You unhid the bill.");
+            foreach (KeyValuePair<int, Bill> bill in Billholder)
+            {
+                if (!bill.Value.IsShown)
+                {
+                    bill.Value.IsShown = true;
+
+                    CanvasGroup canvasGroup = (InfoHolder[Convert.ToInt32(bill.Key)]).GetComponent<CanvasGroup>();
+                    canvasGroup.alpha = 1f;
+                    canvasGroup.blocksRaycasts = true;
+                }
+            }
         }
     }
 }
