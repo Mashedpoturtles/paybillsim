@@ -12,7 +12,8 @@ Bill and debt simulator
 
 ### Side features
 - [x] A weather system that uses JSON to implement wundergrounds weather api to check your ip locations weather forecast 
-to display accurate weather forecast realtime visually in game.
+to display accurate weather forecast realtime visually in game. ( currently only supports desktop client )
+- [ ] WebGL support to use and display the weathersystem in browser builds.
 - [x] Ingame display of most recent Dutch news via nu.nl's RSS feeds and parsing it into unity via xml
 - [x] Pathfinding system to work hand in hand with the upcoming sims- like AI, using the A* pathfinding project
 
