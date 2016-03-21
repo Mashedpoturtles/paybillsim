@@ -20,10 +20,10 @@ to display accurate weather forecast realtime visually in game. ( currently only
 ##### I will release the real time weather system for unity seperately on my github in the near future
 
 ### Created with
-* https://unity3d.com
+* [Unity3D] (https://unity3d.com)
 * [Newtonsonft.Json](http://www.newtonsoft.com/json)
-* http://www.wunderground.com/weather/api
-* http://arongranberg.com/astar/
+* [wunderground] (http://www.wunderground.com/weather/api)
+* [A* pathfinding project] (http://arongranberg.com/astar/)
 
 #### Mucho gracias
 
