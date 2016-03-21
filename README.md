@@ -1,6 +1,6 @@
 # PayBillSim
-Bill and debt simulator
-
+Bill and debt simulator made at and for my internship at collection and creditmanagement company @ https://www.syncasso.nl
+This game is ment to be used for educative purposes regarding credit management.
 ### Features
 
 - [x] Billsystem that instantiates bills with their own unique id's, issue and due date to keep track of each bill
