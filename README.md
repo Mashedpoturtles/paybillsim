@@ -16,6 +16,8 @@ to display accurate weather forecast realtime visually in game.
 - [x] Ingame display of most recent Dutch news via nu.nl's RSS feeds and parsing it into unity via xml
 - [x] Pathfinding system to work hand in hand with the upcoming sims- like AI, using the A* pathfinding project
 
+##### I will release the real time weather system for unity seperately on my github in the near future
+
 ### Created with
 * Unity3D
 * [Newtonsonft.Json](http://www.newtonsoft.com/json)
