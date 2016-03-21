@@ -8,7 +8,7 @@ public class TimeManager : MonoBehaviour
     /// <summary>
     /// Display the time to UI.
     /// </summary>
-    public Text timeToTextUI;
+    private Text timeToTextUI;
     public static TimeManager instance;
     /// <summary>
     /// Custom datetime.
@@ -27,6 +27,7 @@ public class TimeManager : MonoBehaviour
         StartCoroutine(AddHours());
         instance = this;
         duedateelect = new DateTime(2016, 1, 1);
+        timeToTextUI = GameObject.FindWithTag("Time").GetComponent<Text>();
     }
 
     void Update()

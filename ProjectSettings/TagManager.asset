@@ -4,11 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - ElectricityBill
   - billinfo
   - Canvas
   - buttonPay
   - buttonReturn
+  - Time
+  - Cash
+  - WorkSlider
   layers:
   - Default
   - TransparentFX

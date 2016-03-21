@@ -16,7 +16,7 @@ namespace Assets.BillSystem
         {
             foreach (KeyValuePair<int, Bill> pair in Billholder)
             {
-                if (!InfoHolder.ContainsKey(pair.Key)) // i hid some bills, then paid some unhidden bills ( while there were still hidden bills  ) , then error
+                if (!InfoHolder.ContainsKey(pair.Key))
                 {
                     pair.Value.IsShown = true;
 
@@ -52,7 +52,7 @@ namespace Assets.BillSystem
 
         void Update()
         {
-            Debug.Log(Billholder.Count);
+            Debug.Log("Amount of bills currently in queue :" + Billholder.Count);
         }
 
         public void Start()
