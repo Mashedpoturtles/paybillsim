@@ -6,7 +6,7 @@ public class Money : MonoBehaviour
     [SerializeField]
     private Text CashInfo;
     [SerializeField]
-    public static int currentMoney;
+    public int currentMoney;
 
     public static Money instance;
 
