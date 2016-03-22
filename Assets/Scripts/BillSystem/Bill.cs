@@ -38,7 +38,7 @@ namespace Assets.BillSystem
             Type = type;
             DueDate = TimeManager.currentTime.AddDays(1);
             IssueDate = TimeManager.currentTime;
-            Amount = 50;
+            Amount = 0;
         }
     }
 }

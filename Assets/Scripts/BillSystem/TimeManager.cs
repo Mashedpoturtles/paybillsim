@@ -14,7 +14,8 @@ public class TimeManager : MonoBehaviour
     /// Custom datetime.
     /// </summary>
     public static DateTime currentTime;
-    public static DateTime duedateelect;
+
+
     public delegate void DayChanged();
     /// <summary>
     /// This event checks of a day has changed from previous to the next.
@@ -26,7 +27,6 @@ public class TimeManager : MonoBehaviour
         currentTime = new DateTime(2016, 1, 1);
         StartCoroutine(AddHours());
         instance = this;
-        duedateelect = new DateTime(2016, 1, 1);
         timeToTextUI = GameObject.FindWithTag("Time").GetComponent<Text>();
     }
 

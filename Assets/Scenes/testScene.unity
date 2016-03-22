@@ -702,6 +702,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 914042077}
+  - 114: {fileID: 914042078}
   m_Layer: 0
   m_Name: MoneyManager
   m_TagString: Untagged
@@ -721,6 +722,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+--- !u!114 &914042078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 914042076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f7b7869e79a3ef42a46a852b0d04d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CashInfo: {fileID: 0}
 --- !u!1 &967917878
 GameObject:
   m_ObjectHideFlags: 0
@@ -1210,7 +1223,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2132981853}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87d76d821fb63084ab31b60520fc9e5d, type: 3}
   m_Name: 

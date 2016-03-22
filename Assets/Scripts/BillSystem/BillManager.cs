@@ -8,7 +8,6 @@ namespace Assets.BillSystem
     public class BillManager : MonoBehaviour
     {
         static Canvas canvas;
-
         public static Dictionary<int, Bill> Billholder = new Dictionary<int, Bill>();
         public static Dictionary<int, GameObject> InfoHolder = new Dictionary<int, GameObject>();
 
@@ -102,7 +101,6 @@ namespace Assets.BillSystem
             canvasGroup.blocksRaycasts = false;
             Billholder[Convert.ToInt32(billId)].IsShown = false;
         }
-
 
         public void OnClickShowBill()
         {

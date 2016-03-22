@@ -1,57 +1,81 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
-public class Work : MonoBehaviour {
-
+public class Work : MonoBehaviour
+{
     private Slider workSlider;
     private float WorkIntensity;
-  
+
     private void ChangeWorkState()
     {
-        workSlider.onValueChanged.AddListener(delegate { ChangeValue(); } );
+        workSlider.onValueChanged.AddListener(delegate { ChangeValue(); });
     }
 
-    public void ChangeValue()
+    private void ChangeValue()
     {
         WorkIntensity = workSlider.value;
 
-        if(WorkIntensity <= 0.4f)
+        if (WorkIntensity <= 0.4f)
         {
-            NoWork();
+            StartCoroutine(NoWork());
         }
-        else if(WorkIntensity >= 0.4f && WorkIntensity <= 0.8f)
+        else if (WorkIntensity >= 0.4f && WorkIntensity <= 0.8f)
         {
-            WorkAverage();
+            StartCoroutine(WorkAverage());
         }
-        else if(WorkIntensity >= 0.8f && WorkIntensity <= 0.9f)
+        else if (WorkIntensity >= 0.8f && WorkIntensity <= 0.9f)
         {
-            WorkHard();
+            StartCoroutine(WorkHard());
         }
-        else if(WorkIntensity >= 0.9f)
+        else if (WorkIntensity >= 0.9f)
         {
-            OverDrive();
+            StartCoroutine(OverDrive());
         }
     }
 
-    private void NoWork()
+    private IEnumerator NoWork()
     {
         Debug.Log("not working");
+        while (true)
+        {
+            yield return new WaitForSeconds(3);
+            Money.currentMoney += 0;
+            Debug.Log("0 money earned");
+        }
     }
 
-    private void WorkAverage()
+    private IEnumerator WorkAverage()
     {
         Debug.Log("Working at average pace");
+       while(true)
+        {
+            yield return new WaitForSeconds(3);
+            Money.currentMoney += 10;
+            Debug.Log("10 money earned");
+        }
     }
 
-    private void WorkHard()
+    private IEnumerator WorkHard()
     {
         Debug.Log("working at a hard pace");
+       while(true)
+        {
+            yield return new WaitForSeconds(3);
+            Money.currentMoney += 20;
+            Debug.Log("20 money earned");
+        }
     }
 
-    private void OverDrive()
+    private IEnumerator OverDrive()
     {
         Debug.Log("Youre a maniac");
+       while(true)
+        {
+            yield return new WaitForSeconds(3);
+            Money.currentMoney += 30;
+            Debug.Log("30 money earned");
+        }
     }
 
     private void Start()
