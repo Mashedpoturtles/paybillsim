@@ -6,10 +6,13 @@ public class WorkingState : MonoBehaviour
 {
     private Text workStateText;
     private Slider workSlider;
-    private float WorkIntensity;
+    [SerializeField]
+    private float workIntensity;
+    [SerializeField]
+    private float workEnergy;
     [SerializeField]
     public WorkState currentState;
-    public enum WorkState { NotWorking, Average, Hard, OverDrive }
+    public enum WorkState { NotWorking, Average, Hard, OverDrive, Drained }
 
     private void WorkStateSliderController()
     {
@@ -22,28 +25,34 @@ public class WorkingState : MonoBehaviour
         workStateText = workSlider.GetComponentInChildren<Text>();
         WorkStateSliderController();
         ChangeState(WorkState.NotWorking);
+        workEnergy = 300;
+        Invoke("Energy", 1);
     }
 
     private void ChangeSliderValue()
     {
-        WorkIntensity = workSlider.value;
+        workIntensity = workSlider.value;
 
-        if (WorkIntensity <= 0.3f)
+        if (workIntensity <= 0.3f)
         {
             ChangeState(WorkState.NotWorking);
         }
-        else if (WorkIntensity >= 0.3f && WorkIntensity <= 0.5f)
+        else if (workIntensity >= 0.3f && workIntensity <= 0.5f)
         {
             ChangeState(WorkState.Average);
         }
-        else if (WorkIntensity >= 0.5f && WorkIntensity <= 0.8f)
+        else if (workIntensity >= 0.5f && workIntensity <= 0.8f)
         {
             ChangeState(WorkState.Hard);
         }
-        else if (WorkIntensity >= 0.8f)
+        else if (workIntensity >= 0.8f)
         {
             ChangeState(WorkState.OverDrive);
         }
+    }
+    private int AddMoney(int money)
+    {
+        return money;
     }
 
     IEnumerator NotWorkingState()
@@ -53,6 +62,7 @@ public class WorkingState : MonoBehaviour
             workStateText.text = "working pace:" + currentState;
             yield return new WaitForSeconds(3);
         }
+        yield return null;
     }
 
     IEnumerator AverageState()
@@ -60,9 +70,11 @@ public class WorkingState : MonoBehaviour
         while (currentState == WorkState.Average)
         {
             workStateText.text = "working pace:" + currentState;
-            Money.currentMoney += 10;
+            workEnergy -= 3;
+            Money.instance.currentMoney += AddMoney(10);
             yield return new WaitForSeconds(3);
         }
+        yield return null;
     }
 
     IEnumerator HardState()
@@ -70,9 +82,11 @@ public class WorkingState : MonoBehaviour
         while (currentState == WorkState.Hard)
         {
             workStateText.text = "working pace:" + currentState;
-            Money.currentMoney += 20;
+            workEnergy -= 6;
+            Money.instance.currentMoney += AddMoney(20);
             yield return new WaitForSeconds(3);
         }
+        yield return null;
     }
 
     IEnumerator OverDriveState()
@@ -80,18 +94,45 @@ public class WorkingState : MonoBehaviour
         while (currentState == WorkState.OverDrive)
         {
             workStateText.text = "working pace:" + currentState;
-            Money.currentMoney += 30;
+            workEnergy -= 12;
+            Money.instance.currentMoney += AddMoney(30);
             yield return new WaitForSeconds(3);
         }
+        yield return null;
     }
+
+    IEnumerator DrainedState()
+    {
+        while (currentState == WorkState.Drained)
+        {
+            workStateText.text = "working pace:" + currentState;
+            workSlider.maxValue = 0.4f;
+            yield return new WaitForSeconds(10);
+        }
+        yield return null;
+    }
+
     /// <summary>
     /// Coroutine names must match the enum statenames exactly followed by "State"
     /// </summary>
     /// <param name="newstate"></param>
-    public void ChangeState(WorkState newstate)
+    private void ChangeState(WorkState newstate)
     {
         currentState = newstate;
         StartCoroutine(newstate.ToString() + "State");
+    }
+
+    private void Energy()
+    {
+        if (workEnergy <= 0)
+        {
+            ChangeState(WorkState.Drained);
+            CancelInvoke("Energy");
+        }
+        else if (workEnergy >= 0)
+        {
+            Invoke("Energy", 1);
+        }
     }
 }
 
