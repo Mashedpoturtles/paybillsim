@@ -7,12 +7,11 @@ public class WorkingState : MonoBehaviour
     private Text workStateText;
     private Slider workSlider;
     private float WorkIntensity;
-    private float WorkEnergy;
     [SerializeField]
     public WorkState currentState;
     public enum WorkState { NotWorking, Average, Hard, OverDrive }
 
-    private void ChangeWorkState()
+    private void WorkStateSliderController()
     {
         workSlider.onValueChanged.AddListener(delegate { ChangeSliderValue(); });
     }
@@ -21,7 +20,7 @@ public class WorkingState : MonoBehaviour
     {
         workSlider = GameObject.FindWithTag("WorkSlider").GetComponent<Slider>();
         workStateText = workSlider.GetComponentInChildren<Text>();
-        ChangeWorkState();
+        WorkStateSliderController();
         ChangeState(WorkState.NotWorking);
     }
 
@@ -31,82 +30,68 @@ public class WorkingState : MonoBehaviour
 
         if (WorkIntensity <= 0.3f)
         {
-            NotWorking();
+            ChangeState(WorkState.NotWorking);
         }
         else if (WorkIntensity >= 0.3f && WorkIntensity <= 0.5f)
         {
-            WorkingAverage();
+            ChangeState(WorkState.Average);
         }
         else if (WorkIntensity >= 0.5f && WorkIntensity <= 0.8f)
         {
-            WorkingHard();
+            ChangeState(WorkState.Hard);
         }
         else if (WorkIntensity >= 0.8f)
         {
-            WorkingOverdrive();
+            ChangeState(WorkState.OverDrive);
         }
     }
 
-    IEnumerator WorkNoState()
+    IEnumerator NotWorkingState()
     {
         while (currentState == WorkState.NotWorking)
         {
-            yield return new WaitForSeconds(3);
             workStateText.text = "working pace:" + currentState;
-            Money.currentMoney += 0;
+            yield return new WaitForSeconds(3);
         }
     }
 
-    IEnumerator WorkAverageState()
+    IEnumerator AverageState()
     {
         while (currentState == WorkState.Average)
         {
-            yield return new WaitForSeconds(3);
             workStateText.text = "working pace:" + currentState;
             Money.currentMoney += 10;
+            yield return new WaitForSeconds(3);
         }
     }
 
-    IEnumerator WorkHardState()
+    IEnumerator HardState()
     {
         while (currentState == WorkState.Hard)
         {
-            yield return new WaitForSeconds(3);
             workStateText.text = "working pace:" + currentState;
             Money.currentMoney += 20;
+            yield return new WaitForSeconds(3);
         }
     }
-    IEnumerator WorkOverdriveState()
-    {
-        yield return new WaitForSeconds(3);
-        workStateText.text = "working pace:" + currentState;
-        Money.currentMoney += 30;
-    }
 
-    private void ChangeState(WorkState newstate)
+    IEnumerator OverDriveState()
+    {
+        while (currentState == WorkState.OverDrive)
+        {
+            workStateText.text = "working pace:" + currentState;
+            Money.currentMoney += 30;
+            yield return new WaitForSeconds(3);
+        }
+    }
+    /// <summary>
+    /// Coroutine names must match the enum statenames exactly followed by "State"
+    /// </summary>
+    /// <param name="newstate"></param>
+    public void ChangeState(WorkState newstate)
     {
         currentState = newstate;
         StartCoroutine(newstate.ToString() + "State");
-    }
-
-    public void NotWorking()
-    {
-        ChangeState(WorkState.NotWorking);
-    }
-
-    private void WorkingAverage()
-    {
-        ChangeState(WorkState.Average);
-    }
-
-    private void WorkingHard()
-    {
-        ChangeState(WorkState.Hard);
-    }
-
-    private void WorkingOverdrive()
-    {
-        ChangeState(WorkState.OverDrive);
     }
 }
 
