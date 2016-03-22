@@ -51,9 +51,6 @@ namespace Assets.BillSystem
             InfoHolder[billID].transform.localPosition = Vector3.zero;
         }
 
-
-
-
         public void Start()
         {
             canvas = GameObject.FindWithTag("Canvas").GetComponent<Canvas>();
@@ -90,10 +87,10 @@ namespace Assets.BillSystem
         public void PayBill(string billId)
         {
             Debug.Log("Amount of bills currently in queue :" + Billholder.Count);
-            if (Money.currentMoney >= Billholder[Convert.ToInt32(billId)].Amount)
+            if (Money.instance.currentMoney >= Billholder[Convert.ToInt32(billId)].Amount)
             {
                 canAfford = true;
-                Money.currentMoney -= Billholder[Convert.ToInt32(billId)].Amount;
+                Money.instance.currentMoney -= Billholder[Convert.ToInt32(billId)].Amount;
             }
             else
             {
