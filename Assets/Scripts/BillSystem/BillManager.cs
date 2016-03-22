@@ -8,6 +8,7 @@ namespace Assets.BillSystem
     public class BillManager : MonoBehaviour
     {
         static Canvas canvas;
+        public static bool canAfford;
         public static Dictionary<int, Bill> Billholder = new Dictionary<int, Bill>();
         public static Dictionary<int, GameObject> InfoHolder = new Dictionary<int, GameObject>();
 
@@ -39,6 +40,7 @@ namespace Assets.BillSystem
 
             Button buttonPay = InfoHolder[billID].transform.FindChild("Button_Pay").GetComponent<Button>();
             buttonPay.onClick.AddListener(() => PayBill(buttonPay.name));
+
             buttonPay.name = billID.ToString();
 
             Button buttonReturn = InfoHolder[billID].transform.FindChild("Button_Return").GetComponent<Button>();
@@ -49,10 +51,8 @@ namespace Assets.BillSystem
             InfoHolder[billID].transform.localPosition = Vector3.zero;
         }
 
-        void Update()
-        {
-            Debug.Log("Amount of bills currently in queue :" + Billholder.Count);
-        }
+
+
 
         public void Start()
         {
@@ -89,9 +89,27 @@ namespace Assets.BillSystem
 
         public void PayBill(string billId)
         {
-            Billholder.Remove(Convert.ToInt32(billId));
-            Destroy(InfoHolder[Convert.ToInt32(billId)]);
-            InfoHolder.Remove(Convert.ToInt32(billId));
+            Debug.Log("Amount of bills currently in queue :" + Billholder.Count);
+            if (Money.currentMoney >= Billholder[Convert.ToInt32(billId)].Amount)
+            {
+                canAfford = true;
+                Money.currentMoney -= Billholder[Convert.ToInt32(billId)].Amount;
+            }
+            else
+            {
+                canAfford = false;
+            }
+
+            if (canAfford)
+            {
+                Billholder.Remove(Convert.ToInt32(billId));
+                Destroy(InfoHolder[Convert.ToInt32(billId)]);
+                InfoHolder.Remove(Convert.ToInt32(billId));
+            }
+            else
+            {
+                Debug.Log("You cant afford to pay this bill!");
+            }
         }
 
         public void ReturnBill(string billId)
