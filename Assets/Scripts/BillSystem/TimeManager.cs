@@ -46,7 +46,7 @@ public class TimeManager : MonoBehaviour
     /// <summary>
     /// Store the current time temporarily to this string to compare if a day is changed in the OndayChange method.
     /// </summary>
-    private string temporaryDay = "";
+    private DayOfWeek tmpDay = currentTime.DayOfWeek;
     /// <summary>
     /// Fires the OnDayChange event.
     /// </summary>
@@ -54,14 +54,10 @@ public class TimeManager : MonoBehaviour
     {
         if (OnDayChange != null) // Check that there are subscribers to the OnDayChange event.
         {
-            if (temporaryDay == "")
-            {
-                temporaryDay = currentTime.Day.ToString();
-            }
-            if (temporaryDay != currentTime.Day.ToString())
+            if (tmpDay != currentTime.DayOfWeek)
             {
                 OnDayChange();
-                temporaryDay = currentTime.Day.ToString();
+                tmpDay = currentTime.DayOfWeek;
             }
         }
     }

@@ -1,55 +1,70 @@
-﻿using System.Collections;
+﻿using Assets.BillSystem;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class WorkingState : MonoBehaviour
 {
     private Text workStateText;
+    private Button buttonRefill;
     private Slider workSlider;
+
     [SerializeField]
     private float workIntensity;
     [SerializeField]
-    private float workEnergy;
+    private int workEnergy;
     [SerializeField]
     public WorkState currentState;
     public enum WorkState { NotWorking, Average, Hard, OverDrive, Drained }
 
-    private void WorkStateSliderController()
-    {
-        workSlider.onValueChanged.AddListener(delegate { ChangeSliderValue(); });
-    }
-
     private void Start()
     {
-        workSlider = GameObject.FindWithTag("WorkSlider").GetComponent<Slider>();
-        workStateText = workSlider.GetComponentInChildren<Text>();
-        WorkStateSliderController();
-        ChangeState(WorkState.NotWorking);
+        UI();
+        SetWorkState(WorkState.NotWorking);
         workEnergy = 300;
         Invoke("Energy", 1);
     }
 
-    private void ChangeSliderValue()
+    private void SetWorkState(int workIntensity)
     {
-        workIntensity = workSlider.value;
+        WorkState newWorkState;
 
-        if (workIntensity <= 0.3f)
+        switch (workIntensity)
         {
-            ChangeState(WorkState.NotWorking);
+            case 0:
+                newWorkState = WorkState.NotWorking;
+                break;
+
+            case 1:
+                newWorkState = WorkState.Average;
+                break;
+
+            case 2:
+                newWorkState = WorkState.Hard;
+                break;
+
+            case 3:
+                newWorkState = WorkState.OverDrive;
+                break;
+
+            default:
+                newWorkState = WorkState.NotWorking;
+                Debug.Log("ERROR: The workIntensity is set to a number that is not an alternative!");
+                break;
         }
-        else if (workIntensity >= 0.3f && workIntensity <= 0.5f)
-        {
-            ChangeState(WorkState.Average);
-        }
-        else if (workIntensity >= 0.5f && workIntensity <= 0.8f)
-        {
-            ChangeState(WorkState.Hard);
-        }
-        else if (workIntensity >= 0.8f)
-        {
-            ChangeState(WorkState.OverDrive);
-        }
+
+        currentState = newWorkState;
+        StartCoroutine(newWorkState.ToString() + "State");
+
+        Debug.Log(workIntensity.ToString());
     }
+
+    private void SetWorkState(WorkState newWorkState)
+    {
+        currentState = newWorkState;
+        StartCoroutine(newWorkState.ToString() + "State");
+    }
+
     private int AddMoney(int money)
     {
         return money;
@@ -106,27 +121,18 @@ public class WorkingState : MonoBehaviour
         while (currentState == WorkState.Drained)
         {
             workStateText.text = "working pace:" + currentState;
-            workSlider.maxValue = 0.4f;
+            workSlider.maxValue = 0.1f;
             yield return new WaitForSeconds(10);
         }
         yield return null;
-    }
-
-    /// <summary>
-    /// Coroutine names must match the enum statenames exactly followed by "State"
-    /// </summary>
-    /// <param name="newstate"></param>
-    private void ChangeState(WorkState newstate)
-    {
-        currentState = newstate;
-        StartCoroutine(newstate.ToString() + "State");
     }
 
     private void Energy()
     {
         if (workEnergy <= 0)
         {
-            ChangeState(WorkState.Drained);
+            SetWorkState(WorkState.Drained);
+            ButtonUI();
             CancelInvoke("Energy");
         }
         else if (workEnergy >= 0)
@@ -134,5 +140,32 @@ public class WorkingState : MonoBehaviour
             Invoke("Energy", 1);
         }
     }
-}
 
+    private void OnClickReplenishEnergy()
+    {
+        if (currentState == WorkState.Drained)
+        {
+            SetWorkState(WorkState.NotWorking);
+            workEnergy += 250;
+            Destroy(buttonRefill);
+        }
+        else
+        {
+            Debug.Log("You dont need to refill energy");
+        }
+    }
+
+    private void UI()
+    {
+        workSlider = GameObject.FindWithTag("WorkSlider").GetComponent<Slider>();
+        workStateText = workSlider.GetComponentInChildren<Text>();
+        workSlider.onValueChanged.AddListener(delegate { SetWorkState((int)workSlider.value); });
+    }
+    private void ButtonUI()
+    {
+        buttonRefill = Instantiate(Resources.Load("EnergyRefill")) as Button;
+        buttonRefill = GameObject.FindWithTag("buttonRefillEnergy").GetComponent<Button>();
+        buttonRefill.transform.SetParent(BillManager.canvas.transform, false);
+        buttonRefill.onClick.AddListener(() => OnClickReplenishEnergy());
+    }
+}

@@ -4,6 +4,14 @@
 
 namespace Assets.BillSystem
 {
+    public enum EscalationType
+    {
+        Ok,
+        Warning,
+        WarningWithFine,
+        DebtCollector
+    }
+
     public class Bill : IBill
     {
         public string BillType { get; set; }
@@ -33,10 +41,12 @@ namespace Assets.BillSystem
         /// <param name="type"></param>
         public bool IsShown { get; set; }
 
+        public EscalationType escalation;
+
         public Bill(BillType type)
         {
             Type = type;
-            DueDate = TimeManager.currentTime.AddDays(1);
+            DueDate = TimeManager.currentTime.AddDays(31);
             IssueDate = TimeManager.currentTime;
             Amount = 50;
         }

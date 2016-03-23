@@ -11,6 +11,8 @@ TagManager:
   - Time
   - Cash
   - WorkSlider
+  - buttonRefillEnergy
+  - WarningInfo
   layers:
   - Default
   - TransparentFX

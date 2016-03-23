@@ -7,8 +7,9 @@ namespace Assets.BillSystem
 {
     public class BillManager : MonoBehaviour
     {
-        static Canvas canvas;
+        public static Canvas canvas;
         public static bool canAfford;
+        public static CanvasGroup canvasGroup;
         public static Dictionary<int, Bill> Billholder = new Dictionary<int, Bill>();
         public static Dictionary<int, GameObject> InfoHolder = new Dictionary<int, GameObject>();
 
@@ -18,6 +19,9 @@ namespace Assets.BillSystem
             {
                 if (!InfoHolder.ContainsKey(pair.Key))
                 {
+                    if (pair.Value.escalation != EscalationType.Ok)
+                        return;
+
                     pair.Value.IsShown = true;
 
                     string billInformation = "";
@@ -38,6 +42,8 @@ namespace Assets.BillSystem
             InfoHolder.Add(billID, (GameObject)Instantiate(Resources.Load("billInfo")));
             InfoHolder[billID].GetComponentInChildren<Text>().text = billInformationText;
 
+            InfoHolder[billID].AddComponent<BillEscalator>().BillId = billID;
+
             Button buttonPay = InfoHolder[billID].transform.FindChild("Button_Pay").GetComponent<Button>();
             buttonPay.onClick.AddListener(() => PayBill(buttonPay.name));
 
@@ -48,7 +54,6 @@ namespace Assets.BillSystem
             buttonReturn.name = billID.ToString();
 
             InfoHolder[billID].transform.SetParent(canvas.transform, false);
-            InfoHolder[billID].transform.localPosition = Vector3.zero;
         }
 
         public void Start()
@@ -57,6 +62,17 @@ namespace Assets.BillSystem
             Application.runInBackground = true;
 
             TimeManager.OnDayChange += IssueBill;
+            BillEscalator.OnBillPayed += BillPayedInWarning;
+        }
+
+        public void BillPayedInWarning(int billId)
+        {
+            if (Billholder[billId].IsShown)
+                ReturnBill(billId.ToString());
+
+            Billholder.Remove(billId);
+            Destroy(InfoHolder[billId]);
+            InfoHolder.Remove(billId);
         }
 
         public void IssueBill()
@@ -86,7 +102,6 @@ namespace Assets.BillSystem
 
         public void PayBill(string billId)
         {
-            Debug.Log("Amount of bills currently in queue :" + Billholder.Count);
             if (Money.instance.currentMoney >= Billholder[Convert.ToInt32(billId)].Amount)
             {
                 canAfford = true;
@@ -117,17 +132,27 @@ namespace Assets.BillSystem
             Billholder[Convert.ToInt32(billId)].IsShown = false;
         }
 
-        public void OnClickShowBill()
+        public void OnClickShowBill() //  \ o /
         {
             foreach (KeyValuePair<int, Bill> bill in Billholder)
             {
                 if (!bill.Value.IsShown)
                 {
-                    bill.Value.IsShown = true;
+                    var billEscalator = InfoHolder[bill.Key].GetComponent<BillEscalator>();
+                    if (billEscalator.IsBillOverDue())
+                    {
+                        billEscalator.CheckAndShowWarning();
+                        return;
+                    }
 
+
+                    bill.Value.IsShown = true;
                     CanvasGroup canvasGroup = (InfoHolder[Convert.ToInt32(bill.Key)]).GetComponent<CanvasGroup>();
                     canvasGroup.alpha = 1f;
                     canvasGroup.blocksRaycasts = true;
+
+
+
                 }
             }
         }
