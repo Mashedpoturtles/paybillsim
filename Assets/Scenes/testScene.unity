@@ -375,7 +375,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf8024dfc483aa641929eddd00166c2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  workIntensity: 0
   workEnergy: 0
   currentState: 0
 --- !u!4 &581765370
@@ -471,18 +470,26 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22484906, guid: f193a9c866b48f4469e6e3fce0e94f94, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22400154, guid: f193a9c866b48f4469e6e3fce0e94f94, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11486456, guid: f193a9c866b48f4469e6e3fce0e94f94, type: 2}
       propertyPath: m_MaxValue
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11486456, guid: f193a9c866b48f4469e6e3fce0e94f94, type: 2}
       propertyPath: m_WholeNumbers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11486456, guid: f193a9c866b48f4469e6e3fce0e94f94, type: 2}
+      propertyPath: m_MinValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11486456, guid: f193a9c866b48f4469e6e3fce0e94f94, type: 2}
+      propertyPath: m_Value
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

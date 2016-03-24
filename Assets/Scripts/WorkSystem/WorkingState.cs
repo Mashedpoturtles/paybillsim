@@ -82,7 +82,7 @@ namespace Assets.BillSystem
             while (currentState == WorkState.NotWorking)
             {
                 workStateText.text = "working pace:" + currentState;
-                yield return new WaitForSeconds(3);
+                yield return null;
             }
             yield return null;
         }
@@ -91,10 +91,11 @@ namespace Assets.BillSystem
         {
             while (currentState == WorkState.Average)
             {
+                yield return new WaitForSeconds(3);
                 workStateText.text = "working pace:" + currentState;
                 workEnergy -= 3;
                 Money.instance.currentMoney += AddMoney(10);
-                yield return new WaitForSeconds(3);
+
             }
             yield return null;
         }
@@ -103,10 +104,10 @@ namespace Assets.BillSystem
         {
             while (currentState == WorkState.Hard)
             {
+                yield return new WaitForSeconds(3);
                 workStateText.text = "working pace:" + currentState;
                 workEnergy -= 6;
                 Money.instance.currentMoney += AddMoney(20);
-                yield return new WaitForSeconds(3);
             }
             yield return null;
         }
@@ -115,10 +116,10 @@ namespace Assets.BillSystem
         {
             while (currentState == WorkState.OverDrive)
             {
+                yield return new WaitForSeconds(3);
                 workStateText.text = "working pace:" + currentState;
                 workEnergy -= 12;
                 Money.instance.currentMoney += AddMoney(30);
-                yield return new WaitForSeconds(3);
             }
             yield return null;
         }
@@ -128,8 +129,10 @@ namespace Assets.BillSystem
             while (currentState == WorkState.Drained)
             {
                 workStateText.text = "working pace:" + currentState;
-                yield return new WaitForSeconds(10);
+                workSlider.interactable = false;
+                yield return null;
             }
+            workSlider.interactable = true;
             yield return null;
         }
 
@@ -151,9 +154,9 @@ namespace Assets.BillSystem
         {
             if (currentState == WorkState.Drained)
             {
-                SetWorkState(WorkState.NotWorking);
+                currentState = WorkState.NotWorking;
                 workEnergy += 250;
-                Destroy(buttonRefill);
+                Destroy(buttonRefill.gameObject);
             }
             else
             {
@@ -172,6 +175,7 @@ namespace Assets.BillSystem
             buttonRefill = Instantiate(Resources.Load("EnergyRefill")) as Button;
             buttonRefill = GameObject.FindWithTag("buttonRefillEnergy").GetComponent<Button>();
             Canvas canvas = BillManager.canvas;
+            canvas = GameObject.FindWithTag("Canvas").GetComponent<Canvas>();
             buttonRefill.transform.SetParent(canvas.transform, false);
             buttonRefill.onClick.AddListener(() => OnClickReplenishEnergy());
         }
