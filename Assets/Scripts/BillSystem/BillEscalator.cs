@@ -36,17 +36,14 @@ namespace Assets.BillSystem
                             bill.escalation = EscalationType.Warning;
                             break;
                         case 2:
-                            bill.escalation = EscalationType.WarningWithFine; //after this warning 
+                            bill.escalation = EscalationType.WarningWithFine;
                             break;
                         case 4:
                             bill.escalation = EscalationType.DebtCollector;
                             break;
                     }
-
-
                 }
             }
-
         }
 
 
@@ -98,7 +95,7 @@ namespace Assets.BillSystem
         }
         private void ReturnWarning()
         {
-            CanvasGroup canvasGroup = dialog.GetComponent<CanvasGroup>(); // nvm wtf im saying im an idiot go on
+            CanvasGroup canvasGroup = dialog.GetComponent<CanvasGroup>();
             canvasGroup = dialog.GetComponent<CanvasGroup>();
             canvasGroup.alpha = 0f;
             canvasGroup.blocksRaycasts = false;
