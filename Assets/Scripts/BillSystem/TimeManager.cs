@@ -15,7 +15,6 @@ public class TimeManager : MonoBehaviour
     /// </summary>
     public static DateTime currentTime;
 
-
     public delegate void DayChanged();
     /// <summary>
     /// This event checks of a day has changed from previous to the next.
@@ -41,7 +40,7 @@ public class TimeManager : MonoBehaviour
     /// </summary>
     public void Timer()
     {
-        timeToTextUI.text = timeToTextUI.text = currentTime.DayOfWeek.ToString() + currentTime.ToString(" MMMM , yyyy ") + "Current Time: " + currentTime.ToString("HH: tt") + ".";
+        timeToTextUI.text = timeToTextUI.text = currentTime.DayOfWeek.ToString() + currentTime.ToString(" MMMM , yyyy ") + "Day: " + currentTime.Day + " Current Time: " + currentTime.ToString("HH: tt") + ".";
     }
     /// <summary>
     /// Store the current time temporarily to this string to compare if a day is changed in the OndayChange method.

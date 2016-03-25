@@ -40,14 +40,15 @@ namespace Assets.BillSystem
         /// </summary>
         /// <param name="type"></param>
         public bool IsShown { get; set; }
-
+        public bool WarningSent { get; set; }
         public EscalationType escalation;
 
         public Bill(BillType type)
         {
             Type = type;
-            DueDate = TimeManager.currentTime.AddDays(31);
             IssueDate = TimeManager.currentTime;
+            DueDate = TimeManager.currentTime.AddDays(31);
+
             Amount = 50;
         }
     }
