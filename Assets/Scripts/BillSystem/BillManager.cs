@@ -70,9 +70,9 @@ namespace Assets.BillSystem
             if (Billholder[billId].IsShown)
                 ReturnBill(billId.ToString());
 
-            Billholder.Remove(billId);
-            Destroy(InfoHolder[billId]);
-            InfoHolder.Remove(billId);
+            Billholder.Remove(Convert.ToInt32(billId));
+            Destroy(InfoHolder[Convert.ToInt32(billId)]);
+            InfoHolder.Remove(Convert.ToInt32(billId));
         }
 
         public void IssueBill()
@@ -132,7 +132,7 @@ namespace Assets.BillSystem
             Billholder[Convert.ToInt32(billId)].IsShown = false;
         }
 
-        public void OnClickShowBill() //  \ o /
+        public void OnClickShowBill()
         {
             foreach (KeyValuePair<int, Bill> bill in Billholder)
             {
@@ -150,9 +150,6 @@ namespace Assets.BillSystem
                     CanvasGroup canvasGroup = (InfoHolder[Convert.ToInt32(bill.Key)]).GetComponent<CanvasGroup>();
                     canvasGroup.alpha = 1f;
                     canvasGroup.blocksRaycasts = true;
-
-
-
                 }
             }
         }

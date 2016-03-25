@@ -8,10 +8,14 @@ namespace Assets.BillSystem
         private Text workStateText;
         private Button buttonRefill;
         private Slider workSlider;
-
+        private Slider workingProgressSlider;
 
         [SerializeField]
         private int workEnergy;
+        [SerializeField]
+        private float workTime;
+        [SerializeField]
+        private float workSpeed;
         [SerializeField]
         public WorkState currentState;
         public enum WorkState { NotWorking, Average, Hard, OverDrive, Drained }
@@ -22,10 +26,13 @@ namespace Assets.BillSystem
             SetWorkState(WorkState.NotWorking);
             workEnergy = 300;
             Invoke("Energy", 1);
+            workingProgressSlider.interactable = false;
         }
+
         private void Update()
         {
-            Debug.Log(workSlider.value);
+            workingProgressSlider.value = Mathf.MoveTowards(workingProgressSlider.value, workTime, workSpeed);
+            Debug.Log(workTime);
         }
 
         private void SetWorkState(int workIntensity)
@@ -63,7 +70,6 @@ namespace Assets.BillSystem
             currentState = newWorkState;
             StartCoroutine(newWorkState.ToString() + "State");
 
-            Debug.Log(workIntensity.ToString());
         }
 
         private void SetWorkState(WorkState newWorkState)
@@ -81,9 +87,11 @@ namespace Assets.BillSystem
         {
             while (currentState == WorkState.NotWorking)
             {
+                workTime = 0.0f;
                 workStateText.text = "working pace:" + currentState;
                 yield return null;
             }
+            workTime = 0f;
             yield return null;
         }
 
@@ -91,12 +99,16 @@ namespace Assets.BillSystem
         {
             while (currentState == WorkState.Average)
             {
-                yield return new WaitForSeconds(3);
                 workStateText.text = "working pace:" + currentState;
+                yield return new WaitForSeconds(2);
+                workSpeed = 0.015f;
+                workTime = 100.0f;
+                yield return new WaitForSeconds(6);
                 workEnergy -= 3;
                 Money.instance.currentMoney += AddMoney(10);
-
+                workTime = 0.0f;
             }
+            workTime = 0f;
             yield return null;
         }
 
@@ -104,11 +116,16 @@ namespace Assets.BillSystem
         {
             while (currentState == WorkState.Hard)
             {
-                yield return new WaitForSeconds(3);
                 workStateText.text = "working pace:" + currentState;
+                yield return new WaitForSeconds(2);
+                workSpeed = 0.05f;
+                workTime = 100.0f;
+                yield return new WaitForSeconds(3);
                 workEnergy -= 6;
-                Money.instance.currentMoney += AddMoney(20);
+                Money.instance.currentMoney += AddMoney(15);
+                workTime = 0.0f;
             }
+            workTime = 0f;
             yield return null;
         }
 
@@ -116,11 +133,16 @@ namespace Assets.BillSystem
         {
             while (currentState == WorkState.OverDrive)
             {
-                yield return new WaitForSeconds(3);
                 workStateText.text = "working pace:" + currentState;
+                yield return new WaitForSeconds(1);
+                workSpeed = 0.2f;
+                workTime = 100.0f;
+                yield return new WaitForSeconds(1);
                 workEnergy -= 12;
-                Money.instance.currentMoney += AddMoney(30);
+                Money.instance.currentMoney += AddMoney(15);
+                workTime = 0.0f;
             }
+            workTime = 0f;
             yield return null;
         }
 
@@ -129,9 +151,12 @@ namespace Assets.BillSystem
             while (currentState == WorkState.Drained)
             {
                 workStateText.text = "working pace:" + currentState;
+                workTime = 0.0f;
                 workSlider.interactable = false;
                 yield return null;
+                workTime = 0.0f;
             }
+            workTime = 0f;
             workSlider.interactable = true;
             yield return null;
         }
@@ -167,9 +192,11 @@ namespace Assets.BillSystem
         private void UI()
         {
             workSlider = GameObject.FindWithTag("WorkSlider").GetComponent<Slider>();
+            workingProgressSlider = GameObject.FindWithTag("WorkingProgressBar").GetComponent<Slider>();
             workStateText = workSlider.GetComponentInChildren<Text>();
             workSlider.onValueChanged.AddListener(delegate { SetWorkState((int)workSlider.value); });
         }
+
         private void ButtonUI()
         {
             buttonRefill = Instantiate(Resources.Load("EnergyRefill")) as Button;
