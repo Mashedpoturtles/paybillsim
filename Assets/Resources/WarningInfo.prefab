@@ -46,6 +46,8 @@ GameObject:
   - 222: {fileID: 22259146}
   - 114: {fileID: 11450198}
   - 225: {fileID: 22586932}
+  - 114: {fileID: 11428340}
+  - 114: {fileID: 11457118}
   m_Layer: 5
   m_Name: WarningInfo
   m_TagString: WarningInfo
@@ -214,6 +216,19 @@ MonoBehaviour:
   m_Text: 'Return
 
 '
+--- !u!114 &11428340
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8f4a52ea94d2e34990d16be371dc03c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentToReturnTo: {fileID: 0}
+  placeholderParent: {fileID: 0}
 --- !u!114 &11437800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -268,6 +283,24 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11457118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 858
+  m_PreferredHeight: 560
+  m_FlexibleWidth: 1
+  m_FlexibleHeight: 1
 --- !u!114 &11464348
 MonoBehaviour:
   m_ObjectHideFlags: 1

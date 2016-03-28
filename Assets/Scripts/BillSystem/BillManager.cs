@@ -12,6 +12,8 @@ namespace Assets.BillSystem
         public static CanvasGroup canvasGroup;
         public static Dictionary<int, Bill> Billholder = new Dictionary<int, Bill>();
         public static Dictionary<int, GameObject> InfoHolder = new Dictionary<int, GameObject>();
+        [SerializeField]
+        private GameObject SpawnZone;
 
         public void CreateBill()
         {
@@ -53,7 +55,7 @@ namespace Assets.BillSystem
             buttonReturn.onClick.AddListener(() => ReturnBill(buttonReturn.name));
             buttonReturn.name = billID.ToString();
 
-            InfoHolder[billID].transform.SetParent(canvas.transform, false);
+            InfoHolder[billID].transform.SetParent(SpawnZone.transform, false);
         }
 
         public void Start()

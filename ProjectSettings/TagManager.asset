@@ -14,6 +14,8 @@ TagManager:
   - buttonRefillEnergy
   - WarningInfo
   - WorkingProgressBar
+  - SpawnZone
+  - Dropzone
   layers:
   - Default
   - TransparentFX

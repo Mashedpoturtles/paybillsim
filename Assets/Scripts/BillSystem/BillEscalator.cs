@@ -3,13 +3,12 @@ using UnityEngine.UI;
 
 namespace Assets.BillSystem
 {
-
     public class BillEscalator : MonoBehaviour
     {
         public delegate void BillPayed(int billId);
         public static event BillPayed OnBillPayed;
         public int BillId { get; set; }
-
+        private GameObject SpawnZone;
         private GameObject dialog;
         private int escalationCount = 0;
 
@@ -66,8 +65,8 @@ namespace Assets.BillSystem
             warning = dialog.transform.FindChild("Button_Return_Warning").GetComponent<Button>();
             pay.onClick.AddListener(() => PayWarning());
             warning.onClick.AddListener(() => ReturnWarning());
-            dialog.transform.SetParent(BillManager.canvas.transform, false);
-            // dialog.transform.SetParent(BillManager.InfoHolder[BillId].transform, false);
+            SpawnZone = GameObject.FindWithTag("SpawnZone");
+            dialog.transform.SetParent(SpawnZone.transform, false);
         }
 
         private void PayWarning()
