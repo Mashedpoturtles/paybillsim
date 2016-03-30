@@ -14,7 +14,7 @@ namespace Assets.BillSystem
 
         void Start()
         {
-            TimeManager.OnDayChange += CheckAndShowWarning;
+
         }
 
         public void CheckAndShowWarning()
@@ -64,7 +64,6 @@ namespace Assets.BillSystem
             pay = dialog.transform.FindChild("Button_Pay_Warning").GetComponent<Button>();
             warning = dialog.transform.FindChild("Button_Return_Warning").GetComponent<Button>();
             pay.onClick.AddListener(() => PayWarning());
-            warning.onClick.AddListener(() => ReturnWarning());
             SpawnZone = GameObject.FindWithTag("SpawnZone");
             dialog.transform.SetParent(SpawnZone.transform, false);
         }
@@ -94,12 +93,5 @@ namespace Assets.BillSystem
             }
         }
 
-        private void ReturnWarning()
-        {
-            CanvasGroup canvasGroup = dialog.GetComponent<CanvasGroup>();
-            canvasGroup = dialog.GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 0f;
-            canvasGroup.blocksRaycasts = false;
-        }
     }
 }

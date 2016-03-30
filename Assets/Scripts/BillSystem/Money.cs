@@ -24,6 +24,6 @@ public class Money : MonoBehaviour
 
     private void Update()
     {
-        CashInfo.text = currentMoney.ToString();
+        CashInfo.text = "Geld: " + currentMoney;
     }
 }

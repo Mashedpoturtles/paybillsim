@@ -13,7 +13,7 @@ namespace Assets.BillSystem
         public static Dictionary<int, Bill> Billholder = new Dictionary<int, Bill>();
         public static Dictionary<int, GameObject> InfoHolder = new Dictionary<int, GameObject>();
         [SerializeField]
-        private GameObject SpawnZone;
+        private RectTransform SpawnZone;
 
         public void CreateBill()
         {
@@ -51,10 +51,6 @@ namespace Assets.BillSystem
 
             buttonPay.name = billID.ToString();
 
-            Button buttonReturn = InfoHolder[billID].transform.FindChild("Button_Return").GetComponent<Button>();
-            buttonReturn.onClick.AddListener(() => ReturnBill(buttonReturn.name));
-            buttonReturn.name = billID.ToString();
-
             InfoHolder[billID].transform.SetParent(SpawnZone.transform, false);
         }
 
@@ -69,8 +65,7 @@ namespace Assets.BillSystem
 
         public void BillPayedInWarning(int billId)
         {
-            if (Billholder[billId].IsShown)
-                ReturnBill(billId.ToString());
+
 
             Billholder.Remove(Convert.ToInt32(billId));
             Destroy(InfoHolder[Convert.ToInt32(billId)]);
@@ -126,34 +121,6 @@ namespace Assets.BillSystem
             }
         }
 
-        public void ReturnBill(string billId)
-        {
-            CanvasGroup canvasGroup = (InfoHolder[Convert.ToInt32(billId)]).GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 0f;
-            canvasGroup.blocksRaycasts = false;
-            Billholder[Convert.ToInt32(billId)].IsShown = false;
-        }
 
-        public void OnClickShowBill()
-        {
-            foreach (KeyValuePair<int, Bill> bill in Billholder)
-            {
-                if (!bill.Value.IsShown)
-                {
-                    var billEscalator = InfoHolder[bill.Key].GetComponent<BillEscalator>();
-                    if (billEscalator.IsBillOverDue())
-                    {
-                        billEscalator.CheckAndShowWarning();
-                        return;
-                    }
-
-
-                    bill.Value.IsShown = true;
-                    CanvasGroup canvasGroup = (InfoHolder[Convert.ToInt32(bill.Key)]).GetComponent<CanvasGroup>();
-                    canvasGroup.alpha = 1f;
-                    canvasGroup.blocksRaycasts = true;
-                }
-            }
-        }
     }
 }

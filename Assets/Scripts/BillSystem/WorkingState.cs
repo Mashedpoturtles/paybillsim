@@ -9,7 +9,8 @@ namespace Assets.BillSystem
         private Button buttonRefill;
         private Slider workSlider;
         private Slider workingProgressSlider;
-
+        [SerializeField]
+        private Text energy;
         [SerializeField]
         private int workEnergy;
         [SerializeField]
@@ -32,7 +33,7 @@ namespace Assets.BillSystem
         private void Update()
         {
             workingProgressSlider.value = Mathf.MoveTowards(workingProgressSlider.value, workTime, workSpeed);
-            Debug.Log(workTime);
+            energy.text = "Energy: " + workEnergy;
         }
 
         private void SetWorkState(int workIntensity)
@@ -179,8 +180,9 @@ namespace Assets.BillSystem
         {
             if (currentState == WorkState.Drained)
             {
-                currentState = WorkState.NotWorking;
                 workEnergy += 250;
+                SetWorkState(WorkState.NotWorking);
+                workSlider.value = 0;
                 Destroy(buttonRefill.gameObject);
             }
             else
