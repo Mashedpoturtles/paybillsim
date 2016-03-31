@@ -17,6 +17,7 @@ TagManager:
   - SpawnZone
   - Dropzone
   - BaseRain
+  - Fade
   layers:
   - Default
   - TransparentFX

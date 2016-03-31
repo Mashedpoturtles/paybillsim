@@ -54,6 +54,8 @@ namespace Assets.BillSystem
             InfoHolder [ billID ].transform.SetParent ( SpawnZone.transform, false );
             }
 
+
+
         public void Start ( )
             {
             canvas = GameObject.FindWithTag ( "Canvas" ).GetComponent<Canvas> ( );
