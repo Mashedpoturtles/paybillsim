@@ -16,6 +16,7 @@ TagManager:
   - WorkingProgressBar
   - SpawnZone
   - Dropzone
+  - BaseRain
   layers:
   - Default
   - TransparentFX
