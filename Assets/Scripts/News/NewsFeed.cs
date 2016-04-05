@@ -30,8 +30,8 @@ public class NewsFeed : MonoBehaviour
 
     void Start ( )
         {
-        InvokeRepeating ( "Fetch", 10, 100 );
-        InvokeRepeating ( "ChangeText", 5, 60 );
+        InvokeRepeating ( "Fetch", 1f, 100 );
+        InvokeRepeating ( "ChangeText", 5, 10 );
         }
     public void ChangeText ( )
         {

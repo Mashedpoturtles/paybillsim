@@ -3,17 +3,17 @@
 
 
 namespace Assets.BillSystem
-{
-    public enum EscalationType
     {
+    public enum EscalationType
+        {
         Ok,
         Warning,
         WarningWithFine,
         DebtCollector
-    }
+        }
 
-    public class Bill : IBill
-    {
+    public class Bill
+        {
         public string BillType { get; set; }
         /// <summary>
         /// The amount you must pay for this bill initially.
@@ -32,10 +32,6 @@ namespace Assets.BillSystem
         /// </summary>
         public DateTime IssueDate { get; set; }
         /// <summary>
-        /// This will add to the total amount of issued bills.
-        /// </summary>
-        public int Counter { get; set; }
-        /// <summary>
         /// Stores the bill information such as the type, issue date, due date and amount to be paid.
         /// </summary>
         /// <param name="type"></param>
@@ -43,14 +39,13 @@ namespace Assets.BillSystem
         public bool WarningSent { get; set; }
         public EscalationType escalation;
 
-        public Bill(BillType type)
-        {
+        public Bill ( BillType type )
+            {
             Type = type;
             IssueDate = TimeManager.currentTime;
-            DueDate = TimeManager.currentTime.AddDays(31);
-
+            DueDate = TimeManager.currentTime.AddDays ( 31 );
             Amount = 50;
+            }
         }
     }
-}
 

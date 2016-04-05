@@ -26,8 +26,7 @@ namespace Assets.BillSystem
 
                     pair.Value.IsShown = true;
 
-                    string billInformation = "";
-                    billInformation = "Random";
+                    string billInformation;
                     billInformation = string.Format ( "Bill type: {0} \\n Issue date: {1} \\n  Due date: {2} \\n Amount to pay: {3} \\n",
                                         Enum.GetName ( typeof ( BillType ), pair.Value.Type ),
                                         pair.Value.IssueDate.ToString ( "d" ),
@@ -69,9 +68,9 @@ namespace Assets.BillSystem
             {
 
 
-            Billholder.Remove ( Convert.ToInt32 ( billId ) );
-            Destroy ( InfoHolder [ Convert.ToInt32 ( billId ) ] );
-            InfoHolder.Remove ( Convert.ToInt32 ( billId ) );
+            Billholder.Remove ( billId );
+            Destroy ( InfoHolder [ billId ] );
+            InfoHolder.Remove ( billId );
             }
 
         public void IssueBill ( )
@@ -101,10 +100,10 @@ namespace Assets.BillSystem
 
         public void PayBill ( string billId )
             {
-            if ( Money.instance.currentMoney >= Billholder [ Convert.ToInt32 ( billId ) ].Amount )
+            if ( Money.instance.currentMoney >= Billholder [ int.Parse ( billId ) ].Amount )
                 {
                 canAfford = true;
-                Money.instance.currentMoney -= Billholder [ Convert.ToInt32 ( billId ) ].Amount;
+                Money.instance.currentMoney -= Billholder [ int.Parse ( billId ) ].Amount;
                 }
             else
                 {

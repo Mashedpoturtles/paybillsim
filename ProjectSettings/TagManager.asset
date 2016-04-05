@@ -18,6 +18,7 @@ TagManager:
   - Dropzone
   - BaseRain
   - Fade
+  - ButtonBrancher
   layers:
   - Default
   - TransparentFX

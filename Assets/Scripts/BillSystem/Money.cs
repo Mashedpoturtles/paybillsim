@@ -2,28 +2,22 @@
 using UnityEngine.UI;
 
 public class Money : MonoBehaviour
-{
+    {
     [SerializeField]
     private Text CashInfo;
     [SerializeField]
     public int currentMoney;
-
     public static Money instance;
 
-    [SerializeField]
-    public void Initialize()
-    {
+
+    public void Start ( )
+        {
         instance = this;
-        CashInfo = GameObject.FindWithTag("Cash").GetComponent<Text>();
-    }
+        CashInfo = GameObject.FindWithTag ( "Cash" ).GetComponent<Text> ( );
+        }
 
-    public void Start()
-    {
-        Initialize();
-    }
-
-    private void Update()
-    {
+    private void Update ( )
+        {
         CashInfo.text = "Geld: " + currentMoney;
+        }
     }
-}
