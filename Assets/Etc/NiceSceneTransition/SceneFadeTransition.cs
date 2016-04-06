@@ -5,19 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class SceneFadeTransition : MonoBehaviour
     {
-
     public static SceneFadeTransition instance;
-
     public float transitionTime = 1.0f;
-
     public bool fadeIn;
     public bool fadeOut;
-
     public Image fadeImg;
-
     float time = 0f;
 
-    // Use this for initialization
     void Awake ( )
         {
         if ( instance == null )

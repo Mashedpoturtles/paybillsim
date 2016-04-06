@@ -10,19 +10,10 @@ public class ActivityOnLoad : MonoBehaviour
 
     private void OnLevelWasLoaded ( int level )
         {
-        if ( level == 0 )
-            foreach ( var obj in ObjectsToDisable )
-                {
-                obj.SetActive ( true );
-                }
-        if ( level == 1 )
+        foreach ( var obj in ObjectsToDisable )
             {
-            foreach ( var obj in ObjectsToDisable )
-                {
-                obj.SetActive ( false );
-                }
+            obj.SetActive ( level == 1 );
             }
-
         }
 
     private void Start ( )

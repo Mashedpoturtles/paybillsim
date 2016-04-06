@@ -26,14 +26,7 @@ public class GetWeatherUrl : MonoBehaviour
             {
             WWW www = new WWW ( url );
             yield return www;
-            if ( www.error == null )
-                {
-                print ( "Successfully retrieved weather conditions." );
-                }
-            else
-                {
-                print ( "Something is wrong with: " + www.text + "." );
-                }
+
             json = www.text;
 
             var MainObservation = JsonConvert.DeserializeObject<WeatherClasses.MainObservation> ( json );
@@ -56,6 +49,7 @@ public class GetWeatherUrl : MonoBehaviour
                     {
                     Weather.text = string.Format ( " Temperature {0}  Feel Temperature {1} Current Location {2} "
                         , dTemp, dFeelTempC, sCity );
+                    print ( sWeatherCondition );
                     }
                 }
             yield break;
