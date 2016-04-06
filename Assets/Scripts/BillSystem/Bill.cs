@@ -4,14 +4,6 @@
 
 namespace Assets.BillSystem
     {
-    public enum EscalationType
-        {
-        Ok,
-        Warning,
-        WarningWithFine,
-        DebtCollector
-        }
-
     public class Bill
         {
         public string BillType { get; set; }
@@ -35,9 +27,7 @@ namespace Assets.BillSystem
         /// Stores the bill information such as the type, issue date, due date and amount to be paid.
         /// </summary>
         /// <param name="type"></param>
-        public bool IsShown { get; set; }
-        public bool WarningSent { get; set; }
-        public EscalationType escalation;
+        public int dueLevel { get; set; }
 
         public Bill ( BillType type )
             {
@@ -45,6 +35,7 @@ namespace Assets.BillSystem
             IssueDate = TimeManager.currentTime;
             DueDate = TimeManager.currentTime.AddDays ( 31 );
             Amount = 50;
+            dueLevel = 0;
             }
         }
     }

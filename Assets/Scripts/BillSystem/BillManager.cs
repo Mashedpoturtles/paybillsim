@@ -1,3 +1,4 @@
+using Assets.BillSystem;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,17 +16,12 @@ namespace Assets.BillSystem
         [SerializeField]
         private RectTransform SpawnZone;
 
-        public void CreateBill ( )
+        private void CreateBill ( )
             {
             foreach ( KeyValuePair<int, Bill> pair in Billholder )
                 {
                 if ( !InfoHolder.ContainsKey ( pair.Key ) )
                     {
-                    if ( pair.Value.escalation != EscalationType.Ok )
-                        return;
-
-                    pair.Value.IsShown = true;
-
                     string billInformation;
                     billInformation = string.Format ( "Bill type: {0} \\n Issue date: {1} \\n  Due date: {2} \\n Amount to pay: {3} \\n",
                                         Enum.GetName ( typeof ( BillType ), pair.Value.Type ),
@@ -38,12 +34,10 @@ namespace Assets.BillSystem
                 }
             }
 
-        public void CreateUILogic ( string billInformationText, int billID )
+        private void CreateUILogic ( string billInformationText, int billID )
             {
             InfoHolder.Add ( billID, ( GameObject ) Instantiate ( Resources.Load ( "billInfo" ) ) );
             InfoHolder [ billID ].transform.FindChild ( "billInformation" ).GetComponent<Text> ( ).text = billInformationText;
-
-
 
             Button buttonPay = InfoHolder [ billID ].GetComponentInChildren<Button> ( );
             buttonPay.onClick.AddListener ( ( ) => PayBill ( buttonPay.name ) );
@@ -53,27 +47,14 @@ namespace Assets.BillSystem
             InfoHolder [ billID ].transform.SetParent ( SpawnZone.transform, false );
             }
 
-
-
-        public void Start ( )
+        private void Start ( )
             {
             canvas = GameObject.FindWithTag ( "Canvas" ).GetComponent<Canvas> ( );
             Application.runInBackground = true;
-
             TimeManager.OnDayChange += IssueBill;
-
             }
 
-        public void BillPayedInWarning ( int billId )
-            {
-
-
-            Billholder.Remove ( billId );
-            Destroy ( InfoHolder [ billId ] );
-            InfoHolder.Remove ( billId );
-            }
-
-        public void IssueBill ( )
+        private void IssueBill ( )
             {
             switch ( TimeManager.currentTime.DayOfWeek )
                 {
@@ -88,7 +69,7 @@ namespace Assets.BillSystem
                 }
             }
 
-        public int GetKey ( )
+        private int GetKey ( )
             {
             for ( int i = 0 ; i < Billholder.Count + 1 ; i++ )
                 {
@@ -98,12 +79,26 @@ namespace Assets.BillSystem
             return 0;
             }
 
-        public void PayBill ( string billId )
+        private void CheckDueDate ( string billId )
             {
-            if ( Money.instance.currentMoney >= Billholder [ int.Parse ( billId ) ].Amount )
+            var bill = Billholder [ Convert.ToInt32 ( billId ) ];
+            if ( TimeManager.currentTime > bill.DueDate )
+
+                switch ( bill.dueLevel )
+                    {
+                    case 1:
+                        Debug.Log ( "case 1" );
+                        break;
+                    }
+            }
+
+        private void PayBill ( string billId )
+            {
+            var bill = Billholder [ Convert.ToInt32 ( billId ) ];
+            if ( Money.instance.currentMoney >= bill.Amount )
                 {
                 canAfford = true;
-                Money.instance.currentMoney -= Billholder [ int.Parse ( billId ) ].Amount;
+                Money.instance.currentMoney -= bill.Amount;
                 }
             else
                 {
@@ -121,7 +116,6 @@ namespace Assets.BillSystem
                 Debug.Log ( "You cant afford to pay this bill!" );
                 }
             }
-
-
         }
     }
+
