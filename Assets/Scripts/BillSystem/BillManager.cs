@@ -7,15 +7,13 @@ namespace Assets.BillSystem
     public class BillManager : MonoBehaviour
         {
         [SerializeField]
-        public Canvas canvas;
-        [SerializeField]
         private RectTransform SpawnZone;
         public List<Bill> Bills { get; private set; }
-
+        public static BillManager instance;
         void Start ( )
             {
             this.Bills = new List<Bill> ( );
-
+            instance = this;
             Application.runInBackground = true;
             TimeManager.OnDayChange += onDayChanged;
             }
@@ -36,6 +34,7 @@ namespace Assets.BillSystem
             if ( Money.instance.currentMoney >= bill.Amount )
                 {
                 Money.instance.currentMoney -= bill.Amount;
+                Debug.Log ( "I'm about to pay " + bill.Amount + " and i have " + Money.instance.currentMoney + " my obj is : " + bill.Object, bill.Object );
                 Destroy ( bill.Object );
                 this.Bills.Remove ( bill );
                 }
@@ -64,14 +63,13 @@ namespace Assets.BillSystem
             GameObject billObject = Instantiate ( Resources.Load ( "billInfo" ) ) as GameObject;
             newBill.Object = billObject;
             BillUI ui = billObject.GetComponent<BillUI> ( );
-            print ( "createbill" );
             ui.transform.SetParent ( SpawnZone.transform, false );
             ui.SetInfo ( this, newBill );
             }
 
         private void billOverDueDate ( Bill bill )
             {
-            throw new System.NotImplementedException ( );
+            print ( "past duedate" );
             }
         }
     }

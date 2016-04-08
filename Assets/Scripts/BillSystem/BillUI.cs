@@ -5,8 +5,8 @@ using System;
 
 public class BillUI : MonoBehaviour
     {
-    [SerializeField]
-    private Text informationTextLabel;
+    [HideInInspector]
+    public Text informationTextLabel;
     [SerializeField]
     private Button payButton;
 
@@ -20,4 +20,6 @@ public class BillUI : MonoBehaviour
                                     bill.DueDate.ToString ( "d" ),
                                     bill.Amount ).Replace ( "\\n", "\n" );
         }
+
     }
+

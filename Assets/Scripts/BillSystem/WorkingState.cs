@@ -22,6 +22,7 @@ namespace Assets.BillSystem
         [SerializeField]
         public WorkState currentState;
         public enum WorkState { NotWorking, Average, Hard, OverDrive, Drained }
+        public Canvas canvas;
 
         private void Start ( )
             {
@@ -207,7 +208,6 @@ namespace Assets.BillSystem
             {
             buttonRefill = Instantiate ( Resources.Load ( "EnergyRefill" ) ) as Button;
             buttonRefill = GameObject.FindWithTag ( "buttonRefillEnergy" ).GetComponent<Button> ( );
-            Canvas canvas = billManager.canvas;
             canvas = GameObject.FindWithTag ( "Canvas" ).GetComponent<Canvas> ( );
             buttonRefill.transform.SetParent ( canvas.transform, false );
             buttonRefill.onClick.AddListener ( ( ) => OnClickReplenishEnergy ( ) );

@@ -605,18 +605,7 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11445058
@@ -939,11 +928,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf8024dfc483aa641929eddd00166c2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  billManager: {fileID: 0}
   energy: {fileID: 11472608}
   workEnergy: 0
   workTime: 0
   workSpeed: 0
   currentState: 0
+  canvas: {fileID: 22372970}
 --- !u!222 &22207668
 CanvasRenderer:
   m_ObjectHideFlags: 1
