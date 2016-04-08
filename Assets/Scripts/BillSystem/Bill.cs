@@ -1,6 +1,5 @@
 ﻿using System;
-
-
+using UnityEngine;
 
 namespace Assets.BillSystem
     {
@@ -28,7 +27,7 @@ namespace Assets.BillSystem
         /// </summary>
         /// <param name="type"></param>
         public int dueLevel { get; set; }
-
+        public GameObject Object;
         public Bill ( BillType type )
             {
             Type = type;
