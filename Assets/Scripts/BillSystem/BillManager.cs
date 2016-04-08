@@ -1,120 +1,79 @@
-using Assets.BillSystem;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.BillSystem
     {
     public class BillManager : MonoBehaviour
         {
-        public static Canvas canvas;
-        public static bool canAfford;
-        public static CanvasGroup canvasGroup;
-        public static Dictionary<int, Bill> Billholder = new Dictionary<int, Bill> ( );
-        public static Dictionary<int, GameObject> InfoHolder = new Dictionary<int, GameObject> ( );
+        [SerializeField]
+        public Canvas canvas;
         [SerializeField]
         private RectTransform SpawnZone;
+        public List<Bill> Bills { get; private set; }
 
-        private void CreateBill ( )
+        void Start ( )
             {
-            foreach ( KeyValuePair<int, Bill> pair in Billholder )
-                {
-                if ( !InfoHolder.ContainsKey ( pair.Key ) )
-                    {
-                    string billInformation;
-                    billInformation = string.Format ( "Bill type: {0} \\n Issue date: {1} \\n  Due date: {2} \\n Amount to pay: {3} \\n",
-                                        Enum.GetName ( typeof ( BillType ), pair.Value.Type ),
-                                        pair.Value.IssueDate.ToString ( "d" ),
-                                        pair.Value.DueDate.ToString ( "d" ),
-                                        pair.Value.Amount ).Replace ( "\\n", "\n" );
+            this.Bills = new List<Bill> ( );
 
-                    CreateUILogic ( billInformation, pair.Key );
+            Application.runInBackground = true;
+            TimeManager.OnDayChange += onDayChanged;
+            }
+
+        void Update ( )
+            {
+            foreach ( var bill in Bills )
+                {
+                if ( TimeManager.currentTime > bill.DueDate )
+                    {
+                    billOverDueDate ( bill );
                     }
                 }
             }
 
-        private void CreateUILogic ( string billInformationText, int billID )
+        public void PayBill ( Bill bill )
             {
-            InfoHolder.Add ( billID, ( GameObject ) Instantiate ( Resources.Load ( "billInfo" ) ) );
-            InfoHolder [ billID ].transform.FindChild ( "billInformation" ).GetComponent<Text> ( ).text = billInformationText;
-
-            Button buttonPay = InfoHolder [ billID ].GetComponentInChildren<Button> ( );
-            buttonPay.onClick.AddListener ( ( ) => PayBill ( buttonPay.name ) );
-
-            buttonPay.name = billID.ToString ( );
-
-            InfoHolder [ billID ].transform.SetParent ( SpawnZone.transform, false );
+            if ( Money.instance.currentMoney >= bill.Amount )
+                {
+                Money.instance.currentMoney -= bill.Amount;
+                bill.Object = ( Instantiate ( Resources.Load ( "billInfo" ) ) as GameObject );
+                Destroy ( bill.Object );
+                Debug.Log ( "I'm about to pay " + bill.Amount + " and i have " + Money.instance.currentMoney + " my obj is : " + bill.Object, bill.Object );
+                this.Bills.Remove ( bill );
+                }
+            else {
+                Debug.Log ( "You cant afford to pay this bill!" );
+                }
             }
-
-        private void Start ( )
-            {
-            canvas = GameObject.FindWithTag ( "Canvas" ).GetComponent<Canvas> ( );
-            Application.runInBackground = true;
-            TimeManager.OnDayChange += IssueBill;
-            }
-
-        private void IssueBill ( )
+        private void onDayChanged ( )
             {
             switch ( TimeManager.currentTime.DayOfWeek )
                 {
                 case DayOfWeek.Tuesday:
-                    Billholder.Add ( GetKey ( ), new Bill ( BillType.Internet ) );
-                    CreateBill ( );
+                    createBill ( BillType.Internet );
                     break;
+
                 case DayOfWeek.Thursday:
-                    Billholder.Add ( GetKey ( ), new Bill ( BillType.Electricity ) );
-                    CreateBill ( );
+                    createBill ( BillType.Electricity );
                     break;
                 }
             }
 
-        private int GetKey ( )
+        private void createBill ( BillType type )
             {
-            for ( int i = 0 ; i < Billholder.Count + 1 ; i++ )
-                {
-                if ( !Billholder.ContainsKey ( i ) )
-                    return i;
-                }
-            return 0;
+            Bill newBill = new Bill ( type );
+            Bills.Add ( newBill );
+            GameObject billObject = Instantiate ( Resources.Load ( "billInfo" ) ) as GameObject;
+            newBill.Object = billObject; //I think you ment newbill.Object here?
+            BillUI ui = billObject.GetComponent<BillUI> ( ); //this is attached to the prefab :D
+
+            ui.transform.SetParent ( SpawnZone.transform, false );
+            ui.SetInfo ( this, newBill );
             }
 
-        private void CheckDueDate ( string billId )
+        private void billOverDueDate ( Bill bill )
             {
-            var bill = Billholder [ Convert.ToInt32 ( billId ) ];
-            if ( TimeManager.currentTime > bill.DueDate )
-
-                switch ( bill.dueLevel )
-                    {
-                    case 1:
-                        Debug.Log ( "case 1" );
-                        break;
-                    }
-            }
-
-        private void PayBill ( string billId )
-            {
-            var bill = Billholder [ Convert.ToInt32 ( billId ) ];
-            if ( Money.instance.currentMoney >= bill.Amount )
-                {
-                canAfford = true;
-                Money.instance.currentMoney -= bill.Amount;
-                }
-            else
-                {
-                canAfford = false;
-                }
-
-            if ( canAfford )
-                {
-                Billholder.Remove ( Convert.ToInt32 ( billId ) );
-                Destroy ( InfoHolder [ Convert.ToInt32 ( billId ) ] );
-                InfoHolder.Remove ( Convert.ToInt32 ( billId ) );
-                }
-            else
-                {
-                Debug.Log ( "You cant afford to pay this bill!" );
-                }
+            throw new System.NotImplementedException ( );
             }
         }
     }
