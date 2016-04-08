@@ -19,6 +19,5 @@ public class BillUI : MonoBehaviour
                                     bill.IssueDate.ToString ( "d" ),
                                     bill.DueDate.ToString ( "d" ),
                                     bill.Amount ).Replace ( "\\n", "\n" );
-        // Debug.Log ( "I'm about to pay " + bill.Amount + " and i have " + Money.instance.currentMoney + " my obj is : " + bill.Object, bill.Object );
         }
     }

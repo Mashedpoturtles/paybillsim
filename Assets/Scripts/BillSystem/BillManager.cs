@@ -36,9 +36,7 @@ namespace Assets.BillSystem
             if ( Money.instance.currentMoney >= bill.Amount )
                 {
                 Money.instance.currentMoney -= bill.Amount;
-                bill.Object = ( Instantiate ( Resources.Load ( "billInfo" ) ) as GameObject );
                 Destroy ( bill.Object );
-                Debug.Log ( "I'm about to pay " + bill.Amount + " and i have " + Money.instance.currentMoney + " my obj is : " + bill.Object, bill.Object );
                 this.Bills.Remove ( bill );
                 }
             else {
@@ -64,9 +62,9 @@ namespace Assets.BillSystem
             Bill newBill = new Bill ( type );
             Bills.Add ( newBill );
             GameObject billObject = Instantiate ( Resources.Load ( "billInfo" ) ) as GameObject;
-            newBill.Object = billObject; //I think you ment newbill.Object here?
-            BillUI ui = billObject.GetComponent<BillUI> ( ); //this is attached to the prefab :D
-
+            newBill.Object = billObject;
+            BillUI ui = billObject.GetComponent<BillUI> ( );
+            print ( "createbill" );
             ui.transform.SetParent ( SpawnZone.transform, false );
             ui.SetInfo ( this, newBill );
             }
