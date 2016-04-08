@@ -8,6 +8,8 @@ namespace Assets.BillSystem
         private Text workStateText;
         private Button buttonRefill;
         private Slider workSlider;
+        [SerializeField]
+        private BillManager billManager;
         private Slider workingProgressSlider;
         [SerializeField]
         private Text energy;
@@ -205,7 +207,7 @@ namespace Assets.BillSystem
             {
             buttonRefill = Instantiate ( Resources.Load ( "EnergyRefill" ) ) as Button;
             buttonRefill = GameObject.FindWithTag ( "buttonRefillEnergy" ).GetComponent<Button> ( );
-            Canvas canvas = BillManager.canvas;
+            Canvas canvas = billManager.canvas;
             canvas = GameObject.FindWithTag ( "Canvas" ).GetComponent<Canvas> ( );
             buttonRefill.transform.SetParent ( canvas.transform, false );
             buttonRefill.onClick.AddListener ( ( ) => OnClickReplenishEnergy ( ) );
