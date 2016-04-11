@@ -12,15 +12,22 @@ namespace Assets.BillSystem
         [SerializeField]
         private RectTransform SpawnZone;
         public List<Bill> Bills { get; private set; }
-
-        void Start ( )
+        private void Update ( )
+            {
+            foreach ( var bill in Bills )
+                {
+                Debug.Log ( "days past due:  " + bill.DaysPastDue );
+                Debug.Log ( "days util due  " + bill.DaysUntilDue );
+                }
+            }
+        private void Start ( )
             {
             Initialize ( );
             }
         /// <summary>
         /// Setting everything that needs to be prepared in start.
         /// </summary>
-        void Initialize ( )
+        private void Initialize ( )
             {
             this.Bills = new List<Bill> ( );
             Application.runInBackground = true;
@@ -80,27 +87,27 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void BillCheckIsOverDue ( Bill bill )
             {
-            if ( bill.aanmaning > TimeManager.currentTime )
+            if ( bill.aanmaning )
                 {
                 bill.dueLevel = 0;
                 return;
                 }
-            if ( bill.somatie > TimeManager.currentTime )
+            if ( bill.somatie )
                 {
                 bill.dueLevel = 1;
                 return;
                 }
-            if ( bill.dagvaarding > TimeManager.currentTime )
+            if ( bill.dagvaarding )
                 {
                 bill.dueLevel = 2;
                 return;
                 }
-            if ( bill.vonnis > TimeManager.currentTime )
+            if ( bill.vonnis )
                 {
                 bill.dueLevel = 3;
                 return;
                 }
-            if ( bill.beslag > TimeManager.currentTime )
+            if ( bill.beslag )
                 {
                 bill.dueLevel = 4;
                 return;
