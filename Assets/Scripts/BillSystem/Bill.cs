@@ -28,48 +28,11 @@ namespace Assets.BillSystem
         /// </summary>
         public GameObject Object;
 
-        private int daysUntilDue;
-        public int DaysUntilDue
-            {
-            get { return daysUntilDue; }
-            set
-                {
-                daysUntilDue = value;
-
-                if ( daysUntilDue == 0 )
-                    DaysPastDue++;
-                }
-            }
-
-        private int daysPastDue;
-        public int DaysPastDue
-            {
-            get { return daysPastDue; }
-
-            set
-                {
-                daysPastDue = value;
-
-                if ( daysPastDue == 62 )
-                    {
-                    aanmaning = true;
-                    }
-                else if ( daysPastDue == 93 )
-                    {
-                    somatie = true;
-                    }
-                else if ( daysPastDue == 124 )
-                    {
-                    vonnis = true;
-                    }
-                else if ( daysPastDue == 155 )
-                    {
-                    beslag = true;
-                    }
-                }
-            }
+        public int DaysUntilDue { get; set; }
+        public int DaysPastDue { get; set; }
 
         public DateTime DueDate { get; set; }
+        public bool normal { get; set; }
         public bool aanmaning { get; set; }
         public bool somatie { get; set; }
         public bool dagvaarding { get; set; }
@@ -82,10 +45,9 @@ namespace Assets.BillSystem
             Type = type;
             IssueDate = TimeManager.currentTime;
             DueDate = TimeManager.currentTime.AddDays ( 31 );
-
+            this.DaysPastDue = DaysPastDue;
             Cost = 50;
             dueLevel = 0;
-            this.daysUntilDue = DaysUntilDue;
             }
         }
     }

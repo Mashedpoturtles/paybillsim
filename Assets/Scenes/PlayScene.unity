@@ -349,19 +349,19 @@ Prefab:
       objectReference: {fileID: 1155217728}
     - target: {fileID: 22403240, guid: d844bd34b216d3240be621d48be333da, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22439980, guid: d844bd34b216d3240be621d48be333da, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22492884, guid: d844bd34b216d3240be621d48be333da, type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22492884, guid: d844bd34b216d3240be621d48be333da, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11437632, guid: d844bd34b216d3240be621d48be333da, type: 2}
       propertyPath: speedUp

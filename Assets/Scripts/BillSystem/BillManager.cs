@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,10 +15,34 @@ namespace Assets.BillSystem
             {
             foreach ( var bill in Bills )
                 {
+                if ( bill.DaysUntilDue == 0 )
+                    bill.normal = true;
+                bill.DaysPastDue++;
+                if ( bill.DaysPastDue >= 62 )
+                    {
+                    bill.aanmaning = true;
+                    }
+                else if ( bill.DaysPastDue >= 93 )
+                    {
+                    bill.somatie = true;
+                    }
+                else if ( bill.DaysPastDue >= 124 )
+                    {
+                    bill.vonnis = true;
+                    }
+                else if ( bill.DaysPastDue >= 155 )
+                    {
+                    bill.beslag = true;
+                    }
                 Debug.Log ( "days past due:  " + bill.DaysPastDue );
                 Debug.Log ( "days util due  " + bill.DaysUntilDue );
+                Debug.Log ( bill.normal );
+                Debug.Log ( bill.aanmaning );
+                Debug.Log ( bill.somatie );
+                Debug.Log ( bill.vonnis );
                 }
             }
+
         private void Start ( )
             {
             Initialize ( );
@@ -87,29 +110,34 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void BillCheckIsOverDue ( Bill bill )
             {
-            if ( bill.aanmaning )
+            if ( bill.normal )
                 {
                 bill.dueLevel = 0;
                 return;
                 }
-            if ( bill.somatie )
+            if ( bill.aanmaning )
                 {
                 bill.dueLevel = 1;
                 return;
                 }
-            if ( bill.dagvaarding )
+            if ( bill.somatie )
                 {
                 bill.dueLevel = 2;
                 return;
                 }
-            if ( bill.vonnis )
+            if ( bill.dagvaarding )
                 {
                 bill.dueLevel = 3;
                 return;
                 }
-            if ( bill.beslag )
+            if ( bill.vonnis )
                 {
                 bill.dueLevel = 4;
+                return;
+                }
+            if ( bill.beslag )
+                {
+                bill.dueLevel = 5;
                 return;
                 }
             }
@@ -124,22 +152,29 @@ namespace Assets.BillSystem
                 switch ( bill.dueLevel )
                     {
                     case 0:
-                        AanManing ( bill );
+                        Normal ( bill );
                         break;
                     case 1:
-                        Somatie ( bill );
+                        AanManing ( bill );
                         break;
                     case 2:
-                        DagVaarding ( bill );
+                        Somatie ( bill );
                         break;
                     case 3:
-                        Vonnis ( bill );
+                        DagVaarding ( bill );
                         break;
                     case 4:
+                        Vonnis ( bill );
+                        break;
+                    case 5:
                         Beslag ( bill );
                         break;
                     }
                 }
+            }
+        private void Normal ( Bill bill )
+            {
+            Debug.Log ( "You can still pay the bill on time." );
             }
         /// <summary>
         /// Sends a reminder to pay the bill past its due date.
@@ -147,7 +182,7 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void AanManing ( Bill bill )
             {
-            Debug.Log ( "We are on case 0 which is aanmaning" );
+            Debug.Log ( "We are on case  which is aanmaning" );
             return;
             }
         /// <summary>
@@ -156,7 +191,7 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void Somatie ( Bill bill )
             {
-            Debug.Log ( "We are on case 1 which is Vonnis" );
+            Debug.Log ( "We are on case which is Vonnis" );
             var fine = 500;
             bill.Cost += fine;
             BillUI ui = bill.Object.GetComponent<BillUI> ( );
@@ -169,7 +204,7 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void DagVaarding ( Bill bill )
             {
-            Debug.Log ( "We are on case 2 which is Dagvaarding" );
+            Debug.Log ( "We are on case which is Dagvaarding" );
             return;
             }
         /// <summary>
@@ -178,7 +213,7 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void Vonnis ( Bill bill )
             {
-            Debug.Log ( "We are on case 3 which is Vonnis" );
+            Debug.Log ( "We are on case which is Vonnis" );
             return;
             }
         /// <summary>
@@ -187,7 +222,7 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void Beslag ( Bill bill )
             {
-            Debug.Log ( "We are on case 4 which is Beslag" );
+            Debug.Log ( "We are on case which is Beslag" );
             return;
             }
         }
