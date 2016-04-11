@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TimeManager : MonoBehaviour
     {
+
     public static TimeManager instance;
     public static DateTime currentTime;
     public delegate void DayChanged ( );
@@ -14,7 +15,6 @@ public class TimeManager : MonoBehaviour
     private float speedUp = 1.0f;
     private Text timeToTextUI;
     private DayOfWeek tmpDay = currentTime.DayOfWeek;
-
     void Start ( )
         {
         currentTime = new DateTime ( 2016, 1, 1 );

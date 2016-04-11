@@ -357,11 +357,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22492884, guid: d844bd34b216d3240be621d48be333da, type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22492884, guid: d844bd34b216d3240be621d48be333da, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11437632, guid: d844bd34b216d3240be621d48be333da, type: 2}
+      propertyPath: speedUp
+      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d844bd34b216d3240be621d48be333da, type: 2}

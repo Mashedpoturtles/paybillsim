@@ -3,37 +3,49 @@ using UnityEngine;
 
 namespace Assets.BillSystem
     {
+    public enum BillType
+        {
+        Electricity,
+        Internet,
+        }
+
     public class Bill
         {
-        public string BillType { get; set; }
         /// <summary>
         /// The amount you must pay for this bill initially.
         /// </summary>
-        public int Amount { get; set; }
+        public int Cost { get; set; }
         /// <summary>
         /// The kind of bill, for e.g. internet, electricity or water bills.
         /// </summary>
         public BillType Type { get; set; }
         /// <summary>
-        /// The Date the bill is due for payment.
+        /// the current state of the due level of a bill.
         /// </summary>
-        public DateTime DueDate { get; set; }
-        /// <summary>
-        /// The date the bill is issued.
-        /// </summary>
-        public DateTime IssueDate { get; set; }
-        /// <summary>
-        /// Stores the bill information such as the type, issue date, due date and amount to be paid.
-        /// </summary>
-        /// <param name="type"></param>
         public int dueLevel { get; set; }
+        /// <summary>
+        /// Reference to the object this information is sent to.
+        /// </summary>
         public GameObject Object;
+
+        public DateTime DueDate { get; set; }
+        public DateTime aanmaning { get; set; }
+        public DateTime somatie { get; set; }
+        public DateTime dagvaarding { get; set; }
+        public DateTime vonnis { get; set; }
+        public DateTime beslag { get; set; }
+        public DateTime IssueDate { get; set; }
+
         public Bill ( BillType type )
             {
             Type = type;
             IssueDate = TimeManager.currentTime;
             DueDate = TimeManager.currentTime.AddDays ( 31 );
-            Amount = 50;
+            aanmaning = TimeManager.currentTime.AddDays ( 62 );
+            somatie = TimeManager.currentTime.AddDays ( 93 );
+            vonnis = TimeManager.currentTime.AddDays ( 124 );
+            beslag = TimeManager.currentTime.AddDays ( 155 );
+            Cost = 50;
             dueLevel = 0;
             }
         }
