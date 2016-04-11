@@ -7,7 +7,7 @@ This game is ment to be used for educative purposes regarding credit management.
 - [ ] A debt system where you can make payment arangements to pay bills in terms when you cant afford them on their due date
 - [x] A work system that acts as a way to generate money to pay the bills
 - [ ] Various levels of difficulty [UI finished]
-- [ ] Several layers of consequences when bills are not being paid on time
+- [x]Several layers of consequences when bills are not being paid on time
 - [ ] Sims-like character AI 
 
 ### Side features
