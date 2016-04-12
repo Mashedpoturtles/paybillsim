@@ -19,25 +19,18 @@ namespace Assets.BillSystem
         /// The kind of bill, for e.g. internet, electricity or water bills.
         /// </summary>
         public BillType Type { get; set; }
-        /// <summary>
-        /// the current state of the due level of a bill.
-        /// </summary>
-        public int dueLevel { get; set; }
+
         /// <summary>
         /// Reference to the object this information is sent to.
         /// </summary>
         public GameObject Object;
 
-        public int DaysUntilDue { get; set; }
-        public int DaysPastDue { get; set; }
-
+        public DateTime Aanmaning { get; set; }
+        public DateTime Somatie { get; set; }
+        public DateTime Dagvaarding { get; set; }
+        public DateTime Vonnis { get; set; }
+        public DateTime Beslag { get; set; }
         public DateTime DueDate { get; set; }
-        public bool normal { get; set; }
-        public bool aanmaning { get; set; }
-        public bool somatie { get; set; }
-        public bool dagvaarding { get; set; }
-        public bool vonnis { get; set; }
-        public bool beslag { get; set; }
         public DateTime IssueDate { get; set; }
 
         public Bill ( BillType type )
@@ -45,9 +38,12 @@ namespace Assets.BillSystem
             Type = type;
             IssueDate = TimeManager.currentTime;
             DueDate = TimeManager.currentTime.AddDays ( 31 );
-            this.DaysPastDue = DaysPastDue;
+            Aanmaning = TimeManager.currentTime.AddDays ( 62 );
+            Somatie = TimeManager.currentTime.AddDays ( 93 );
+            Dagvaarding = TimeManager.currentTime.AddDays ( 124 );
+            Vonnis = TimeManager.currentTime.AddDays ( 155 );
+            Beslag = TimeManager.currentTime.AddDays ( 186 );
             Cost = 50;
-            dueLevel = 0;
             }
         }
     }
