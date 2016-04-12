@@ -166,6 +166,7 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void Beslag ( Bill bill )
             {
+            Money.instance.currentMoney = 0;
             Debug.Log ( "Beslag" );
             Debug.Log ( "Game Over!" );
             }
