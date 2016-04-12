@@ -6,7 +6,6 @@ namespace Assets.BillSystem
     public class WorkingState : MonoBehaviour
         {
         private Text workStateText;
-        private Button buttonRefill;
         private Slider workSlider;
         [SerializeField]
         private BillManager billManager;
@@ -47,6 +46,7 @@ namespace Assets.BillSystem
                 {
                 case 0:
                     newWorkState = WorkState.Drained;
+                    workEnergy = 0;
                     break;
 
                 case 1:
@@ -106,8 +106,8 @@ namespace Assets.BillSystem
                 workSpeed = 0.015f;
                 workTime = 100.0f;
                 yield return new WaitForSeconds ( 6 );
-                workEnergy -= 3;
-                Money.instance.currentMoney += AddMoney ( 10 );
+                workEnergy += 6;
+                Money.instance.currentMoney += AddMoney ( 30 );
                 workTime = 0.0f;
                 }
             workTime = 0f;
@@ -124,7 +124,7 @@ namespace Assets.BillSystem
                 workTime = 100.0f;
                 yield return new WaitForSeconds ( 3 );
                 workEnergy -= 6;
-                Money.instance.currentMoney += AddMoney ( 15 );
+                Money.instance.currentMoney += AddMoney ( 45 );
                 workTime = 0.0f;
                 }
             workTime = 0f;
@@ -141,7 +141,7 @@ namespace Assets.BillSystem
                 workTime = 100.0f;
                 yield return new WaitForSeconds ( 1 );
                 workEnergy -= 12;
-                Money.instance.currentMoney += AddMoney ( 15 );
+                Money.instance.currentMoney += AddMoney ( 45 );
                 workTime = 0.0f;
                 }
             workTime = 0f;
@@ -167,31 +167,16 @@ namespace Assets.BillSystem
             {
             if ( workEnergy <= 0 )
                 {
+
                 SetWorkState ( WorkState.Drained );
-                ButtonUI ( );
                 CancelInvoke ( "Energy" );
+                workEnergy = 0;
+                Debug.Log ( "Game Over!" );
                 return;
                 }
-            else if ( workEnergy >= 0 )
+            else if ( workEnergy >= 1 )
                 {
                 Invoke ( "Energy", 1 );
-                return;
-                }
-            }
-
-        private void OnClickReplenishEnergy ( )
-            {
-            if ( currentState == WorkState.Drained )
-                {
-                workEnergy += 250;
-                SetWorkState ( WorkState.NotWorking );
-                workSlider.value = 0;
-                Destroy ( buttonRefill.gameObject );
-                return;
-                }
-            else
-                {
-                Debug.Log ( "You dont need to refill energy" );
                 return;
                 }
             }
@@ -202,15 +187,6 @@ namespace Assets.BillSystem
             workingProgressSlider = GameObject.FindWithTag ( "WorkingProgressBar" ).GetComponent<Slider> ( );
             workStateText = workSlider.GetComponentInChildren<Text> ( );
             workSlider.onValueChanged.AddListener ( delegate { SetWorkState ( ( int ) workSlider.value ); } );
-            }
-
-        private void ButtonUI ( )
-            {
-            buttonRefill = Instantiate ( Resources.Load ( "EnergyRefill" ) ) as Button;
-            buttonRefill = GameObject.FindWithTag ( "buttonRefillEnergy" ).GetComponent<Button> ( );
-            canvas = GameObject.FindWithTag ( "Canvas" ).GetComponent<Canvas> ( );
-            buttonRefill.transform.SetParent ( canvas.transform, false );
-            buttonRefill.onClick.AddListener ( ( ) => OnClickReplenishEnergy ( ) );
             }
         }
     }
