@@ -7,8 +7,8 @@ public class SceneFadeTransition : MonoBehaviour
     {
     public static SceneFadeTransition instance;
     public float transitionTime = 1.0f;
-    public bool fadeIn;
-    public bool fadeOut;
+    public bool fadeIn = false;
+
     public Image fadeImg;
     float time = 0f;
 
