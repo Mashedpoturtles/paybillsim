@@ -91,7 +91,8 @@ namespace Assets.BillSystem
                 {
                 workTime = 0.0f;
                 workStateText.text = "working pace:" + currentState;
-                yield return null;
+                yield return new WaitForSeconds ( 3 );
+                workEnergy += 6;
                 }
             workTime = 0f;
             yield return null;
@@ -105,7 +106,7 @@ namespace Assets.BillSystem
                 yield return new WaitForSeconds ( 2 );
                 workSpeed = 0.015f;
                 workTime = 100.0f;
-                yield return new WaitForSeconds ( 6 );
+                yield return new WaitForSeconds ( 4 );
                 workEnergy += 6;
                 Money.instance.currentMoney += AddMoney ( 30 );
                 workTime = 0.0f;
@@ -122,7 +123,7 @@ namespace Assets.BillSystem
                 yield return new WaitForSeconds ( 2 );
                 workSpeed = 0.05f;
                 workTime = 100.0f;
-                yield return new WaitForSeconds ( 3 );
+                yield return new WaitForSeconds ( 2 );
                 workEnergy -= 6;
                 Money.instance.currentMoney += AddMoney ( 45 );
                 workTime = 0.0f;

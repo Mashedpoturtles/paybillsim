@@ -1,35 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PauseGame : MonoBehaviour
-{
-    private Animator anim;
-   
+    {
+    private Button button;
+    private Text buttonText;
+    public Text tempInfo;
     public bool paused;
-    IEnumerator aniOff()
-    {
-        yield return new WaitForSeconds(10);
-        anim.enabled = false;
-    }
-    void Start()
-    {
-        anim = gameObject.GetComponent<Animator>();
-        StartCoroutine(aniOff());
+
+    void Start ( )
+        {
+        button = GetComponent<Button> ( );
+        buttonText = button.GetComponentInChildren<Text> ( );
+        tempInfo.text = "Press Start to begin!";
         paused = false;
-    }
-
-    
-    public void Paused()
-    {
-
+        Time.timeScale = 0.0f;
+        buttonText.text = "Start!";
+        }
+    //ToDo fix press start message!
+    public void Paused ( )
+        {
         paused = !paused;
-        if(paused)
-        {
-            Time.timeScale = 0.0f;
-        }
-        if(!paused)
-        {
-            Time.timeScale = 1.0F;
+        if ( paused )
+            {
+            tempInfo.text = "";
+            Time.timeScale = 1.0f;
+            buttonText.text = "Pause";
+            }
+        if ( !paused )
+            {
+            tempInfo.text = "Press Start to begin!";
+            buttonText.text = "Start!";
+            Time.timeScale = 0.0F;
+            }
         }
     }
-}
