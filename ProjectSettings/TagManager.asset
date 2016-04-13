@@ -19,6 +19,7 @@ TagManager:
   - BaseRain
   - Fade
   - ButtonBrancher
+  - Persistent
   layers:
   - Default
   - TransparentFX
