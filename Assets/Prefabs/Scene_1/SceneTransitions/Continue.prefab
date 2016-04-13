@@ -11,13 +11,14 @@ GameObject:
   - 222: {fileID: 22257708}
   - 114: {fileID: 11421624}
   - 114: {fileID: 11412750}
+  - 114: {fileID: 11413292}
   m_Layer: 5
   m_Name: Continue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &192526
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,6 +77,20 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &11413292
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b30ae615511e7d409ac8a35dc8ba8d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons: {fileID: 117494}
+  _startGameAudio: {fileID: 8300000, guid: a5107434e46524a419a6ce002446a47d, type: 3}
+  _audioSource: {fileID: 0}
 --- !u!114 &11421624
 MonoBehaviour:
   m_ObjectHideFlags: 1

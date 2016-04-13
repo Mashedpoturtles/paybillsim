@@ -29,13 +29,14 @@ GameObject:
   - 114: {fileID: 11416098}
   - 114: {fileID: 11484642}
   - 114: {fileID: 11452706}
+  - 114: {fileID: 11491672}
   m_Layer: 5
   m_Name: Play
   m_TagString: ButtonBrancher
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &11415900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,7 +127,7 @@ MonoBehaviour:
     spawned: 0
   linSpawner:
     revealStyle: 0
-    direction: {x: 1, y: 0}
+    direction: {x: 1.2, y: 0}
     baseButtonSpacing: 5
     buttonNumOffset: 1
     buttonSpacing: 5
@@ -190,6 +191,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &11491672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 185652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a68534e38472a0c49943005c9be55277, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons: {fileID: 185652}
+  __hoverAudio: {fileID: 8300000, guid: 8647b89ce16798c41b27b3c9487095b8, type: 3}
+  _audioSource: {fileID: 0}
 --- !u!222 &22214276
 CanvasRenderer:
   m_ObjectHideFlags: 1

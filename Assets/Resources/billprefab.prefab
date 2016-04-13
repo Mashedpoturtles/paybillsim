@@ -31,6 +31,7 @@ GameObject:
   - 225: {fileID: 22570642}
   - 114: {fileID: 11431872}
   - 114: {fileID: 11443560}
+  - 114: {fileID: 11436310}
   m_Layer: 5
   m_Name: billprefab
   m_TagString: billinfo
@@ -261,6 +262,17 @@ MonoBehaviour:
   InformationTextLabel: {fileID: 11405120}
   payButton: {fileID: 11443560}
   Warning: {fileID: 11458372}
+--- !u!114 &11436310
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92dde6d911c6d924c80813e837235f88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11442858
 MonoBehaviour:
   m_ObjectHideFlags: 1

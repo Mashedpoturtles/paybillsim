@@ -42,7 +42,7 @@ public class BillUI : MonoBehaviour
         }
     public void AddWarning ( Bill bill )
         {
-        this.Warning.text = "Warning!";
+        this.Warning.text = "over due";
         }
     }
 

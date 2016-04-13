@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.BillSystem
     {
@@ -9,9 +10,9 @@ namespace Assets.BillSystem
     public class BillManager : MonoBehaviour
         {
         [SerializeField]
-        private RectTransform SpawnZone;
-        private BillUI ui;
+        private GameObject SpawnZone;
         public List<Bill> Bills { get; private set; }
+        public Text gameInfo;
 
         void Update ( )
             {
@@ -47,10 +48,11 @@ namespace Assets.BillSystem
                     }
                 }
             }
-        private void Start ( )
+        private void Awake ( )
             {
             Initialize ( );
             }
+
         /// <summary>
         /// Setting everything that needs to be prepared in start.
         /// </summary>
@@ -59,6 +61,7 @@ namespace Assets.BillSystem
             this.Bills = new List<Bill> ( );
             Application.runInBackground = true;
             TimeManager.OnDayChange += onDayChanged;
+            SpawnZone = GameObject.FindWithTag ( "SpawnZone" );
             }
         /// <summary>
         /// This method checks whether the player has sufficient money to pay the bill and takes care of removing it if so.
@@ -74,7 +77,7 @@ namespace Assets.BillSystem
                 this.Bills.Remove ( bill );
                 }
             else {
-                Debug.Log ( "You cant afford to pay this bill!" );
+                gameInfo.text = "You cant afford to pay this bill.";
                 }
             }
         /// <summary>
@@ -99,14 +102,26 @@ namespace Assets.BillSystem
         /// <param name="type"></param>
         private void createBill ( BillType type )
             {
-            Bill newBill = new Bill ( type );
-            Bills.Add ( newBill );
-            GameObject billObject = Instantiate ( Resources.Load ( "billprefab" ) ) as GameObject;
-            newBill.Object = billObject;
-            BillUI ui = billObject.GetComponent<BillUI> ( );
-            ui.transform.SetParent ( SpawnZone.transform, false );
-            ui.SetUI ( this, newBill );
+            if ( SpawnZone )
+                {
+
+                Bill newBill = new Bill ( type );
+                Bills.Add ( newBill );
+                GameObject billObject = Instantiate ( Resources.Load<GameObject> ( "billprefab" ) );
+                newBill.Object = billObject;
+                if ( billObject )
+                    {
+                    BillUI ui = billObject.GetComponent<BillUI> ( );
+                    if ( ui )
+                        {
+                        newBill.Object.transform.SetParent ( SpawnZone.transform, false );
+                        ui.SetUI ( this, newBill );
+                        }
+
+                    }
+                }
             }
+
         private void Normal ( Bill bill )
             {
             Debug.Log ( "You can still pay the bill on time." );
@@ -132,7 +147,7 @@ namespace Assets.BillSystem
             Debug.Log ( "Somatie" );
             var fine = 100;
             bill.Cost += fine;
-            ui = bill.Object.GetComponent<BillUI> ( );
+            BillUI ui = bill.Object.GetComponent<BillUI> ( );
             ui.ReplaceInfo ( bill );
             ui.AddWarning ( bill );
             }
@@ -145,6 +160,7 @@ namespace Assets.BillSystem
             Debug.Log ( "Dagvaarding" );
             var fine = 150;
             bill.Cost += fine;
+            BillUI ui = bill.Object.GetComponent<BillUI> ( );
             ui = bill.Object.GetComponent<BillUI> ( );
             ui.ReplaceInfo ( bill );
             }
@@ -157,6 +173,7 @@ namespace Assets.BillSystem
             Debug.Log ( "Vonnis" );
             var fine = 250;
             bill.Cost += fine;
+            BillUI ui = bill.Object.GetComponent<BillUI> ( );
             ui = bill.Object.GetComponent<BillUI> ( );
             ui.ReplaceInfo ( bill );
             }

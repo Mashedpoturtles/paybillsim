@@ -35,6 +35,7 @@ namespace Assets.BillSystem
 
         public Bill ( BillType type )
             {
+
             Type = type;
             IssueDate = TimeManager.currentTime;
             DueDate = TimeManager.currentTime.AddDays ( 31 );
