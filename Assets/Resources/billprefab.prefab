@@ -262,6 +262,10 @@ MonoBehaviour:
   InformationTextLabel: {fileID: 11405120}
   payButton: {fileID: 11443560}
   Warning: {fileID: 11458372}
+  button: {fileID: 148566}
+  _payButtonAudio: {fileID: 8300000, guid: ea60caa4249fa8144ab8a705c0c016e6, type: 3}
+  _WarningAudio: {fileID: 8300000, guid: 2ba41bf345a0e4a4c8c5b5ca7831d08b, type: 3}
+  _audioSource: {fileID: 0}
 --- !u!114 &11436310
 MonoBehaviour:
   m_ObjectHideFlags: 1

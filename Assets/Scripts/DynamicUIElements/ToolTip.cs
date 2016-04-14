@@ -97,7 +97,7 @@ public class ToolTip : MonoBehaviour
 
             if ( animsettings.widthOpen && animsettings.heightOpen )
                 {
-                lifeTimer += Time.deltaTime;
+                lifeTimer += Time.fixedDeltaTime;
                 if ( lifeTimer > uiSettings.lifeSpan )
                     {
                     FadeToolTipOut ( );
@@ -164,7 +164,7 @@ public class ToolTip : MonoBehaviour
 
     private void OpenWidth ( )
         {
-        uiSettings.currentSize.x = Mathf.Lerp ( uiSettings.currentSize.x, uiSettings.openedBoxSize.x, animsettings.widthSmooth * Time.deltaTime );
+        uiSettings.currentSize.x = Mathf.Lerp ( uiSettings.currentSize.x, uiSettings.openedBoxSize.x, animsettings.widthSmooth * Time.fixedDeltaTime );
         //-- Snap to target width and set opened to true when width is close enoughto target width.
         if ( Mathf.Abs ( uiSettings.currentSize.x - uiSettings.openedBoxSize.x ) < uiSettings.snapToSizeDistance )
             {
@@ -175,7 +175,7 @@ public class ToolTip : MonoBehaviour
 
     private void OpenHeight ( )
         {
-        uiSettings.currentSize.y = Mathf.Lerp ( uiSettings.currentSize.y, uiSettings.openedBoxSize.y, animsettings.heightSmooth * Time.deltaTime );
+        uiSettings.currentSize.y = Mathf.Lerp ( uiSettings.currentSize.y, uiSettings.openedBoxSize.y, animsettings.heightSmooth * Time.fixedDeltaTime );
         //-- Snap to target height and set opened to true when height is close enough to target height.
         if ( Mathf.Abs ( uiSettings.currentSize.y - uiSettings.openedBoxSize.y ) < uiSettings.snapToSizeDistance )
             {
@@ -186,7 +186,7 @@ public class ToolTip : MonoBehaviour
 
     private void FadeTextIn ( )
         {
-        uiSettings.textColor.a = Mathf.Lerp ( uiSettings.textColor.a, 1, animsettings.textSmooth * Time.deltaTime );
+        uiSettings.textColor.a = Mathf.Lerp ( uiSettings.textColor.a, 1, animsettings.textSmooth * Time.fixedDeltaTime );
         uiSettings.text.color = uiSettings.textColor;
         }
     /// <summary>
@@ -194,9 +194,9 @@ public class ToolTip : MonoBehaviour
     /// </summary>
     private void FadeToolTipOut ( )
         {
-        uiSettings.textColor.a = Mathf.Lerp ( uiSettings.textColor.a, 0, animsettings.textSmooth * Time.deltaTime );
+        uiSettings.textColor.a = Mathf.Lerp ( uiSettings.textColor.a, 0, animsettings.textSmooth * Time.fixedDeltaTime );
         uiSettings.text.color = uiSettings.textColor;
-        uiSettings.textBoxColor.a = Mathf.Lerp ( uiSettings.textBoxColor.a, 0, animsettings.textSmooth * Time.deltaTime );
+        uiSettings.textBoxColor.a = Mathf.Lerp ( uiSettings.textBoxColor.a, 0, animsettings.textSmooth * Time.fixedDeltaTime );
         uiSettings.textBox.color = uiSettings.textBoxColor;
 
         if ( uiSettings.textBoxColor.a < 0.01f )

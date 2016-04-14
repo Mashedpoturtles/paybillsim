@@ -112,7 +112,6 @@ public class ButtonBrancher : MonoBehaviour
     float lastScreenWidth = 0;
     float lastScreenHeight = 0;
     #endregion
-
     private void Start ( )
         {
         buttons = new List<GameObject> ( );
@@ -133,7 +132,7 @@ public class ButtonBrancher : MonoBehaviour
             }
         }
     public float lifeSpan = 5;
-    private float lifeTimer;
+    public static float lifeTimer;
     private void Update ( )
         {
         if ( Screen.width != lastScreenWidth || Screen.height != lastScreenHeight )
@@ -191,7 +190,7 @@ public class ButtonBrancher : MonoBehaviour
                     break;
 
                 }
-            lifeTimer += Time.deltaTime;
+            lifeTimer += Time.fixedDeltaTime;
             }
         }
     /// <summary>
@@ -210,7 +209,7 @@ public class ButtonBrancher : MonoBehaviour
 
         for ( int i = 0 ; i < buttonRefs.Length ; i++ )
             {
-            GameObject _button = Instantiate ( buttonRefs [ i ] as GameObject );
+            GameObject _button = Instantiate ( buttonRefs [ i ] );
             _button.transform.SetParent ( transform );
             _button.transform.position = transform.position;
             _button.transform.localPosition = Vector3.zero;
@@ -250,7 +249,7 @@ public class ButtonBrancher : MonoBehaviour
 
             targetPos.z = 0;
 
-            buttonRect.position = Vector3.Lerp ( buttonRect.position, targetPos, revealSettings.translateSmooth * Time.deltaTime );
+            buttonRect.position = Vector3.Lerp ( buttonRect.position, targetPos, revealSettings.translateSmooth * Time.fixedDeltaTime );
             }
         }
     private void RevealLinearlyFade ( )
@@ -317,7 +316,7 @@ public class ButtonBrancher : MonoBehaviour
             targetPos = RotatePointAroundPivot ( targetPos, transform.position, targetAngle );
             RectTransform buttonRect = buttons [ i ].GetComponent<RectTransform> ( );
             buttonRect.sizeDelta = new Vector2 ( buttonScaler.newButtonSize.x, buttonScaler.newButtonSize.y );
-            buttonRect.position = Vector3.Lerp ( buttonRect.position, targetPos, revealSettings.translateSmooth * Time.deltaTime );
+            buttonRect.position = Vector3.Lerp ( buttonRect.position, targetPos, revealSettings.translateSmooth * Time.fixedDeltaTime );
             }
         }
     private void RevealCircularFade ( )
@@ -330,7 +329,7 @@ public class ButtonBrancher : MonoBehaviour
             targetPos = RotatePointAroundPivot ( targetPos, transform.position, targetAngle );
             RectTransform buttonRect = buttons [ i ].GetComponent<RectTransform> ( );
             buttonRect.sizeDelta = new Vector2 ( buttonScaler.newButtonSize.x, buttonScaler.newButtonSize.y );
-            buttonRect.position = Vector3.Lerp ( buttonRect.position, targetPos, revealSettings.translateSmooth * Time.deltaTime );
+            buttonRect.position = Vector3.Lerp ( buttonRect.position, targetPos, revealSettings.translateSmooth * Time.fixedDeltaTime );
             }
         }
     Vector3 RotatePointAroundPivot ( Vector3 point, Vector3 pivot, float angle )

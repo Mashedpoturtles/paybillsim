@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using Assets.BillSystem;
 using System;
+
 /// <summary>
 /// This class handles adding the UI information onto bill objects.
 /// </summary>
@@ -13,6 +14,15 @@ public class BillUI : MonoBehaviour
     private Button payButton;
     public Bill bill;
     public Text Warning;
+    [SerializeField]
+    private GameObject button;
+    [SerializeField]
+    private AudioClip _payButtonAudio;
+    [SerializeField]
+    private AudioClip _WarningAudio;
+    [SerializeField]
+    private AudioSource _audioSource;
+
 
     /// <summary>
     /// This method sets the UI for billprefabs when they are instantiated.
@@ -21,7 +31,10 @@ public class BillUI : MonoBehaviour
     /// <param name="bill"></param>
     public void SetUI ( BillManager manager, Bill bill )
         {
+        _audioSource = GameObject.FindWithTag ( "Persistent" ).GetComponent<AudioSource> ( );
+        _audioSource.clip = _payButtonAudio;
         payButton.onClick.AddListener ( ( ) => manager.PayBill ( bill ) );
+        payButton.onClick.AddListener ( ( ) => _audioSource.Play ( ) );
         this.InformationTextLabel.text = string.Format ( "Bill type: {0} \\n Issue date: {1} \\n  Due date: {2} \\n Amount to pay: {3} \\n",
                                     Enum.GetName ( typeof ( BillType ), bill.Type ),
                                     bill.IssueDate.ToString ( "d" ),
@@ -43,6 +56,8 @@ public class BillUI : MonoBehaviour
     public void AddWarning ( Bill bill )
         {
         this.Warning.text = "over due";
+        _audioSource.clip = _WarningAudio;
+        _audioSource.Play ( );
         }
     }
 
