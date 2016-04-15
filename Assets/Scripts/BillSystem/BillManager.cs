@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,10 +11,15 @@ namespace Assets.BillSystem
     public class BillManager : MonoBehaviour
         {
         [SerializeField]
-        private GameObject SpawnZone;
-        public List<Bill> Bills { get; private set; }
+        private GameObject spawnZone;
+        [SerializeField]
+        private GameObject storageZone;
+        public static List<Bill> Bills { get; set; }
         public Text gameInfo;
-
+        [SerializeField]
+        private AudioSource _audio;
+        [SerializeField]
+        private AudioClip paperTear;
         void Update ( )
             {
             foreach ( var bill in Bills )
@@ -58,10 +64,10 @@ namespace Assets.BillSystem
         /// </summary>
         private void Initialize ( )
             {
-            this.Bills = new List<Bill> ( );
+            Bills = new List<Bill> ( );
             Application.runInBackground = true;
             TimeManager.OnDayChange += onDayChanged;
-            SpawnZone = GameObject.FindWithTag ( "SpawnZone" );
+            _audio = GameObject.FindWithTag ( "Persistent" ).GetComponent<AudioSource> ( );
             }
         /// <summary>
         /// This method checks whether the player has sufficient money to pay the bill and takes care of removing it if so.
@@ -73,11 +79,16 @@ namespace Assets.BillSystem
                 {
                 Money.instance.currentMoney -= bill.Cost;
                 Debug.Log ( "I'm about to pay " + bill.Cost + " and i have " + Money.instance.currentMoney + " my obj is : " + bill.Object, bill.Object );
+                _audio.clip = paperTear;
+                _audio.Play ( );
                 Destroy ( bill.Object );
-                this.Bills.Remove ( bill );
+                Bills.Remove ( bill );
                 }
-            else {
+            else if ( Money.instance.currentMoney <= bill.Cost )
+                {
                 gameInfo.text = "You cant afford to pay this bill.";
+                bill.Object.transform.SetParent ( null, false );
+                bill.Object.transform.SetParent ( storageZone.transform, false );
                 }
             }
         /// <summary>
@@ -102,9 +113,8 @@ namespace Assets.BillSystem
         /// <param name="type"></param>
         private void createBill ( BillType type )
             {
-            if ( SpawnZone )
+            if ( spawnZone )
                 {
-
                 Bill newBill = new Bill ( type );
                 Bills.Add ( newBill );
                 GameObject billObject = Instantiate ( Resources.Load<GameObject> ( "billprefab" ) );
@@ -114,21 +124,19 @@ namespace Assets.BillSystem
                     BillUI ui = billObject.GetComponent<BillUI> ( );
                     if ( ui )
                         {
-                        newBill.Object.transform.SetParent ( SpawnZone.transform, false );
+                        newBill.Object.transform.SetParent ( spawnZone.transform, false );
                         ui.SetUI ( this, newBill );
                         }
-
                     }
                 }
             }
-
         private void Normal ( Bill bill )
             {
-            Debug.Log ( "You can still pay the bill on time." );
+            // throw new NotImplementedException ( );
             }
         private void billOverDueDate ( Bill bill )
             {
-            Debug.Log ( "bill is due!" );
+            // throw new NotImplementedException ( );
             }
         /// <summary>
         /// Sends a reminder to pay the bill past its due date.
@@ -136,7 +144,7 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void AanManing ( Bill bill )
             {
-            Debug.Log ( "aanmaning" );
+            // throw new NotImplementedException ( );
             }
         /// <summary>
         /// Sends one last reminder to pay the bill past the duedate but with increased cost.
@@ -144,7 +152,6 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void Somatie ( Bill bill )
             {
-            Debug.Log ( "Somatie" );
             var fine = 100;
             bill.Cost += fine;
             BillUI ui = bill.Object.GetComponent<BillUI> ( );
@@ -157,7 +164,6 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void DagVaarding ( Bill bill )
             {
-            Debug.Log ( "Dagvaarding" );
             var fine = 150;
             bill.Cost += fine;
             BillUI ui = bill.Object.GetComponent<BillUI> ( );
@@ -170,7 +176,6 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void Vonnis ( Bill bill )
             {
-            Debug.Log ( "Vonnis" );
             var fine = 250;
             bill.Cost += fine;
             BillUI ui = bill.Object.GetComponent<BillUI> ( );

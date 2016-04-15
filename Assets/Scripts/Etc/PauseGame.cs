@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class PauseGame : MonoBehaviour
@@ -8,6 +8,7 @@ public class PauseGame : MonoBehaviour
     private Text buttonText;
     public Text tempInfo;
     public bool paused;
+    public List<GameObject> ObjectsToPause;
 
     void Start ( )
         {
@@ -18,7 +19,7 @@ public class PauseGame : MonoBehaviour
         Time.timeScale = 0.0f;
         buttonText.text = "Start!";
         }
-    //ToDo fix press start message!
+
     public void Paused ( )
         {
         paused = !paused;

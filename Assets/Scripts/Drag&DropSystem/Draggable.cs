@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.BillSystem;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -7,9 +8,14 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public RectTransform parentToReturnTo = null;
     public RectTransform placeholderParent = null;
-
+    public static Draggable instance;
     public bool dragOnSurfaces = true;
     GameObject placeholder = null;
+
+    private void Start ( )
+        {
+        instance = this;
+        }
 
     public void OnBeginDrag ( PointerEventData eventData )
         {
@@ -37,6 +43,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             placeholderParent = canvas.transform as RectTransform;
 
         SetDraggedPosition ( eventData );
+
         }
 
     public void OnDrag ( PointerEventData eventData )

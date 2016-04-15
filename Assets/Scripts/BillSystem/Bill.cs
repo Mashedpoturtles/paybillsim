@@ -24,7 +24,6 @@ namespace Assets.BillSystem
         /// Reference to the object this information is sent to.
         /// </summary>
         public GameObject Object;
-
         public DateTime Aanmaning { get; set; }
         public DateTime Somatie { get; set; }
         public DateTime Dagvaarding { get; set; }
@@ -35,7 +34,6 @@ namespace Assets.BillSystem
 
         public Bill ( BillType type )
             {
-
             Type = type;
             IssueDate = TimeManager.currentTime;
             DueDate = TimeManager.currentTime.AddDays ( 31 );
