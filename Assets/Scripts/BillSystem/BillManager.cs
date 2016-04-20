@@ -13,13 +13,12 @@ namespace Assets.BillSystem
         [SerializeField]
         private GameObject spawnZone;
         [SerializeField]
-        private GameObject storageZone;
+        private RectTransform storageZone;
         public static List<Bill> Bills { get; set; }
+        public static BillManager instance;
         public Text gameInfo;
         [SerializeField]
-        private AudioSource _audio;
-        [SerializeField]
-        private AudioClip paperTear;
+
         void Update ( )
             {
             foreach ( var bill in Bills )
@@ -64,10 +63,10 @@ namespace Assets.BillSystem
         /// </summary>
         private void Initialize ( )
             {
+            instance = this;
             Bills = new List<Bill> ( );
             Application.runInBackground = true;
             TimeManager.OnDayChange += onDayChanged;
-            _audio = GameObject.FindWithTag ( "Persistent" ).GetComponent<AudioSource> ( );
             }
         /// <summary>
         /// This method checks whether the player has sufficient money to pay the bill and takes care of removing it if so.
@@ -78,18 +77,14 @@ namespace Assets.BillSystem
             if ( Money.instance.currentMoney >= bill.Cost )
                 {
                 Money.instance.currentMoney -= bill.Cost;
-                Debug.Log ( "I'm about to pay " + bill.Cost + " and i have " + Money.instance.currentMoney + " my obj is : " + bill.Object, bill.Object );
-                _audio.clip = paperTear;
-                _audio.Play ( );
+                GlobalAudio.instance.SoundPaidBill ( );
                 Destroy ( bill.Object );
                 Bills.Remove ( bill );
                 }
-            else if ( Money.instance.currentMoney <= bill.Cost )
-                {
-                gameInfo.text = "You cant afford to pay this bill.";
-                bill.Object.transform.SetParent ( null, false );
-                bill.Object.transform.SetParent ( storageZone.transform, false );
-                }
+            }
+        public void InsufficientFunds ( Bill bill )
+            {
+            gameInfo.text = "Je hebt niet genoeg geld.";
             }
         /// <summary>
         /// This method is used to set the day of the month on which a bill is ment to instantiate.
@@ -103,7 +98,7 @@ namespace Assets.BillSystem
                     break;
 
                 case 24:
-                    createBill ( BillType.Electricity );
+                    createBill ( BillType.Electriciteit );
                     break;
                 }
             }
@@ -189,8 +184,10 @@ namespace Assets.BillSystem
         private void Beslag ( Bill bill )
             {
             Money.instance.currentMoney = 0;
-            Debug.Log ( "Beslag" );
-            Debug.Log ( "Game Over!" );
+            gameInfo.text = "Verloren.";
+            LoadLevelsOnClick.instance.LoadMenuScene ( );
+            
+            GlobalAudio.instance.SoundGameOver ( );
             }
         }
     }

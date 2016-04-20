@@ -5,7 +5,7 @@ namespace Assets.BillSystem
     {
     public enum BillType
         {
-        Electricity,
+        Electriciteit,
         Internet,
         }
 

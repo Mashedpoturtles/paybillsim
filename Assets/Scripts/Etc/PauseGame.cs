@@ -8,17 +8,29 @@ public class PauseGame : MonoBehaviour
     private Text buttonText;
     public Text tempInfo;
     public bool paused;
-    public List<GameObject> ObjectsToPause;
-
-    void Start ( )
+ 
+    private void Update()
         {
+        if ( Time.timeScale == 0.0f)
+            {
+            tempInfo.text = "Druk op Start om te beginnen!";
+            }
+        }
+
+    private void Start ( )
+        {
+        GlobalAudio.instance.SoundPause ( );
+        GlobalAudio.instance.SoundMusic ( );
+
         button = GetComponent<Button> ( );
         buttonText = button.GetComponentInChildren<Text> ( );
-        tempInfo.text = "Press Start to begin!";
+        tempInfo.text = "Druk op Start om te beginnen!";
         paused = false;
         Time.timeScale = 0.0f;
         buttonText.text = "Start!";
+
         }
+
 
     public void Paused ( )
         {
@@ -27,13 +39,15 @@ public class PauseGame : MonoBehaviour
             {
             tempInfo.text = "";
             Time.timeScale = 1.0f;
-            buttonText.text = "Pause";
+            buttonText.text = "Pauze";
+            GlobalAudio.instance.SoundStart ( );
             }
         if ( !paused )
             {
-            tempInfo.text = "Press Start to begin!";
             buttonText.text = "Start!";
             Time.timeScale = 0.0F;
+            GlobalAudio.instance.SoundPause ( );
             }
         }
     }
+ 

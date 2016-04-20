@@ -20,11 +20,11 @@ public class HoverText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         {
         if ( gameObject == storageField )
             {
-            target.text = "Store your bills here to pay them later.";
+            target.text = "Bewaar je rekeningen hier om later te betalen.";
             }
         else if ( gameObject == payField )
             {
-            target.text = "Drop your card here to pay the bill.";
+            target.text = "Sleep je rekening hier heen om de rekening te betalen.";
             }
         }
 

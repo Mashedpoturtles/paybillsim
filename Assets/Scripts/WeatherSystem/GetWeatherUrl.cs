@@ -47,9 +47,8 @@ public class GetWeatherUrl : MonoBehaviour
 
                 //  Display of weather goes here.      
                     {
-                    Weather.text = string.Format ( " Temperature {0}  Feel Temperature {1} Current Location {2} "
+                    Weather.text = string.Format ( "Temperatuur {0}  Gevoels temperatuur {1} Uw huidige locatie {2}"
                         , dTemp, dFeelTempC, sCity );
-                    print ( sWeatherCondition );
                     }
                 }
             yield break;

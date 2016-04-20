@@ -10,10 +10,6 @@ public class BillUI : MonoBehaviour
     {
     public Text InformationTextLabel;
     public Bill bill;
-    [SerializeField]
-    private AudioClip _WarningAudio;
-    [SerializeField]
-    private AudioSource _audioSource;
 
     /// <summary>
     /// This method sets the UI for billprefabs when they are instantiated.
@@ -22,8 +18,7 @@ public class BillUI : MonoBehaviour
     /// <param name="bill"></param>
     public void SetUI ( BillManager manager, Bill bill )
         {
-        _audioSource = GameObject.FindWithTag ( "Persistent" ).GetComponent<AudioSource> ( );
-        this.InformationTextLabel.text = string.Format ( "Bill type: {0} \\n Issue date: {1} \\n  Due date: {2} \\n Amount to pay: {3} \\n",
+        this.InformationTextLabel.text = string.Format ( "Rekening: {0} \\n Datum: {1} \\n  Opleverings Datum: {2} \\n Te betalen: {3} \\n",
                                     Enum.GetName ( typeof ( BillType ), bill.Type ),
                                     bill.IssueDate.ToString ( "d" ),
                                     bill.DueDate.ToString ( "d" ),
@@ -35,7 +30,7 @@ public class BillUI : MonoBehaviour
     /// <param name="bill"></param>
     public void ReplaceInfo ( Bill bill )
         {
-        this.InformationTextLabel.text = string.Format ( "Bill type: {0} \\n Issue date: {1} \\n  Due date: {2} \\n Amount to pay: {3} \\n",
+        this.InformationTextLabel.text = string.Format ( "Rekening: {0} \\n Datum: {1} \\n  Opleverings Datum: {2} \\n Te betalen: {3} \\n",
                                Enum.GetName ( typeof ( BillType ), bill.Type ),
                                bill.IssueDate.ToString ( "d" ),
                                bill.DueDate.ToString ( "d" ),
@@ -43,8 +38,8 @@ public class BillUI : MonoBehaviour
         }
     public void AddWarning ( Bill bill )
         {
-        _audioSource.clip = _WarningAudio;
-        _audioSource.Play ( );
+        GlobalAudio.instance.SoundWarning ( );
+        bill.Object.transform.GetChild ( 1 ).GetComponent<Image> ( ).enabled = true; 
         }
     }
 
