@@ -31,7 +31,7 @@ public class TimeManager : MonoBehaviour
 
     public void Timer ( )
         {
-        timeToTextUI.text = timeToTextUI.text = currentTime.DayOfWeek.ToString ( ) + currentTime.ToString ( " MMMM , yyyy " ) + "Day: " + currentTime.Day + " Current Time: " + currentTime.ToString ( "HH: tt" ) + ".";
+        timeToTextUI.text = timeToTextUI.text = currentTime.Day + currentTime.ToString ( " MMMM , yyyy " );
         }
 
     void DayIsChanged ( )

@@ -69,8 +69,6 @@ public class NewsFeed : MonoBehaviour
             //if anything grabbed appropriately, assign first text to currentnode
             if ( descriptions.Length > 0 )
                 textNode.text = descriptions [ currentTextNode ];
-            //Quick Notification Stating completion
-            Debug.Log ( "Fetching nu.nl news : Complete." );
             }
         }
     }

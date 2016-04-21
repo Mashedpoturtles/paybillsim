@@ -5,7 +5,7 @@ namespace Assets.BillSystem
     {
     public enum BillType
         {
-        Electricity,
+        Electriciteit,
         Internet,
         }
 
@@ -24,7 +24,6 @@ namespace Assets.BillSystem
         /// Reference to the object this information is sent to.
         /// </summary>
         public GameObject Object;
-
         public DateTime Aanmaning { get; set; }
         public DateTime Somatie { get; set; }
         public DateTime Dagvaarding { get; set; }

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
+ 
 using System.Collections.Generic;
 using UnityEngine.UI;
+ 
 
 public class ButtonBrancher : MonoBehaviour
     {
@@ -112,7 +113,6 @@ public class ButtonBrancher : MonoBehaviour
     float lastScreenWidth = 0;
     float lastScreenHeight = 0;
     #endregion
-
     private void Start ( )
         {
         buttons = new List<GameObject> ( );
@@ -132,8 +132,7 @@ public class ButtonBrancher : MonoBehaviour
             revealSettings.opening = false;
             }
         }
-    public float lifeSpan = 5;
-    private float lifeTimer;
+ 
     private void Update ( )
         {
         if ( Screen.width != lastScreenWidth || Screen.height != lastScreenHeight )
@@ -145,18 +144,7 @@ public class ButtonBrancher : MonoBehaviour
             linSpawner.FitSpacingToSceenSize ( buttonScaler.referenceScreensize );
             SpawnButtons ( );
             }
-        if ( lifeTimer > lifeSpan )
-            {
-            revealSettings.opening = false;
-            revealSettings.spawned = false;
-            for ( int i = buttons.Count - 1 ; i >= 0 ; i-- )
-
-                Destroy ( buttons [ i ] );
-            buttons.Clear ( );
-
-            ClearCommonButtonBranchers ( );
-            lifeTimer = 0;
-            }
+     
         if ( revealSettings.opening )
             {
             if ( !revealSettings.spawned )
@@ -191,7 +179,6 @@ public class ButtonBrancher : MonoBehaviour
                     break;
 
                 }
-            lifeTimer += Time.deltaTime;
             }
         }
     /// <summary>
@@ -199,37 +186,44 @@ public class ButtonBrancher : MonoBehaviour
     /// </summary>
     public void SpawnButtons ( )
         {
-        revealSettings.opening = true;
-
-        for ( int i = buttons.Count - 1 ; i >= 0 ; i-- )
-
-            Destroy ( buttons [ i ] );
-        buttons.Clear ( );
-
-        ClearCommonButtonBranchers ( );
-
-        for ( int i = 0 ; i < buttonRefs.Length ; i++ )
+        if(revealSettings.opening == false)
             {
-            GameObject _button = Instantiate ( buttonRefs [ i ] as GameObject );
-            _button.transform.SetParent ( transform );
-            _button.transform.position = transform.position;
-            _button.transform.localPosition = Vector3.zero;
+            revealSettings.opening = true;
 
-            if ( linSpawner.revealStyle == LinearSpawner.RevealStyle.FadeInAtPosition || circSpawner.revealStyle == CircularSpawner.RevealStyle.FadeInAtPosition )
+            for ( int i = buttons.Count - 1 ; i >= 0 ; i-- )
+
+                Destroy ( buttons [ i ] );
+            buttons.Clear ( );
+
+            ClearCommonButtonBranchers ( );
+
+            for ( int i = 0 ; i < buttonRefs.Length ; i++ )
                 {
-                Color buttonColor = _button.GetComponent<Image> ( ).color;
-                buttonColor.a = 0;
-                _button.GetComponent<Image> ( ).color = buttonColor;
-                if ( _button.GetComponentInChildren<Text> ( ) )
+                GameObject _button = Instantiate ( buttonRefs [ i ] );
+                _button.transform.SetParent ( transform );
+                _button.transform.position = transform.position;
+                _button.transform.localPosition = Vector3.zero;
+
+                if ( linSpawner.revealStyle == LinearSpawner.RevealStyle.FadeInAtPosition || circSpawner.revealStyle == CircularSpawner.RevealStyle.FadeInAtPosition )
                     {
-                    buttonColor = _button.GetComponentInChildren<Text> ( ).color;
+                    Color buttonColor = _button.GetComponent<Image> ( ).color;
                     buttonColor.a = 0;
-                    _button.GetComponentInChildren<Text> ( ).color = buttonColor;
+                    _button.GetComponent<Image> ( ).color = buttonColor;
+                    if ( _button.GetComponentInChildren<Text> ( ) )
+                        {
+                        buttonColor = _button.GetComponentInChildren<Text> ( ).color;
+                        buttonColor.a = 0;
+                        _button.GetComponentInChildren<Text> ( ).color = buttonColor;
+                        }
                     }
+                buttons.Add ( _button );
                 }
-            buttons.Add ( _button );
+            revealSettings.spawned = true;
             }
-        revealSettings.spawned = true;
+        else
+            {
+            DespawnButtons ( );
+            }
         }
 
 
@@ -249,8 +243,8 @@ public class ButtonBrancher : MonoBehaviour
             targetPos.y = linSpawner.direction.y * ( ( i + linSpawner.buttonNumOffset ) * ( buttonRect.sizeDelta.y + linSpawner.buttonSpacing ) ) + transform.position.y;
 
             targetPos.z = 0;
-
-            buttonRect.position = Vector3.Lerp ( buttonRect.position, targetPos, revealSettings.translateSmooth * Time.deltaTime );
+           
+            buttonRect.position = Vector3.Lerp ( buttonRect.position, targetPos, revealSettings.translateSmooth * Time.fixedDeltaTime );
             }
         }
     private void RevealLinearlyFade ( )
@@ -317,7 +311,7 @@ public class ButtonBrancher : MonoBehaviour
             targetPos = RotatePointAroundPivot ( targetPos, transform.position, targetAngle );
             RectTransform buttonRect = buttons [ i ].GetComponent<RectTransform> ( );
             buttonRect.sizeDelta = new Vector2 ( buttonScaler.newButtonSize.x, buttonScaler.newButtonSize.y );
-            buttonRect.position = Vector3.Lerp ( buttonRect.position, targetPos, revealSettings.translateSmooth * Time.deltaTime );
+            buttonRect.position = Vector3.Lerp ( buttonRect.position, targetPos, revealSettings.translateSmooth * Time.fixedDeltaTime );
             }
         }
     private void RevealCircularFade ( )
@@ -330,7 +324,7 @@ public class ButtonBrancher : MonoBehaviour
             targetPos = RotatePointAroundPivot ( targetPos, transform.position, targetAngle );
             RectTransform buttonRect = buttons [ i ].GetComponent<RectTransform> ( );
             buttonRect.sizeDelta = new Vector2 ( buttonScaler.newButtonSize.x, buttonScaler.newButtonSize.y );
-            buttonRect.position = Vector3.Lerp ( buttonRect.position, targetPos, revealSettings.translateSmooth * Time.deltaTime );
+            buttonRect.position = Vector3.Lerp ( buttonRect.position, targetPos, revealSettings.translateSmooth * Time.fixedDeltaTime );
             }
         }
     Vector3 RotatePointAroundPivot ( Vector3 point, Vector3 pivot, float angle )
@@ -359,5 +353,25 @@ public class ButtonBrancher : MonoBehaviour
                     }
                 }
             }
+        }
+
+    private void OnLevelWasLoaded ( int level )
+        {
+        if(level == 2)
+            {
+            DespawnButtons ( );
+            }
+        }
+
+    private void DespawnButtons ( )
+        {
+        revealSettings.opening = false;
+        revealSettings.spawned = false;
+        for ( int i = buttons.Count - 1 ; i >= 0 ; i-- )
+
+            Destroy ( buttons [ i ] );
+        buttons.Clear ( );
+
+        ClearCommonButtonBranchers ( );
         }
     }

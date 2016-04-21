@@ -28,7 +28,8 @@ GameObject:
   - 222: {fileID: 22219728}
   - 114: {fileID: 11404672}
   - 114: {fileID: 11498868}
-  - 114: {fileID: 11489086}
+  - 114: {fileID: 11437674}
+  - 114: {fileID: 11455418}
   m_Layer: 5
   m_Name: Normal
   m_TagString: Untagged
@@ -63,6 +64,20 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11437674
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 187478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b30ae615511e7d409ac8a35dc8ba8d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons: {fileID: 187478}
+  _startGameAudio: {fileID: 8300000, guid: a5107434e46524a419a6ce002446a47d, type: 3}
+  _audioSource: {fileID: 0}
 --- !u!114 &11447096
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,8 +110,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Normal
---- !u!114 &11489086
+  m_Text: Normaal
+--- !u!114 &11455418
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -104,7 +119,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 187478}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9315b8fe33c5be4890c64877c4e80f4, type: 3}
+  m_Script: {fileID: 11500000, guid: cef27aaae83495444b9c0e203889338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11498868
@@ -146,7 +161,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11489086}
+      - m_Target: {fileID: 11455418}
         m_MethodName: LoadPlayScene
         m_Mode: 1
         m_Arguments:
