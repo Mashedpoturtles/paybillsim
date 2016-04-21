@@ -6,8 +6,6 @@ namespace Assets.BillSystem
     public class WorkingState : MonoBehaviour
         {
         [SerializeField]
-        private Text workStateText;
-        [SerializeField]
         private Text  _WarningTextEnergy;
         [SerializeField]
         private Text _WarningTextNotworking;
@@ -121,7 +119,6 @@ namespace Assets.BillSystem
             {
             while ( currentState == WorkState.Niet )
                 {
-                workStateText.text = "Je werkt: " + currentState;
                 yield return new WaitForSeconds ( 3 );
                 if(workEnergy < 300)
                     {
@@ -135,7 +132,6 @@ namespace Assets.BillSystem
             {
             while ( currentState == WorkState.Gewoon )
                 {
-                workStateText.text = "je werkt: " + currentState;
                 yield return new WaitForSeconds ( 6 );
                 if ( workEnergy < 300 )
                     {
@@ -150,7 +146,6 @@ namespace Assets.BillSystem
             {
             while ( currentState == WorkState.Hard )
                 {
-                workStateText.text = "je werkt: " + currentState;
                 yield return new WaitForSeconds ( 4 );
                 if ( workEnergy > 0 )
                     {
@@ -165,7 +160,6 @@ namespace Assets.BillSystem
             {
             while ( currentState == WorkState.Workaholic )
                 {
-                workStateText.text = "je werkt: " + currentState;
                 yield return new WaitForSeconds ( 2 );
                 if ( workEnergy > 0 )
                     {
@@ -180,7 +174,6 @@ namespace Assets.BillSystem
             {
             while ( currentState == WorkState.niet )
                 {
-                workStateText.text = "je werkt: " + currentState;
                 workSlider.interactable = false;
                 yield return null;
                 }

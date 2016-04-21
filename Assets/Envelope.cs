@@ -1,0 +1,22 @@
+﻿using System;
+using UnityEngine;
+
+public class Envelope : MonoBehaviour {
+    [SerializeField]
+    private Animator anim;
+
+   
+    private void OnMouseEnter ( )
+        {
+        anim.SetBool ( "Hovering", true);
+        }
+    private void OnMouseExit()
+        {
+        anim.SetBool ( "Hovering", false );
+        } 
+
+    private void Start ()
+        {
+        anim = GetComponentInChildren<Animator> ( );
+        }
+}
