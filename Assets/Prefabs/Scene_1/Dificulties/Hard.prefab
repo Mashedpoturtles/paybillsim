@@ -28,6 +28,8 @@ GameObject:
   - 222: {fileID: 22214288}
   - 114: {fileID: 11480014}
   - 114: {fileID: 11467050}
+  - 114: {fileID: 11440734}
+  - 114: {fileID: 11460918}
   m_Layer: 5
   m_Name: Hard
   m_TagString: Untagged
@@ -35,6 +37,31 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &11440734
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 185282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b30ae615511e7d409ac8a35dc8ba8d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons: {fileID: 185282}
+  _startGameAudio: {fileID: 8300000, guid: a5107434e46524a419a6ce002446a47d, type: 3}
+  _audioSource: {fileID: 0}
+--- !u!114 &11460918
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 185282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef27aaae83495444b9c0e203889338a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11467050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -73,7 +100,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11480014}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11460918}
+        m_MethodName: LoadPlayScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11480014
@@ -135,7 +173,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Hard
+  m_Text: Moeilijk
 --- !u!222 &22214288
 CanvasRenderer:
   m_ObjectHideFlags: 1

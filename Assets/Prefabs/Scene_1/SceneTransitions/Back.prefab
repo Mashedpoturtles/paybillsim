@@ -11,7 +11,8 @@ GameObject:
   - 222: {fileID: 22275902}
   - 114: {fileID: 11482962}
   - 114: {fileID: 11401634}
-  - 114: {fileID: 11448100}
+  - 114: {fileID: 11413132}
+  - 114: {fileID: 11426390}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -75,7 +76,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11448100}
+      - m_Target: {fileID: 11426390}
         m_MethodName: LoadMenuScene
         m_Mode: 1
         m_Arguments:
@@ -88,6 +89,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &11413132
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 116228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b30ae615511e7d409ac8a35dc8ba8d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons: {fileID: 116228}
+  _startGameAudio: {fileID: 8300000, guid: a5107434e46524a419a6ce002446a47d, type: 3}
+  _audioSource: {fileID: 0}
 --- !u!114 &11419360
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -120,8 +135,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Back
---- !u!114 &11448100
+  m_Text: Terug
+--- !u!114 &11426390
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -129,7 +144,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 116228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9315b8fe33c5be4890c64877c4e80f4, type: 3}
+  m_Script: {fileID: 11500000, guid: cef27aaae83495444b9c0e203889338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11482962

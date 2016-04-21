@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.BillSystem
     {
@@ -9,9 +11,13 @@ namespace Assets.BillSystem
     public class BillManager : MonoBehaviour
         {
         [SerializeField]
-        private RectTransform SpawnZone;
-        private BillUI ui;
-        public List<Bill> Bills { get; private set; }
+        private GameObject spawnZone;
+        [SerializeField]
+        private RectTransform storageZone;
+        public static List<Bill> Bills { get; set; }
+        public static BillManager instance;
+        public Text gameInfo;
+        [SerializeField]
 
         void Update ( )
             {
@@ -47,16 +53,18 @@ namespace Assets.BillSystem
                     }
                 }
             }
-        private void Start ( )
+        private void Awake ( )
             {
             Initialize ( );
             }
+
         /// <summary>
         /// Setting everything that needs to be prepared in start.
         /// </summary>
         private void Initialize ( )
             {
-            this.Bills = new List<Bill> ( );
+            instance = this;
+            Bills = new List<Bill> ( );
             Application.runInBackground = true;
             TimeManager.OnDayChange += onDayChanged;
             }
@@ -69,13 +77,14 @@ namespace Assets.BillSystem
             if ( Money.instance.currentMoney >= bill.Cost )
                 {
                 Money.instance.currentMoney -= bill.Cost;
-                Debug.Log ( "I'm about to pay " + bill.Cost + " and i have " + Money.instance.currentMoney + " my obj is : " + bill.Object, bill.Object );
+                GlobalAudio.instance.SoundPaidBill ( );
                 Destroy ( bill.Object );
-                this.Bills.Remove ( bill );
+                Bills.Remove ( bill );
                 }
-            else {
-                Debug.Log ( "You cant afford to pay this bill!" );
-                }
+            }
+        public void InsufficientFunds ( Bill bill )
+            {
+            gameInfo.text = "Je hebt niet genoeg geld.";
             }
         /// <summary>
         /// This method is used to set the day of the month on which a bill is ment to instantiate.
@@ -89,7 +98,7 @@ namespace Assets.BillSystem
                     break;
 
                 case 24:
-                    createBill ( BillType.Electricity );
+                    createBill ( BillType.Electriciteit );
                     break;
                 }
             }
@@ -99,21 +108,30 @@ namespace Assets.BillSystem
         /// <param name="type"></param>
         private void createBill ( BillType type )
             {
-            Bill newBill = new Bill ( type );
-            Bills.Add ( newBill );
-            GameObject billObject = Instantiate ( Resources.Load ( "billprefab" ) ) as GameObject;
-            newBill.Object = billObject;
-            BillUI ui = billObject.GetComponent<BillUI> ( );
-            ui.transform.SetParent ( SpawnZone.transform, false );
-            ui.SetUI ( this, newBill );
+            if ( spawnZone )
+                {
+                Bill newBill = new Bill ( type );
+                Bills.Add ( newBill );
+                GameObject billObject = Instantiate ( Resources.Load<GameObject> ( "billprefab" ) );
+                newBill.Object = billObject;
+                if ( billObject )
+                    {
+                    BillUI ui = billObject.GetComponent<BillUI> ( );
+                    if ( ui )
+                        {
+                        newBill.Object.transform.SetParent ( spawnZone.transform, false );
+                        ui.SetUI ( this, newBill );
+                        }
+                    }
+                }
             }
         private void Normal ( Bill bill )
             {
-            Debug.Log ( "You can still pay the bill on time." );
+            // throw new NotImplementedException ( );
             }
         private void billOverDueDate ( Bill bill )
             {
-            Debug.Log ( "bill is due!" );
+            // throw new NotImplementedException ( );
             }
         /// <summary>
         /// Sends a reminder to pay the bill past its due date.
@@ -121,7 +139,7 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void AanManing ( Bill bill )
             {
-            Debug.Log ( "aanmaning" );
+            // throw new NotImplementedException ( );
             }
         /// <summary>
         /// Sends one last reminder to pay the bill past the duedate but with increased cost.
@@ -129,10 +147,9 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void Somatie ( Bill bill )
             {
-            Debug.Log ( "Somatie" );
             var fine = 100;
             bill.Cost += fine;
-            ui = bill.Object.GetComponent<BillUI> ( );
+            BillUI ui = bill.Object.GetComponent<BillUI> ( );
             ui.ReplaceInfo ( bill );
             ui.AddWarning ( bill );
             }
@@ -142,9 +159,9 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void DagVaarding ( Bill bill )
             {
-            Debug.Log ( "Dagvaarding" );
             var fine = 150;
             bill.Cost += fine;
+            BillUI ui = bill.Object.GetComponent<BillUI> ( );
             ui = bill.Object.GetComponent<BillUI> ( );
             ui.ReplaceInfo ( bill );
             }
@@ -154,9 +171,9 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void Vonnis ( Bill bill )
             {
-            Debug.Log ( "Vonnis" );
             var fine = 250;
             bill.Cost += fine;
+            BillUI ui = bill.Object.GetComponent<BillUI> ( );
             ui = bill.Object.GetComponent<BillUI> ( );
             ui.ReplaceInfo ( bill );
             }
@@ -167,8 +184,10 @@ namespace Assets.BillSystem
         private void Beslag ( Bill bill )
             {
             Money.instance.currentMoney = 0;
-            Debug.Log ( "Beslag" );
-            Debug.Log ( "Game Over!" );
+            gameInfo.text = "Verloren.";
+            LoadLevelsOnClick.instance.LoadMenuScene ( );
+            
+            GlobalAudio.instance.SoundGameOver ( );
             }
         }
     }

@@ -5,39 +5,70 @@ namespace Assets.BillSystem
     {
     public class WorkingState : MonoBehaviour
         {
-        private Text workStateText;
+        [SerializeField]
+        private Text  _WarningTextEnergy;
+        [SerializeField]
+        private Text _WarningTextNotworking;
         private Slider workSlider;
         [SerializeField]
         private BillManager billManager;
+        [SerializeField]
         private Slider workingProgressSlider;
         [SerializeField]
         private Text energy;
         [SerializeField]
         private int workEnergy;
         [SerializeField]
-        private float workTime;
-        [SerializeField]
         private float workSpeed;
         [SerializeField]
         public WorkState currentState;
-        public enum WorkState { NotWorking, Average, Hard, OverDrive, Drained }
+        public enum WorkState { Niet, Gewoon, Hard, Workaholic, niet }
         public Canvas canvas;
 
         private void Start ( )
             {
             UI ( );
-            SetWorkState ( WorkState.NotWorking );
+            SetWorkState ( WorkState.Niet );
             workEnergy = 300;
             Invoke ( "Energy", 1 );
             workingProgressSlider.interactable = false;
+            workingProgressSlider.maxValue = 300;
+            workingProgressSlider.minValue = 0;
             }
 
         private void Update ( )
             {
-            workingProgressSlider.value = Mathf.MoveTowards ( workingProgressSlider.value, workTime, workSpeed );
+            workingProgressSlider.value = workEnergy;
             energy.text = "Energy: " + workEnergy;
+            WarningLowEnergy ( );
+            WarningNotWorking ( );          
             }
-
+        private void WarningLowEnergy ( )
+            {
+            if(workEnergy > 300)
+                {
+                workEnergy = 300;
+                }
+            if ( workEnergy <= 200 )
+                {
+                _WarningTextEnergy.text = "Zorg dat je niet te hard werkt!";
+                }
+            if ( workEnergy <= 100 )
+                {
+                _WarningTextEnergy.text = "Werk wat langzamer.";
+                }
+            }
+        private void WarningNotWorking()
+            {
+            if( workSlider.value == 1 )
+                {
+                _WarningTextNotworking.text = "Je bent niet aan het werk, gebruik de slider om geld te verdienen.";
+                }
+            else
+                {
+                _WarningTextNotworking.text = "";
+                }
+            }
         private void SetWorkState ( int workIntensity )
             {
             WorkState newWorkState;
@@ -45,16 +76,16 @@ namespace Assets.BillSystem
             switch ( workIntensity )
                 {
                 case 0:
-                    newWorkState = WorkState.Drained;
+                    newWorkState = WorkState.niet;
                     workEnergy = 0;
                     break;
 
                 case 1:
-                    newWorkState = WorkState.NotWorking;
+                    newWorkState = WorkState.Niet;
                     break;
 
                 case 2:
-                    newWorkState = WorkState.Average;
+                    newWorkState = WorkState.Gewoon;
                     break;
 
                 case 3:
@@ -62,12 +93,11 @@ namespace Assets.BillSystem
                     break;
 
                 case 4:
-                    newWorkState = WorkState.OverDrive;
+                    newWorkState = WorkState.Workaholic;
                     break;
 
                 default:
-                    newWorkState = WorkState.NotWorking;
-                    Debug.Log ( "ERROR: The workIntensity is set to a number that is not an alternative!" );
+                    newWorkState = WorkState.Niet;
                     break;
                 }
             currentState = newWorkState;
@@ -85,32 +115,30 @@ namespace Assets.BillSystem
             return money;
             }
 
-        IEnumerator NotWorkingState ( )
+        IEnumerator NietState ( )
             {
-            while ( currentState == WorkState.NotWorking )
+            while ( currentState == WorkState.Niet )
                 {
-                workTime = 0.0f;
-                workStateText.text = "working pace:" + currentState;
-                yield return null;
+                yield return new WaitForSeconds ( 3 );
+                if(workEnergy < 300)
+                    {
+                    workEnergy += 4;
+                    }
                 }
-            workTime = 0f;
             yield return null;
             }
 
-        IEnumerator AverageState ( )
+        IEnumerator GewoonState ( )
             {
-            while ( currentState == WorkState.Average )
+            while ( currentState == WorkState.Gewoon )
                 {
-                workStateText.text = "working pace:" + currentState;
-                yield return new WaitForSeconds ( 2 );
-                workSpeed = 0.015f;
-                workTime = 100.0f;
                 yield return new WaitForSeconds ( 6 );
-                workEnergy += 6;
+                if ( workEnergy < 300 )
+                    {
+                    workEnergy += 4;
+                    }
                 Money.instance.currentMoney += AddMoney ( 30 );
-                workTime = 0.0f;
                 }
-            workTime = 0f;
             yield return null;
             }
 
@@ -118,47 +146,37 @@ namespace Assets.BillSystem
             {
             while ( currentState == WorkState.Hard )
                 {
-                workStateText.text = "working pace:" + currentState;
+                yield return new WaitForSeconds ( 4 );
+                if ( workEnergy > 0 )
+                    {
+                    workEnergy -= 6;
+                    }
+                Money.instance.currentMoney += AddMoney ( 35 );
+                }
+            yield return null;
+            }
+
+        IEnumerator WorkaholicState ( )
+            {
+            while ( currentState == WorkState.Workaholic )
+                {
                 yield return new WaitForSeconds ( 2 );
-                workSpeed = 0.05f;
-                workTime = 100.0f;
-                yield return new WaitForSeconds ( 3 );
-                workEnergy -= 6;
-                Money.instance.currentMoney += AddMoney ( 45 );
-                workTime = 0.0f;
+                if ( workEnergy > 0 )
+                    {
+                    workEnergy -= 12;
+                    }
+                Money.instance.currentMoney += AddMoney ( 35 );
                 }
-            workTime = 0f;
             yield return null;
             }
 
-        IEnumerator OverDriveState ( )
+        IEnumerator nietState ( )
             {
-            while ( currentState == WorkState.OverDrive )
+            while ( currentState == WorkState.niet )
                 {
-                workStateText.text = "working pace:" + currentState;
-                yield return new WaitForSeconds ( 1 );
-                workSpeed = 0.2f;
-                workTime = 100.0f;
-                yield return new WaitForSeconds ( 1 );
-                workEnergy -= 12;
-                Money.instance.currentMoney += AddMoney ( 45 );
-                workTime = 0.0f;
-                }
-            workTime = 0f;
-            yield return null;
-            }
-
-        IEnumerator DrainedState ( )
-            {
-            while ( currentState == WorkState.Drained )
-                {
-                workStateText.text = "working pace:" + currentState;
-                workTime = 0.0f;
                 workSlider.interactable = false;
                 yield return null;
-                workTime = 0.0f;
                 }
-            workTime = 0f;
             workSlider.interactable = true;
             yield return null;
             }
@@ -168,24 +186,23 @@ namespace Assets.BillSystem
             if ( workEnergy <= 0 )
                 {
 
-                SetWorkState ( WorkState.Drained );
+                SetWorkState ( WorkState.niet );
                 CancelInvoke ( "Energy" );
                 workEnergy = 0;
-                Debug.Log ( "Game Over!" );
+                _WarningTextEnergy.text = "Je hebt geen energie meer om te werken.";
                 return;
                 }
             else if ( workEnergy >= 1 )
                 {
                 Invoke ( "Energy", 1 );
                 return;
-                }
+                }         
             }
 
         private void UI ( )
             {
             workSlider = GameObject.FindWithTag ( "WorkSlider" ).GetComponent<Slider> ( );
             workingProgressSlider = GameObject.FindWithTag ( "WorkingProgressBar" ).GetComponent<Slider> ( );
-            workStateText = workSlider.GetComponentInChildren<Text> ( );
             workSlider.onValueChanged.AddListener ( delegate { SetWorkState ( ( int ) workSlider.value ); } );
             }
         }

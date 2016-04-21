@@ -4,7 +4,9 @@ using UnityEngine.UI;
 public class Money : MonoBehaviour
     {
     [SerializeField]
-    private Text CashInfo;
+    private Text cashInfo;
+    [SerializeField]
+    private Slider moneySlider;
     [SerializeField]
     public int currentMoney;
     public static Money instance;
@@ -13,11 +15,13 @@ public class Money : MonoBehaviour
     public void Start ( )
         {
         instance = this;
-        CashInfo = GameObject.FindWithTag ( "Cash" ).GetComponent<Text> ( );
+        cashInfo = GameObject.FindWithTag ( "Cash" ).GetComponent<Text> ( );
+        moneySlider.maxValue = 10000;
         }
 
     private void Update ( )
         {
-        CashInfo.text = "Geld: " + currentMoney;
+        cashInfo.text = "Geld: " + currentMoney;
+        moneySlider.value = currentMoney;
         }
     }

@@ -1,15 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler
     {
 
     public RectTransform parentToReturnTo = null;
     public RectTransform placeholderParent = null;
-
+    public static Draggable instance;
     public bool dragOnSurfaces = true;
     GameObject placeholder = null;
+
+    private void Start ( )
+        {
+        instance = this;
+        }
 
     public void OnBeginDrag ( PointerEventData eventData )
         {
@@ -37,6 +43,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             placeholderParent = canvas.transform as RectTransform;
 
         SetDraggedPosition ( eventData );
+
         }
 
     public void OnDrag ( PointerEventData eventData )
@@ -60,7 +67,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
                 break;
                 }
-
             }
 
         placeholder.transform.SetSiblingIndex ( newSiblingIndex );
@@ -72,7 +78,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if ( dragOnSurfaces && eventData.pointerEnter != null && eventData.pointerEnter.transform as RectTransform != null )
             placeholderParent = eventData.pointerEnter.transform as RectTransform;
 
-
         Vector3 globalMousePos;
         if ( RectTransformUtility.ScreenPointToWorldPointInRectangle ( placeholderParent, eventData.position, eventData.pressEventCamera, out globalMousePos ) )
             {
@@ -80,16 +85,27 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             transform.rotation = placeholderParent.rotation;
             }
         }
-
-    public void OnEndDrag ( PointerEventData eventData )
+    public void SetNewParent ( Transform t )
         {
-        this.transform.SetParent ( parentToReturnTo );
+        parentToReturnTo = t as RectTransform;
+        
+        transform.rotation= parentToReturnTo.rotation;
+        transform.position = parentToReturnTo.position;
+        }
+
+public void SetNewParent ( )
+        {
+        this.transform.SetParent ( parentToReturnTo);
         this.transform.SetSiblingIndex ( placeholder.transform.GetSiblingIndex ( ) );
         GetComponent<CanvasGroup> ( ).blocksRaycasts = true;
 
         Destroy ( placeholder );
         }
 
+    public void OnEndDrag ( PointerEventData eventData )
+        {
+        SetNewParent ( );
+        }
 
     static public T FindInParents<T> ( GameObject go ) where T : Component
         {
@@ -108,4 +124,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         return comp;
         }
 
+    public void OnPointerEnter ( PointerEventData eventData )
+        {
+        Debug.Log ( "BILLENTERED" );
+        }
+    private void OnMouseEnter()
+        {
+        Debug.Log ( " bill on mouse entered" );
+        }
     }

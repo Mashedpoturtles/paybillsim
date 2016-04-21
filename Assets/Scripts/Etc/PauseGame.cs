@@ -1,35 +1,53 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PauseGame : MonoBehaviour
-{
-    private Animator anim;
-   
+    {
+    private Button button;
+    private Text buttonText;
+    public Text tempInfo;
     public bool paused;
-    IEnumerator aniOff()
-    {
-        yield return new WaitForSeconds(10);
-        anim.enabled = false;
-    }
-    void Start()
-    {
-        anim = gameObject.GetComponent<Animator>();
-        StartCoroutine(aniOff());
+ 
+    private void Update()
+        {
+        if ( Time.timeScale == 0.0f)
+            {
+            tempInfo.text = "Druk op Start om te beginnen!";
+            }
+        }
+
+    private void Start ( )
+        {
+        GlobalAudio.instance.SoundPause ( );
+        GlobalAudio.instance.SoundMusic ( );
+
+        button = GetComponent<Button> ( );
+        buttonText = button.GetComponentInChildren<Text> ( );
+        tempInfo.text = "Druk op Start om te beginnen!";
         paused = false;
-    }
+        Time.timeScale = 0.0f;
+        buttonText.text = "Start!";
 
-    
-    public void Paused()
-    {
+        }
 
+
+    public void Paused ( )
+        {
         paused = !paused;
-        if(paused)
-        {
-            Time.timeScale = 0.0f;
-        }
-        if(!paused)
-        {
-            Time.timeScale = 1.0F;
+        if ( paused )
+            {
+            tempInfo.text = "";
+            Time.timeScale = 1.0f;
+            buttonText.text = "Pauze";
+            GlobalAudio.instance.SoundStart ( );
+            }
+        if ( !paused )
+            {
+            buttonText.text = "Start!";
+            Time.timeScale = 0.0F;
+            GlobalAudio.instance.SoundPause ( );
+            }
         }
     }
-}
+ 
