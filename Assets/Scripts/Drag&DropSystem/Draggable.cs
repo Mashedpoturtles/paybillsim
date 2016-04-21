@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler
     {
 
     public RectTransform parentToReturnTo = null;
@@ -121,5 +122,14 @@ public void SetNewParent ( )
             t = t.parent;
             }
         return comp;
+        }
+
+    public void OnPointerEnter ( PointerEventData eventData )
+        {
+        Debug.Log ( "BILLENTERED" );
+        }
+    private void OnMouseEnter()
+        {
+        Debug.Log ( " bill on mouse entered" );
         }
     }
