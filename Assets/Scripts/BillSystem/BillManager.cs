@@ -17,7 +17,6 @@ namespace Assets.BillSystem
         public static List<Bill> Bills { get; set; }
         public static BillManager instance;
         public Text gameInfo;
-        [SerializeField]
 
         void Update ( )
             {
@@ -57,7 +56,6 @@ namespace Assets.BillSystem
             {
             Initialize ( );
             }
-
         /// <summary>
         /// Setting everything that needs to be prepared in start.
         /// </summary>
@@ -80,11 +78,37 @@ namespace Assets.BillSystem
                 GlobalAudio.instance.SoundPaidBill ( );
                 Destroy ( bill.Object );
                 Bills.Remove ( bill );
+                Debug.Log ( "paybill called" );
                 }
             }
         public void InsufficientFunds ( Bill bill )
             {
             gameInfo.text = "Je hebt niet genoeg geld.";
+            }
+        /// <summary>
+        /// This method creates new bills on the specified days of the month.
+        /// </summary>
+        /// <param name="type"></param>
+        private void createBill ( BillType type )
+            {
+            if ( spawnZone )
+                {
+                Bill newBill = new Bill ( type );
+                Bills.Add ( newBill );
+                GameObject envelope = Instantiate ( Resources.Load<GameObject> ( "Envelope" ) );
+                envelope.transform.SetParent ( spawnZone.transform , false );
+                GameObject billObject = Instantiate ( Resources.Load<GameObject> ( "billprefab"  ) );              
+                newBill.Object = billObject;
+                if ( billObject )
+                    {
+                    BillUI ui = billObject.GetComponentInChildren<BillUI> ( );
+                    if ( ui )
+                        {
+                        newBill.Object.transform.SetParent ( envelope.transform.FindChild ( "SpawnZone" ).transform, false );
+                        ui.SetUI ( this, newBill );
+                        }
+                    }
+                }
             }
         /// <summary>
         /// This method is used to set the day of the month on which a bill is ment to instantiate.
@@ -100,29 +124,6 @@ namespace Assets.BillSystem
                 case 24:
                     createBill ( BillType.Electriciteit );
                     break;
-                }
-            }
-        /// <summary>
-        /// This method creates new bills on the specified days of the month.
-        /// </summary>
-        /// <param name="type"></param>
-        private void createBill ( BillType type )
-            {
-            if ( spawnZone )
-                {
-                Bill newBill = new Bill ( type );
-                Bills.Add ( newBill );
-                GameObject billObject = Instantiate ( Resources.Load<GameObject> ( "billprefab" ) );
-                newBill.Object = billObject;
-                if ( billObject )
-                    {
-                    BillUI ui = billObject.GetComponent<BillUI> ( );
-                    if ( ui )
-                        {
-                        newBill.Object.transform.SetParent ( spawnZone.transform, false );
-                        ui.SetUI ( this, newBill );
-                        }
-                    }
                 }
             }
         private void Normal ( Bill bill )
@@ -149,7 +150,7 @@ namespace Assets.BillSystem
             {
             var fine = 100;
             bill.Cost += fine;
-            BillUI ui = bill.Object.GetComponent<BillUI> ( );
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui.ReplaceInfo ( bill );
             ui.AddWarning ( bill );
             }
@@ -161,7 +162,7 @@ namespace Assets.BillSystem
             {
             var fine = 150;
             bill.Cost += fine;
-            BillUI ui = bill.Object.GetComponent<BillUI> ( );
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui = bill.Object.GetComponent<BillUI> ( );
             ui.ReplaceInfo ( bill );
             }
@@ -173,7 +174,7 @@ namespace Assets.BillSystem
             {
             var fine = 250;
             bill.Cost += fine;
-            BillUI ui = bill.Object.GetComponent<BillUI> ( );
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui = bill.Object.GetComponent<BillUI> ( );
             ui.ReplaceInfo ( bill );
             }

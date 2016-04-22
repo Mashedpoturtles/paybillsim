@@ -44,18 +44,21 @@ public class PayZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoint
             d.parentToReturnTo = transform as RectTransform;
             foreach ( Bill bill in BillManager.Bills )
                 {
-                if ( bill.Object == data.pointerDrag && bill.Cost <= Money.instance.currentMoney )
+                if (bill.Object != null)
                     {
-                    manager.PayBill ( bill );
-                    break;
-                    }
-                else if ( bill.Object == data.pointerDrag && bill.Cost > Money.instance.currentMoney )
-                    {
-                    BillManager.instance.InsufficientFunds ( bill );
-                     
-                    d.SetNewParent ( storage.transform as RectTransform );
-                    GlobalAudio.instance.SoundAttention ( );
-                                  
+                    if ( bill.Object == data.pointerDrag && bill.Cost <= Money.instance.currentMoney )
+                        {
+                        manager.PayBill ( bill );
+                        d.DestroyParent ( );
+                        break;
+                        }
+                    else if ( bill.Object == data.pointerDrag && bill.Cost > Money.instance.currentMoney )
+                        {
+                        BillManager.instance.InsufficientFunds ( bill );
+                        d.SetNewParent ( storage.transform as RectTransform );
+                        d.DestroyParent ( );
+                        GlobalAudio.instance.SoundAttention ( );
+                        }
                     }
                 }
             }

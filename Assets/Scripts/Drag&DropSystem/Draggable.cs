@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler
+public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
 
     public RectTransform parentToReturnTo = null;
@@ -11,10 +11,16 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public static Draggable instance;
     public bool dragOnSurfaces = true;
     GameObject placeholder = null;
-
+    GameObject MyParent;
     private void Start ( )
         {
         instance = this;
+        MyParent = transform.parent.parent.gameObject;
+        }
+
+    public void DestroyParent ( )
+        {
+        Destroy ( MyParent );
         }
 
     public void OnBeginDrag ( PointerEventData eventData )
@@ -88,9 +94,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void SetNewParent ( Transform t )
         {
         parentToReturnTo = t as RectTransform;
-        
         transform.rotation= parentToReturnTo.rotation;
         transform.position = parentToReturnTo.position;
+        DestroyParent ( );
         }
 
 public void SetNewParent ( )
@@ -100,11 +106,12 @@ public void SetNewParent ( )
         GetComponent<CanvasGroup> ( ).blocksRaycasts = true;
 
         Destroy ( placeholder );
+        DestroyParent ( );
         }
-
     public void OnEndDrag ( PointerEventData eventData )
         {
         SetNewParent ( );
+        DestroyParent ( );
         }
 
     static public T FindInParents<T> ( GameObject go ) where T : Component
@@ -122,14 +129,5 @@ public void SetNewParent ( )
             t = t.parent;
             }
         return comp;
-        }
-
-    public void OnPointerEnter ( PointerEventData eventData )
-        {
-        Debug.Log ( "BILLENTERED" );
-        }
-    private void OnMouseEnter()
-        {
-        Debug.Log ( " bill on mouse entered" );
         }
     }
