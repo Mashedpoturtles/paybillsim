@@ -13,11 +13,10 @@ public class LoadLevelsOnClick : MonoBehaviour
         {
         SceneManager.LoadScene ( "PlayScene", LoadSceneMode.Single );
         }
-
+ 
     public void LoadMenuScene ( )
         {
         SceneManager.LoadScene ( "Menu", LoadSceneMode.Single );
- 
         }
     public void ExitGame()
         {

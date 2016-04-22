@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using Assets.BillSystem;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
     {
-
+    public BillManager manager;
+ 
     public void OnPointerEnter ( PointerEventData eventData )
         {
         if ( eventData.pointerDrag == null )
@@ -28,12 +30,21 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
             }
         }
 
-    public void OnDrop ( PointerEventData eventData )
+    public void OnDrop ( PointerEventData data )
         {
-        Draggable d = eventData.pointerDrag.GetComponent<Draggable> ( );
+        Draggable d = data.pointerDrag.GetComponent<Draggable> ( );
         if ( d != null )
             {
             d.parentToReturnTo = transform as RectTransform;
+            foreach ( Bill bill in BillManager.Bills )
+                {
+                if ( bill.Object != null )
+                    {
+                        d.DestroyParent ( );
+                        break;
+                    }
+                    
+                }
             }
         }
     }

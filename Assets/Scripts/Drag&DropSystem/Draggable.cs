@@ -20,6 +20,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void DestroyParent ( )
         {
+        if(MyParent != null)
+            {
+            transform.SetParent (MyParent.transform.parent, true);
+            }
         Destroy ( MyParent );
         }
 
@@ -96,7 +100,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         parentToReturnTo = t as RectTransform;
         transform.rotation= parentToReturnTo.rotation;
         transform.position = parentToReturnTo.position;
-        DestroyParent ( );
         }
 
 public void SetNewParent ( )
@@ -106,14 +109,11 @@ public void SetNewParent ( )
         GetComponent<CanvasGroup> ( ).blocksRaycasts = true;
 
         Destroy ( placeholder );
-        DestroyParent ( );
         }
     public void OnEndDrag ( PointerEventData eventData )
         {
         SetNewParent ( );
-        DestroyParent ( );
         }
-
     static public T FindInParents<T> ( GameObject go ) where T : Component
         {
         if ( go == null ) return null;

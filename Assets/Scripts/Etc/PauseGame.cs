@@ -20,7 +20,6 @@ public class PauseGame : MonoBehaviour
     private void Start ( )
         {
         GlobalAudio.instance.SoundPause ( );
-        GlobalAudio.instance.SoundMusic ( );
 
         button = GetComponent<Button> ( );
         buttonText = button.GetComponentInChildren<Text> ( );

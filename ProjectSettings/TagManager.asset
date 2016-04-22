@@ -23,6 +23,7 @@ TagManager:
   - Storage
   - Music
   - Panel
+  - Envelope
   layers:
   - Default
   - TransparentFX

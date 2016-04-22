@@ -27,6 +27,7 @@ public class GlobalAudio : MonoBehaviour {
         {
         _audioSource = GameObject.FindWithTag ( "Persistent" ).GetComponent<AudioSource> ( );
         _audioSourceMusic = GameObject.FindWithTag ( "Music" ).GetComponent<AudioSource> ( );
+         SoundMusic ( );
         instance = this;
         }
     public void SoundStart()

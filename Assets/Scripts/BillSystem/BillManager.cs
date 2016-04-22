@@ -14,7 +14,11 @@ namespace Assets.BillSystem
         private GameObject spawnZone;
         [SerializeField]
         private RectTransform storageZone;
+        [SerializeField]
+        private GameObject Inbox;
         public static List<Bill> Bills { get; set; }
+        public static List<GameObject> envelopes { get; set; }
+        public GameObject envelope;
         public static BillManager instance;
         public Text gameInfo;
 
@@ -51,6 +55,17 @@ namespace Assets.BillSystem
                     Normal ( bill );
                     }
                 }
+            Debug.Log ( "Amount of envelopes in scene: " + envelopes.Count );
+            Debug.Log ( " amount of children in inbox "+ spawnZone.transform.childCount );
+            foreach (GameObject envelope in envelopes)
+                {
+                if ( spawnZone.transform.childCount == 0 )
+                    {
+                    envelope.transform.SetParent ( spawnZone.transform, false ); //still tries to set this somehow after its suposedly removed?
+                    Debug.Log ("envelope count in mid is : "+ spawnZone.transform.childCount + "Thus Envelope has been moved to the spawnzone" );
+                    return;
+                    }
+                }
             }
         private void Awake ( )
             {
@@ -63,6 +78,8 @@ namespace Assets.BillSystem
             {
             instance = this;
             Bills = new List<Bill> ( );
+            envelopes = new List<GameObject> ( );
+            envelope = ( Resources.Load<GameObject> ( "Envelope" ) );
             Application.runInBackground = true;
             TimeManager.OnDayChange += onDayChanged;
             }
@@ -70,7 +87,7 @@ namespace Assets.BillSystem
         /// This method checks whether the player has sufficient money to pay the bill and takes care of removing it if so.
         /// </summary>
         /// <param name="bill"></param>
-        public void PayBill ( Bill bill )
+        public void PayBill ( Bill bill)
             {
             if ( Money.instance.currentMoney >= bill.Cost )
                 {
@@ -78,7 +95,6 @@ namespace Assets.BillSystem
                 GlobalAudio.instance.SoundPaidBill ( );
                 Destroy ( bill.Object );
                 Bills.Remove ( bill );
-                Debug.Log ( "paybill called" );
                 }
             }
         public void InsufficientFunds ( Bill bill )
@@ -96,7 +112,16 @@ namespace Assets.BillSystem
                 Bill newBill = new Bill ( type );
                 Bills.Add ( newBill );
                 GameObject envelope = Instantiate ( Resources.Load<GameObject> ( "Envelope" ) );
-                envelope.transform.SetParent ( spawnZone.transform , false );
+                envelopes.Add ( envelope );
+                if ( envelopes.Count < 2 )
+                    {
+                    envelope.transform.SetParent ( spawnZone.transform, false );
+                    }
+                else
+                    {
+                    envelope.transform.SetParent ( Inbox.transform, false );
+                    }
+
                 GameObject billObject = Instantiate ( Resources.Load<GameObject> ( "billprefab"  ) );              
                 newBill.Object = billObject;
                 if ( billObject )

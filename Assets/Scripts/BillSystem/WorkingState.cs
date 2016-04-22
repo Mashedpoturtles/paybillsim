@@ -185,11 +185,11 @@ namespace Assets.BillSystem
             {
             if ( workEnergy <= 0 )
                 {
-
                 SetWorkState ( WorkState.niet );
                 CancelInvoke ( "Energy" );
                 workEnergy = 0;
                 _WarningTextEnergy.text = "Je hebt geen energie meer om te werken.";
+                LoadLevelsOnClick.instance.LoadMenuScene ( );
                 return;
                 }
             else if ( workEnergy >= 1 )

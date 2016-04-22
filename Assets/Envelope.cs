@@ -7,15 +7,15 @@ public class Envelope : MonoBehaviour{
     private Animator anim;
 
    
-    private void OnMouseEnter ( )
+    private void OnMouseDown ( )
         {
         anim.SetBool ( "Hovering", true);
         }
-    private void OnMouseExit()
+    private void OnMouseExit ( )
         {
         anim.SetBool ( "Hovering", false );
-        } 
-
+        }
+ 
     private void Start ()
         {
         anim = GetComponentInChildren<Animator> ( );

@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 public class PayZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
     {
     public BillManager manager;
-    public Bill bill;
     private RectTransform storage;
     private void Start ( )
         {
@@ -48,16 +47,20 @@ public class PayZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoint
                     {
                     if ( bill.Object == data.pointerDrag && bill.Cost <= Money.instance.currentMoney )
                         {
-                        manager.PayBill ( bill );
-                        d.DestroyParent ( );
+                        manager.PayBill ( bill);
+                        BillManager.envelopes.Remove ( d.transform.parent.gameObject ); // remove envelope
+                        Debug.Log ( "Supposedly envelope is removed" );
+                        d.DestroyParent ( );  //destroy envelope
                         break;
                         }
                     else if ( bill.Object == data.pointerDrag && bill.Cost > Money.instance.currentMoney )
                         {
                         BillManager.instance.InsufficientFunds ( bill );
-                        d.SetNewParent ( storage.transform as RectTransform );
-                        d.DestroyParent ( );
+                        d.SetNewParent ( storage.transform as RectTransform ); 
                         GlobalAudio.instance.SoundAttention ( );
+                        BillManager.envelopes.Remove ( d.transform.parent.gameObject ); // remove envelope
+                        Debug.Log ( "Supposedly envelope is removed" );
+                        d.DestroyParent ( ); // destroy envelope
                         }
                     }
                 }
