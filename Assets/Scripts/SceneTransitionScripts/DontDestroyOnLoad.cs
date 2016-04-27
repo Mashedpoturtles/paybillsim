@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class DontDestroyOnLoad : MonoBehaviour
+{
+private void Awake ( )
     {
-    private void Awake ( )
-        {
-        DontDestroyOnLoad ( transform.gameObject );
-        }
+    DontDestroyOnLoad ( transform.gameObject );
     }
+}

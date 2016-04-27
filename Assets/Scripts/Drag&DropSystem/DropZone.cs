@@ -1,50 +1,50 @@
 ﻿using Assets.BillSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
-    {
-    public BillManager manager;
+{
  
-    public void OnPointerEnter ( PointerEventData eventData )
-        {
-        if ( eventData.pointerDrag == null )
-            return;
+public void OnPointerEnter ( PointerEventData eventData )
+    {
+    if ( eventData.pointerDrag == null )
+        return;
 
-        Draggable d = eventData.pointerDrag.GetComponent<Draggable> ( );
-        if ( d != null )
-            {
-            d.placeholderParent = transform as RectTransform;
-            }
+    Draggable d = eventData.pointerDrag.GetComponent<Draggable> ( );
+    if ( d != null )
+        {
+        d.placeholderParent = transform as RectTransform;
         }
+    }
 
-    public void OnPointerExit ( PointerEventData eventData )
+public void OnPointerExit ( PointerEventData eventData )
+    {
+    if ( eventData.pointerDrag == null )
+        return;
+
+    Draggable d = eventData.pointerDrag.GetComponent<Draggable> ( );
+    if ( d != null && d.placeholderParent == transform )
         {
-        if ( eventData.pointerDrag == null )
-            return;
-
-        Draggable d = eventData.pointerDrag.GetComponent<Draggable> ( );
-        if ( d != null && d.placeholderParent == transform )
-            {
-            d.placeholderParent = d.parentToReturnTo;
-            }
+        d.placeholderParent = d.parentToReturnTo;
         }
+    }
 
-    public void OnDrop ( PointerEventData data )
+public void OnDrop ( PointerEventData data )
+    {
+    Draggable d = data.pointerDrag.GetComponent<Draggable> ( );
+    if ( d != null )
         {
-        Draggable d = data.pointerDrag.GetComponent<Draggable> ( );
-        if ( d != null )
+        d.parentToReturnTo = transform as RectTransform;
+        foreach ( Bill bill in BillManager.Bills )
             {
-            d.parentToReturnTo = transform as RectTransform;
-            foreach ( Bill bill in BillManager.Bills )
+            if ( bill.Object != null )
                 {
-                if ( bill.Object != null )
-                    {
-                        d.DestroyParent ( );
-                        break;
-                    }
-                    
+                    d.DestroyParent ( );
+                    break;
                 }
+                    
             }
         }
     }
+}

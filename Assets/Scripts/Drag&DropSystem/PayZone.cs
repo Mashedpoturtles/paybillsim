@@ -4,66 +4,65 @@ using UnityEngine.EventSystems;
 
 
 public class PayZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+{
+public BillManager manager;
+private RectTransform storage;
+private void Start ( )
     {
-    public BillManager manager;
-    private RectTransform storage;
-    private void Start ( )
-        {
-        storage = GameObject.FindWithTag ( "Storage" ).GetComponent<RectTransform> ( );
-        }
-    public void OnPointerEnter ( PointerEventData eventData )
-        {
-        if ( eventData.pointerDrag == null )
-            return;
+    storage = GameObject.FindWithTag ( "Storage" ).GetComponent<RectTransform> ( );
+    }
+public void OnPointerEnter ( PointerEventData eventData )
+    {
+    if ( eventData.pointerDrag == null )
+        return;
 
-        Draggable d = eventData.pointerDrag.GetComponent<Draggable> ( );
-        if ( d != null )
-            {
-            d.placeholderParent = transform as RectTransform;
-            }
-        }
-
-    public void OnPointerExit ( PointerEventData eventData )
+    Draggable d = eventData.pointerDrag.GetComponent<Draggable> ( );
+    if ( d != null )
         {
-        if ( eventData.pointerDrag == null )
-            return;
-
-        Draggable d = eventData.pointerDrag.GetComponent<Draggable> ( );
-        if ( d != null && d.placeholderParent == transform )
-            {
-            d.placeholderParent = d.parentToReturnTo;
-            }
+        d.placeholderParent = transform as RectTransform;
         }
+    }
+
+public void OnPointerExit ( PointerEventData eventData )
+    {
+    if ( eventData.pointerDrag == null )
+        return;
+
+    Draggable d = eventData.pointerDrag.GetComponent<Draggable> ( );
+    if ( d != null && d.placeholderParent == transform )
+        {
+        d.placeholderParent = d.parentToReturnTo;
+        }
+    }
      
-    public void OnDrop ( PointerEventData data )
+public void OnDrop ( PointerEventData data )
+    {
+    Draggable d = data.pointerDrag.GetComponent<Draggable> ( );
+    if ( d != null )
         {
-        Draggable d = data.pointerDrag.GetComponent<Draggable> ( );
-        if ( d != null )
+        d.parentToReturnTo = transform as RectTransform;
+        foreach ( Bill bill in BillManager.Bills )
             {
-            d.parentToReturnTo = transform as RectTransform;
-            foreach ( Bill bill in BillManager.Bills )
+            if (bill.Object != null)
                 {
-                if (bill.Object != null)
+                if ( bill.Object == data.pointerDrag && bill.Cost <= Money.instance.currentMoney )
                     {
-                    if ( bill.Object == data.pointerDrag && bill.Cost <= Money.instance.currentMoney )
-                        {
-                        manager.PayBill ( bill);
-                        BillManager.envelopes.Remove ( d.transform.parent.gameObject ); // remove envelope
-                        Debug.Log ( "Supposedly envelope is removed" );
-                        d.DestroyParent ( );  //destroy envelope
-                        break;
-                        }
-                    else if ( bill.Object == data.pointerDrag && bill.Cost > Money.instance.currentMoney )
-                        {
-                        BillManager.instance.InsufficientFunds ( bill );
-                        d.SetNewParent ( storage.transform as RectTransform ); 
-                        GlobalAudio.instance.SoundAttention ( );
-                        BillManager.envelopes.Remove ( d.transform.parent.gameObject ); // remove envelope
-                        Debug.Log ( "Supposedly envelope is removed" );
-                        d.DestroyParent ( ); // destroy envelope
-                        }
+                    manager.PayBill ( bill);
+                    BillManager.envelopes.Remove ( d.transform.parent.gameObject );
+                    d.DestroyParent ( );
+                    Destroy ( transform.FindChild ( "New Game Object" ).gameObject );
+                    break;
+                    }
+                else if ( bill.Object == data.pointerDrag && bill.Cost > Money.instance.currentMoney )
+                    {
+                    BillManager.instance.InsufficientFunds ( bill );
+                    d.SetNewParent ( storage.transform as RectTransform ); 
+                    GlobalAudio.instance.SoundAttention ( );
+                    BillManager.envelopes.Remove ( d.transform.parent.gameObject );  
+                    d.DestroyParent ( );  
                     }
                 }
             }
         }
     }
+}

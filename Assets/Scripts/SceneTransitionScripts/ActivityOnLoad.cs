@@ -2,28 +2,40 @@
 using System.Collections.Generic;
 
 public class ActivityOnLoad : MonoBehaviour
+{
+[SerializeField]
+public GameObject PlayButton;
+public GameObject ContinueButton;
+    public GameObject back;
+public static List<GameObject> ObjectsToDisableForPlayScene;
+    public static List<GameObject> ObjectsToDisableForStartMenu;
+
+private void OnLevelWasLoaded ( int level )
     {
-    [SerializeField]
-    public GameObject PlayButton;
-    public GameObject ContinueButton;
-    public static List<GameObject> ObjectsToDisable;
-
-    private void OnLevelWasLoaded ( int level )
+    foreach ( var obj in ObjectsToDisableForPlayScene )
         {
-        foreach ( var obj in ObjectsToDisable )
-            {
-            obj.SetActive ( level == 1 );
-            }
+        obj.SetActive ( level == 1 );
         }
-
-    private void Start ( )
-        {
-        ObjectsToDisable = new List<GameObject> ( );
-        ObjectsToDisable.Add ( PlayButton );
-        ObjectsToDisable.Add ( ContinueButton );
-        foreach ( var obj in ObjectsToDisable )
+    foreach(var obj in ObjectsToDisableForStartMenu)
             {
-            obj.SetActive ( true );
+            obj.SetActive ( level == 2 );
             }
-        }
     }
+
+private void Start ( )
+    {
+    ObjectsToDisableForPlayScene = new List<GameObject> ( );
+    ObjectsToDisableForStartMenu = new List<GameObject> ( );
+    ObjectsToDisableForPlayScene.Add ( PlayButton );
+    ObjectsToDisableForPlayScene.Add ( ContinueButton );
+    ObjectsToDisableForStartMenu.Add ( back );
+    foreach ( var obj in ObjectsToDisableForPlayScene )
+        {
+        obj.SetActive ( true );
+        }
+    foreach(var obj in ObjectsToDisableForStartMenu)
+            {
+            obj.SetActive ( false );
+            }
+    }
+}

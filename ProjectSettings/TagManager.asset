@@ -15,15 +15,22 @@ TagManager:
   - WarningInfo
   - WorkingProgressBar
   - SpawnZone
-  - Dropzone
+  - DifficultyText
   - BaseRain
   - Fade
   - ButtonBrancher
   - Persistent
-  - Storage
-  - Music
+  - DropZone
   - Panel
   - Envelope
+  - Audio_Button_Pressed
+  - Audio_Button_Hover
+  - Audio_Music
+  - Audio_Voice
+  - Audio_Sfx
+  - CanvasDraggable
+  - Storage
+  - Dropzone
   layers:
   - Default
   - TransparentFX
@@ -33,7 +40,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - CanvasToIgnore
   - 
   - 
   - 

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 327f774f6d1397848a87e30c3849988d
+labels:
+- code
+- script
+- intellisense
+- hint
+PluginImporter:
+  serializedVersion: 1
+  iconMap: {}
+  executionOrder: {}
+  isPreloaded: 0
+  platformData:
+    Any:
+      enabled: 1
+      settings: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
