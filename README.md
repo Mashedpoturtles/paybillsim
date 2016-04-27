@@ -25,7 +25,4 @@ to display accurate weather forecast realtime visually in game. ( currently only
 * [wunderground] (http://www.wunderground.com/weather/api)
 * [A* pathfinding project] (http://arongranberg.com/astar/)
 
-#### Mucho gracias
 
-To all the people in the c# discord channel who are not only helping me but I have also become friends with
-and a special thanks to  [Xeronik](https://github.com/mastorm/) who has helped me greatly and mentors me in his free time.
