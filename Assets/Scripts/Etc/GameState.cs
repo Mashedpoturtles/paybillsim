@@ -3,47 +3,53 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class GameState : MonoBehaviour
-{
-private Button button;
-private Text buttonText;
-public Text tempInfo;
-public bool paused;
- 
-private void Update()
     {
-    if ( Time.timeScale == 0.0f)
-        {
-        tempInfo.text = "Druk op Start om te beginnen!";
-        }
-    }
+    private Button button;
+    private Text buttonText;
+    public Text tempInfo;
+    public bool paused;
+    [SerializeField]
+    private GameObject timer;
 
-private void Start ( )
-    {
-    GlobalAudio.instance.SoundPause ( );
-    Application.runInBackground = true;
-    button = GetComponent<Button> ( );
-    buttonText = button.GetComponentInChildren<Text> ( );
-    tempInfo.text = "Druk op Start om te beginnen!";
-    paused = false;
-    Time.timeScale = 0.0f;
-    buttonText.text = "Start!";
-    }
+    private void Update ( )
+        {
+        if ( Time.timeScale < 1.0f )
+            {
+            tempInfo.text = "Druk op Start om te beginnen!";
+            }
 
-public void Paused ( )
-    {
-    paused = !paused;
-    if ( paused )
-        {
-        tempInfo.text = "";
-        Time.timeScale = 1.0f;
-        buttonText.text = "Pauze";
-        GlobalAudio.instance.SoundStart ( );
         }
-    if ( !paused )
+
+    private void Start ( )
         {
-        buttonText.text = "Start!";
-        Time.timeScale = 0.0F;
+        timer.SetActive ( false );
         GlobalAudio.instance.SoundPause ( );
+        Application.runInBackground = true;
+        button = GetComponent<Button> ( );
+        buttonText = button.GetComponentInChildren<Text> ( );
+        tempInfo.text = "Druk op Start om te beginnen!";
+        paused = false;
+        Time.timeScale = 0.5f;
+        buttonText.text = "Start!";
+        }
+
+    public void Paused ( )
+        {
+        paused = !paused;
+        if ( paused )
+            {
+            if ( timer.activeSelf == false )
+                timer.SetActive ( true );
+            tempInfo.text = "";
+            Time.timeScale = 1.0f;
+            buttonText.text = "Pauze";
+            GlobalAudio.instance.SoundStart ( );
+            }
+        if ( !paused )
+            {
+            buttonText.text = "Start!";
+            Time.timeScale = 0.0f;
+            GlobalAudio.instance.SoundPause ( );
+            }
         }
     }
-}

@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Difficulty : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler {
+public class Difficulty : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+    {
 
     public static float TimeSpeed;
     [SerializeField]
@@ -17,63 +18,94 @@ public class Difficulty : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField]
     private GameObject quit;
     [SerializeField]
+    private GameObject back;
+    [SerializeField]
     private Text textDisplay;
 
-    private void Start()
+    private void Start ( )
         {
-        if(textDisplay == null)
+        if ( textDisplay == null )
             {
             textDisplay = GameObject.FindWithTag ( "DifficultyText" ).GetComponent<Text> ( );
+            return;
             }
         }
 
-    public void Easy()
+    public void Easy ( )
         {
         TimeSpeed = 100f;
         }
 
-    public void Normal()
+    public void Normal ( )
         {
         TimeSpeed = 200f;
         }
 
-    public void Hard()
+    public void Hard ( )
         {
         TimeSpeed = 500f;
         }
 
     public void OnPointerEnter ( PointerEventData eventData )
         {
+        if ( easy != null )
+            {
             if ( gameObject == easy )
                 {
                 textDisplay.text = "Moeilijkheidsgraad : Tijd x 100";
                 return;
                 }
-            else if ( gameObject == normal )
+            return;
+            }
+        if ( normal != null )
+            {
+            if ( gameObject == normal )
                 {
                 textDisplay.text = "Moeilijkheidsgraad : Tijd x 200";
                 return;
                 }
-            else if ( gameObject == hard )
+            return;
+            }
+        if ( hard != null )
+            {
+            if ( gameObject == hard )
                 {
                 textDisplay.text = "Moeilijkheidsgraad : Tijd x 500";
                 return;
                 }
-            else if ( gameObject == continueGame )
+            return;
+            }
+
+        if ( continueGame != null )
+            {
+            if ( gameObject == continueGame )
                 {
-                textDisplay.text = "Ga verder waar je bent gebleven.";
+                textDisplay.text = "Ga verder waar je als laatst bent gebleven.";
                 return;
                 }
-            else if ( gameObject == quit )
+            return;
+            }
+        if ( back != null )
+            {
+            if ( gameObject == back )
+                {
+                textDisplay.text = "Keer terug naar het start scherm.";
+                }
+            }
+        if ( quit != null )
+            {
+            if ( gameObject == quit )
                 {
                 textDisplay.text = "Sluit het spel af en keer terug naar desktop.";
                 return;
                 }
+            return;
+            }
         }
 
     public void OnPointerExit ( PointerEventData eventData )
         {
-            textDisplay.text = "";
+        textDisplay.text = "";
         }
 
     public void OnPointerDown ( PointerEventData eventData )

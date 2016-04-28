@@ -84,7 +84,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 0316a480bb027544bb965f0e473e5ea4, type: 3}
+  - {fileID: 2100000, guid: 9f79a7d87a0199a45bcac76c652de13e, type: 3}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -99,7 +99,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 0
 --- !u!102 &10242748
 TextMesh:
   serializedVersion: 3
@@ -107,21 +107,18 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 170470}
-  m_Text: 'testtestestest
-
-    testestest
-
-    test'
+  m_Text: "Rekening: Electriciteit\nDatum: 1/21/2016 \nOpleverings Datum:\n 2/21/2016
+    \nTe betalen: 50"
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
-  m_Anchor: 1
+  m_Anchor: 4
   m_Alignment: 0
   m_TabSize: 4
-  m_FontSize: 500
+  m_FontSize: 30
   m_FontStyle: 3
   m_RichText: 1
-  m_Font: {fileID: 12800000, guid: 0316a480bb027544bb965f0e473e5ea4, type: 3}
+  m_Font: {fileID: 12800000, guid: 9f79a7d87a0199a45bcac76c652de13e, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
@@ -232,7 +229,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2dd890d7ab1e5984290393ecd7254a0a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -299,7 +296,7 @@ RectTransform:
   m_GameObject: {fileID: 159360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.2, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22494504}
   - {fileID: 22477356}
@@ -317,14 +314,14 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 129846}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -36}
-  m_LocalScale: {x: 500, y: 500, z: 500}
+  m_LocalPosition: {x: 0, y: 0, z: 3}
+  m_LocalScale: {x: 40, y: 60, z: 40}
   m_Children: []
   m_Father: {fileID: 22470914}
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 235, y: 443}
+  m_AnchoredPosition: {x: 37.6, y: -45}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22492640
@@ -334,16 +331,16 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 170470}
   m_LocalRotation: {x: -0.0024555963, y: -0.0025299094, z: 0.00427259, w: 0.9999847}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.02757109, y: 0.082991265, z: 0.03034488}
+  m_LocalPosition: {x: 0, y: 0, z: -0.5}
+  m_LocalScale: {x: 0.7, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 22494504}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.2, y: -4}
-  m_SizeDelta: {x: 336.7, y: 248.40001}
-  m_Pivot: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.00000047683716, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22494504
 RectTransform:
   m_ObjectHideFlags: 1
@@ -352,14 +349,14 @@ RectTransform:
   m_GameObject: {fileID: 121678}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 33, y: 44, z: 1}
+  m_LocalScale: {x: 5.5, y: 15, z: 1}
   m_Children:
   - {fileID: 22492640}
   m_Father: {fileID: 22470914}
   m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 22}
   m_SizeDelta: {x: 28.520002, y: 26.310001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &22513128
