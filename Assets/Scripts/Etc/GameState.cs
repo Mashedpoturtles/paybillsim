@@ -29,7 +29,7 @@ public class GameState : MonoBehaviour
         buttonText = button.GetComponentInChildren<Text> ( );
         tempInfo.text = "Druk op Start om te beginnen!";
         paused = false;
-        Time.timeScale = 0.5f;
+        Time.timeScale = 0.0f;
         buttonText.text = "Start!";
         }
 

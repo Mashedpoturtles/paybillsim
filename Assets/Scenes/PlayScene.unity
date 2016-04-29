@@ -170,6 +170,55 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 486514, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -305.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 486514, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -45.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 157276, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 486514, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 325.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 486514, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0.3690938
+      objectReference: {fileID: 0}
+    - target: {fileID: 486514, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0.50894004
+      objectReference: {fileID: 0}
+    - target: {fileID: 486514, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0.27376837
+      objectReference: {fileID: 0}
+    - target: {fileID: 486514, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: -0.7278741
+      objectReference: {fileID: 0}
+    - target: {fileID: 10852024, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
+      propertyPath: m_Intensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 10852024, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
+      propertyPath: m_BounceIntensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 10852024, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
+      propertyPath: m_DrawHalo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 157276, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d076f2822f05ea844befc7668f2cda67, type: 2}
   m_IsPrefabParent: 0
@@ -487,6 +536,10 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1294237380}
+    - target: {fileID: 9560474, guid: 70e03a7b3ee4ff64abdeef9dac0817d8, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 70e03a7b3ee4ff64abdeef9dac0817d8, type: 2}
   m_IsPrefabParent: 0

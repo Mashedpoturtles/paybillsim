@@ -128,7 +128,7 @@ namespace Assets.BillSystem
 
         private void billOverDueDate ( Bill bill )
             {
-            GlobalAudio.instance.SoundWarning ( );
+
             }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Assets.BillSystem
         /// <param name="bill"></param>
         private void AanManing ( Bill bill )
             {
-            GlobalAudio.instance.SoundWarning ( );
+
             }
 
         /// <summary>
@@ -151,16 +151,6 @@ namespace Assets.BillSystem
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui.ReplaceInfo ( bill );
             ui.AddWarning ( bill );
-
-            if ( pressSpace != null )
-                {
-                pressSpace.SetActive ( true );
-                if ( Input.GetKeyDown ( KeyCode.Space ) )
-                    {
-                    pressSpace.SetActive ( false );
-                    }
-                return;
-                }
             }
 
         /// <summary>
@@ -174,16 +164,6 @@ namespace Assets.BillSystem
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui = bill.Object.GetComponent<BillUI> ( );
             ui.ReplaceInfo ( bill );
-            GlobalAudio.instance.SoundWarning ( );
-            if ( pressSpace != null )
-                {
-                pressSpace.SetActive ( true );
-                if ( Input.GetKeyDown ( KeyCode.Space ) )
-                    {
-                    pressSpace.SetActive ( false );
-                    }
-                return;
-                }
             }
 
         /// <summary>
@@ -197,16 +177,6 @@ namespace Assets.BillSystem
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui = bill.Object.GetComponent<BillUI> ( );
             ui.ReplaceInfo ( bill );
-            GlobalAudio.instance.SoundWarning ( );
-            if ( pressSpace != null )
-                {
-                pressSpace.SetActive ( true );
-                if ( Input.GetKeyDown ( KeyCode.Space ) )
-                    {
-                    pressSpace.SetActive ( false );
-                    }
-                return;
-                }
             }
 
         /// <summary>

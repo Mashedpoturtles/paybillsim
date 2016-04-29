@@ -489,9 +489,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 184108}
-  m_LocalRotation: {x: 0, y: -0.40088016, z: 0, w: 0.91613054}
+  m_LocalRotation: {x: -0, y: -0.10905856, z: 0, w: -0.99403536}
   m_LocalPosition: {x: -523, y: 330, z: 101}
-  m_LocalScale: {x: 256.63638, y: 273.2864, z: 391.88004}
+  m_LocalScale: {x: 129.02267, y: 273.2864, z: 331.6113}
   m_Children: []
   m_Father: {fileID: 22428732}
   m_RootOrder: 1
@@ -660,7 +660,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 184108}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: b736f7d8d6c897f48ab1adb9194157e1, type: 2}
   m_CullingMode: 0
@@ -1183,7 +1183,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 0316a480bb027544bb965f0e473e5ea4, type: 3}
-    m_FontSize: 14
+    m_FontSize: 12
     m_FontStyle: 3
     m_BestFit: 0
     m_MinSize: 1
