@@ -1,5 +1,6 @@
 # PayBillSim
 Bill and debt simulator made at and for my internship at collection and creditmanagement company syncasso
+
 This game is ment to be used for educative purposes regarding credit management.
 ### Features
 
