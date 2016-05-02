@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Difficulty : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
     {
 
-    public static float TimeSpeed;
     [SerializeField]
     private GameObject easy;
     [SerializeField]
@@ -22,6 +21,9 @@ public class Difficulty : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField]
     private Text textDisplay;
 
+    /// <summary>
+    /// Cache the textDisplay component.
+    /// </summary>
     private void Start ( )
         {
         if ( textDisplay == null )
@@ -30,22 +32,10 @@ public class Difficulty : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             return;
             }
         }
-
-    public void Easy ( )
-        {
-        TimeSpeed = 100f;
-        }
-
-    public void Normal ( )
-        {
-        TimeSpeed = 200f;
-        }
-
-    public void Hard ( )
-        {
-        TimeSpeed = 500f;
-        }
-
+    /// <summary>
+    /// Raycast buttonhover to display text.
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerEnter ( PointerEventData eventData )
         {
         if ( easy != null )
@@ -108,21 +98,31 @@ public class Difficulty : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         textDisplay.text = "";
         }
 
+    /// <summary>
+    /// Check for clicks and switch difficulty.
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerDown ( PointerEventData eventData )
         {
         if ( gameObject == easy )
             {
-            Easy ( );
+            GameManager.Instance.IsEasy = true;
+            GameManager.Instance.IsNormal = false;
+            GameManager.Instance.IsHard = false;
             return;
             }
         else if ( gameObject == normal )
             {
-            Normal ( );
+            GameManager.Instance.IsNormal = true;
+            GameManager.Instance.IsEasy = false;
+            GameManager.Instance.IsHard = false;
             return;
             }
         else if ( gameObject == hard )
             {
-            Hard ( );
+            GameManager.Instance.IsHard = true;
+            GameManager.Instance.IsEasy = false;
+            GameManager.Instance.IsNormal = false;
             return;
             }
         }

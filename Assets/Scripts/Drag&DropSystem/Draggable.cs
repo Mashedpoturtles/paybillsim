@@ -12,7 +12,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public bool dragOnSurfaces = true;
     GameObject placeholder = null;
     GameObject MyParent;
-
+    //todo new method onclick = bring bill to front side 
     private void Start ( )
         {
         instance = this;
@@ -30,6 +30,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnBeginDrag ( PointerEventData eventData )
         {
+        GameManager.Instance.Paused ( );
         var canvas = FindInParents<Canvas> ( gameObject );
         if ( canvas == null )
             return;
@@ -80,7 +81,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         placeholder.transform.SetSiblingIndex ( newSiblingIndex );
         if ( gameObject != null )
+            {
             SetDraggedPosition ( eventData );
+            }
         }
 
     private void SetDraggedPosition ( PointerEventData eventData )
@@ -118,6 +121,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         this.transform.localPosition = Vector3.zero;
         this.transform.localScale = new Vector3 ( 1, 1, 1 );
         this.transform.localRotation = new Quaternion ( 0, 0, 0, 0 );
+        GameManager.Instance.UnPause ( );
         }
 
     static public T FindInParents<T> ( GameObject go ) where T : Component

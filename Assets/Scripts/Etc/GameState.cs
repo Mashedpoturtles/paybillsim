@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class GameState : MonoBehaviour
@@ -8,28 +7,24 @@ public class GameState : MonoBehaviour
     private Text buttonText;
     public Text tempInfo;
     public bool paused;
-    [SerializeField]
-    private GameObject timer;
 
     private void Update ( )
         {
-        if ( Time.timeScale < 1.0f )
+        if ( GameManager.Instance.TimeSpeed <= 1f )
             {
             tempInfo.text = "Druk op Start om te beginnen!";
             }
-
         }
 
     private void Start ( )
         {
-        timer.SetActive ( false );
         GlobalAudio.instance.SoundPause ( );
         Application.runInBackground = true;
         button = GetComponent<Button> ( );
         buttonText = button.GetComponentInChildren<Text> ( );
         tempInfo.text = "Druk op Start om te beginnen!";
         paused = false;
-        Time.timeScale = 0.0f;
+        GameManager.Instance.Paused ( );
         buttonText.text = "Start!";
         }
 
@@ -38,17 +33,14 @@ public class GameState : MonoBehaviour
         paused = !paused;
         if ( paused )
             {
-            if ( timer.activeSelf == false )
-                timer.SetActive ( true );
-            tempInfo.text = "";
-            Time.timeScale = 1.0f;
+            GameManager.Instance.UnPause ( );
             buttonText.text = "Pauze";
             GlobalAudio.instance.SoundStart ( );
             }
         if ( !paused )
             {
             buttonText.text = "Start!";
-            Time.timeScale = 0.0f;
+            GameManager.Instance.Paused ( );
             GlobalAudio.instance.SoundPause ( );
             }
         }

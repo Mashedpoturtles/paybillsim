@@ -43,7 +43,6 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
                     d.DestroyParent ( );
                     break;
                     }
-
                 }
             }
         }
