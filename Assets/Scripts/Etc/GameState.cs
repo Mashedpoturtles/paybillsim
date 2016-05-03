@@ -8,14 +8,6 @@ public class GameState : MonoBehaviour
     public Text tempInfo;
     public bool paused;
 
-    private void Update ( )
-        {
-        if ( GameManager.Instance.TimeSpeed <= 1f )
-            {
-            tempInfo.text = "Druk op Start om te beginnen!";
-            }
-        }
-
     private void Start ( )
         {
         GlobalAudio.instance.SoundPause ( );
@@ -27,7 +19,9 @@ public class GameState : MonoBehaviour
         GameManager.Instance.Paused ( );
         buttonText.text = "Start!";
         }
-
+    /// <summary>
+    /// First click at top is unpause, second part is pause game.
+    /// </summary>
     public void Paused ( )
         {
         paused = !paused;
@@ -36,6 +30,7 @@ public class GameState : MonoBehaviour
             GameManager.Instance.UnPause ( );
             buttonText.text = "Pauze";
             GlobalAudio.instance.SoundStart ( );
+            tempInfo.text = " ";
             }
         if ( !paused )
             {

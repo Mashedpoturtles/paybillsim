@@ -10,6 +10,7 @@ public class BillUI : MonoBehaviour
     public TextMesh InformationTextLabel;
     public Bill bill;
 
+
     /// <summary>
     /// This method sets the UI for billprefabs when they are instantiated.
     /// </summary>

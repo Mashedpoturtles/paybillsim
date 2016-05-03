@@ -19,6 +19,10 @@ public class GameManager : Manager<GameManager>
         {
         DayIsChanged ( );
         }
+    private void OnEnable ( )
+        {
+        Easy ( );
+        }
 
     public void Paused ( )
         {

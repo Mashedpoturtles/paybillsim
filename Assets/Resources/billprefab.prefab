@@ -172,6 +172,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InformationTextLabel: {fileID: 10242748}
+  zoomTarget: {fileID: 402176, guid: 45662a1b820fe56478dd253a44940ebf, type: 2}
+  rotateTargetLeft: {fileID: 408568, guid: 4c099bb9b5ec38242bcb6b37c757e3e1, type: 2}
+  speed: 200
 --- !u!114 &11451846
 MonoBehaviour:
   m_ObjectHideFlags: 1
