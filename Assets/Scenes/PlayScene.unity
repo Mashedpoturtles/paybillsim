@@ -1465,19 +1465,19 @@ Prefab:
       objectReference: {fileID: 2001325037}
     - target: {fileID: 22498106, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22415554, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22415384, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22491070, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11472420, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
       propertyPath: timer
