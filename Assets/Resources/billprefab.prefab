@@ -48,6 +48,7 @@ GameObject:
   - 114: {fileID: 11451846}
   - 225: {fileID: 22513128}
   - 114: {fileID: 11451044}
+  - 61: {fileID: 6174786}
   m_Layer: 5
   m_Name: billprefab
   m_TagString: billinfo
@@ -100,6 +101,20 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
+--- !u!61 &6174786
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 159360}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
 --- !u!102 &10242748
 TextMesh:
   serializedVersion: 3
@@ -172,9 +187,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InformationTextLabel: {fileID: 10242748}
-  zoomTarget: {fileID: 402176, guid: 45662a1b820fe56478dd253a44940ebf, type: 2}
-  rotateTargetLeft: {fileID: 408568, guid: 4c099bb9b5ec38242bcb6b37c757e3e1, type: 2}
-  speed: 200
 --- !u!114 &11451846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -207,6 +219,7 @@ MonoBehaviour:
   parentToReturnTo: {fileID: 0}
   placeholderParent: {fileID: 0}
   dragOnSurfaces: 0
+  target: {fileID: 0}
 --- !u!212 &21225680
 SpriteRenderer:
   m_ObjectHideFlags: 1

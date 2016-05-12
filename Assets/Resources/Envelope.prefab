@@ -77,7 +77,7 @@ GameObject:
   - 222: {fileID: 22273906}
   - 114: {fileID: 11446352}
   - 114: {fileID: 11477436}
-  - 114: {fileID: 11438860}
+  - 114: {fileID: 11460136}
   m_Layer: 2
   m_Name: SpawnZone
   m_TagString: SpawnZone
@@ -211,18 +211,6 @@ MonoBehaviour:
   m_PreferredHeight: 0
   m_FlexibleWidth: 1
   m_FlexibleHeight: 1
---- !u!114 &11438860
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155298}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c9bd446457aa7446845a91b33953e5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controlsInfo: {fileID: 0}
 --- !u!114 &11446352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -250,6 +238,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11460136
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 155298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b8b2326da31834e875d165ba0b748d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11477436
 MonoBehaviour:
   m_ObjectHideFlags: 1
