@@ -31,6 +31,7 @@ TagManager:
   - CanvasDraggable
   - Storage
   - Dropzone
+  - CloseUpZone
   layers:
   - Default
   - TransparentFX

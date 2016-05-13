@@ -3,15 +3,8 @@ using Assets.BillSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class StorageZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class StorageZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
     {
-
-    private Animator anim;
-
-    void Awake ( )
-        {
-        anim = GetComponent<Animator> ( );
-        }
 
     public void OnPointerEnter ( PointerEventData eventData )
         {
@@ -50,20 +43,6 @@ public class StorageZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IP
                     d.DestroyParent ( );
                     break;
                     }
-                }
-            }
-        }
-
-
-    public void OnPointerClick ( PointerEventData eventData )
-        {
-        if ( !eventData.dragging )
-            {
-            var isClicked = anim.GetBool ( "IsClicked" );
-            anim.SetBool ( "IsClicked", true );
-            if ( isClicked == true )
-                {
-                anim.SetBool ( "IsClicked", false );
                 }
             }
         }

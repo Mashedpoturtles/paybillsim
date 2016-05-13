@@ -6,13 +6,10 @@ public class GameManager : Manager<GameManager>
     {
     public delegate void DayChanged ( );
     public event DayChanged OnDayChange;
-
-    public bool IsEasy;
     public static DateTime currentTime;
+    public bool IsEasy;
     public bool IsNormal;
-
     public bool IsHard;
-
     public float TimeSpeed;
 
     private void Update ( )
@@ -33,21 +30,21 @@ public class GameManager : Manager<GameManager>
     public void Easy ( )
         {
         if ( IsEasy )
-            TimeSpeed = 100f;
+            TimeSpeed = 10f;
         StartCoroutine ( AddHours ( ) );
         }
 
     public void Normal ( )
         {
         if ( IsNormal )
-            TimeSpeed = 200f;
+            TimeSpeed = 30f;
         StartCoroutine ( AddHours ( ) );
         }
 
     public void Hard ( )
         {
         if ( IsHard )
-            TimeSpeed = 500f;
+            TimeSpeed = 50f;
         StartCoroutine ( AddHours ( ) );
         }
     private IEnumerator AddHours ( )

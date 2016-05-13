@@ -423,6 +423,22 @@ Prefab:
       propertyPath: RainCam
       value: 
       objectReference: {fileID: 1256459189}
+    - target: {fileID: 8237936, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11462408, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: __soundMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 6064ee9d71ba6b5459a7439652d0b90e, type: 3}
+    - target: {fileID: 11462408, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: __soundMusicIntro
+      value: 
+      objectReference: {fileID: 8300000, guid: 6064ee9d71ba6b5459a7439652d0b90e, type: 3}
+    - target: {fileID: 11462408, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: _soundMusicPhaseTwo
+      value: 
+      objectReference: {fileID: 8300000, guid: 477b5787035a17a4c9881e3c584aed0b, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: be2936f3859f772439bf37fcad657252, type: 2}
   m_IsPrefabParent: 0

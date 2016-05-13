@@ -25,7 +25,9 @@ public class GlobalAudio : MonoBehaviour
     [SerializeField]
     private AudioClip _soundWarning;
     [SerializeField]
-    private AudioClip __soundMusic;
+    private AudioClip __soundMusicIntro;
+    [SerializeField]
+    private AudioClip _soundMusicPhaseTwo;
     [SerializeField]
     private AudioClip __soundGameOver;
     [SerializeField]
@@ -46,6 +48,7 @@ public class GlobalAudio : MonoBehaviour
         _audioSource_Voice = GameObject.FindWithTag ( "Audio_Voice" ).GetComponent<AudioSource> ( );
         _audioSource_SFX = GameObject.FindWithTag ( "Audio_Sfx" ).GetComponent<AudioSource> ( );
         SoundMusic ( );
+        Invoke ( "SoundMusicPhaseTwo", __soundMusicIntro.length );
         instance = this;
         }
     public void SoundConfirm ( )
@@ -95,7 +98,13 @@ public class GlobalAudio : MonoBehaviour
         }
     public void SoundMusic ( )
         {
-        _audioSource_Music.clip = __soundMusic;
+        _audioSource_Music.clip = __soundMusicIntro;
+        _audioSource_Music.Play ( );
+        }
+    public void SoundMusicPhaseTwo ( )
+        {
+        _audioSource_Music.clip = _soundMusicPhaseTwo;
         _audioSource_Music.Play ( );
         }
     }
+

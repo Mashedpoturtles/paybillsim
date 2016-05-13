@@ -7,6 +7,10 @@ namespace Assets.BillSystem
         {
         Electriciteit,
         Internet,
+        GasEnLicht,
+        Telefoon,
+        ZorgVerzekering,
+        Event
         }
 
     public class Bill
@@ -15,6 +19,7 @@ namespace Assets.BillSystem
         /// The amount you must pay for this bill initially.
         /// </summary>
         public int Cost { get; set; }
+        public int RecievedCost { get; set; }
         /// <summary>
         /// The kind of bill, for e.g. internet, electricity or water bills.
         /// </summary>
@@ -42,7 +47,8 @@ namespace Assets.BillSystem
             Dagvaarding = GameManager.currentTime.AddDays ( 124 );
             Vonnis = GameManager.currentTime.AddDays ( 155 );
             Beslag = GameManager.currentTime.AddDays ( 186 );
-            Cost = 50;
+            Cost = 0;
+            RecievedCost = 0;
             }
         }
     }

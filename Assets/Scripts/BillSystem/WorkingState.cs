@@ -146,12 +146,12 @@ public class WorkingState : MonoBehaviour
         {
         while ( currentState == WorkState.Normal )
             {
-            yield return new WaitForSeconds ( 3 );
+            yield return new WaitForSeconds ( 1.5f );
             if ( workEnergy < 300 )
                 {
                 workEnergy += 4;
                 }
-            Money.instance.currentMoney += AddMoney ( 30 );
+            Money.instance.currentMoney += AddMoney ( 50 );
             }
         yield return null;
         }
@@ -160,12 +160,12 @@ public class WorkingState : MonoBehaviour
         {
         while ( currentState == WorkState.Hard )
             {
-            yield return new WaitForSeconds ( 4 );
+            yield return new WaitForSeconds ( 2 );
             if ( workEnergy > 0 )
                 {
                 workEnergy -= 6;
                 }
-            Money.instance.currentMoney += AddMoney ( 35 );
+            Money.instance.currentMoney += AddMoney ( 75 );
             }
         yield return null;
         }
@@ -179,7 +179,7 @@ public class WorkingState : MonoBehaviour
                 {
                 workEnergy -= 12;
                 }
-            Money.instance.currentMoney += AddMoney ( 35 );
+            Money.instance.currentMoney += AddMoney ( 95 );
             }
         yield return null;
         }

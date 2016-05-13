@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 /// <summary>
 /// This class handles the behaviour of instantiating bills and their behaviour once instantiated.
 /// </summary>
@@ -12,16 +11,17 @@ public class BillManager : MonoBehaviour
     [SerializeField]
     private GameObject spawnZone;
     [SerializeField]
-    private RectTransform storageZone;
-    [SerializeField]
     private GameObject Inbox;
+
     public static List<Bill> Bills { get; set; }
     public static List<GameObject> envelopes { get; set; }
+
     [HideInInspector]
     public GameObject envelope;
     public static BillManager instance;
     public Text gameInfo;
     private float speed = 800f;
+
     [SerializeField]
     private Text _textBillCounterNumber;
     [SerializeField]
@@ -67,6 +67,15 @@ public class BillManager : MonoBehaviour
             GlobalAudio.instance.SoundPaidBill ( );
             Destroy ( bill.Object );
             Bills.Remove ( bill );
+            GameManager.Instance.UnPause ( );
+            }
+        if ( Money.instance.currentMoney >= bill.RecievedCost )
+            {
+            Money.instance.currentMoney += bill.RecievedCost;
+            GlobalAudio.instance.SoundPaidBill ( );
+            Destroy ( bill.Object );
+            Bills.Remove ( bill );
+            GameManager.Instance.UnPause ( );
             }
         }
 
@@ -99,31 +108,98 @@ public class BillManager : MonoBehaviour
                     newBill.Object.transform.SetParent ( envelope.transform.FindChild ( "SpawnZone" ).transform, false );
 
                     ui.SetUI ( this, newBill );
+                    Debug.Log ( newBill.Type );
                     }
                 }
             }
         }
-
     /// <summary>
     /// This method is used to set the day of the month on which a bill is ment to instantiate.
     /// </summary>
     private void onDayChanged ( )
         {
-        switch ( GameManager.currentTime.Day )
+        if ( GameManager.currentTime.Day == 21 )
             {
-            case 21:
-                createBill ( BillType.Internet );
-                break;
+            createBill ( BillType.Internet );
+            }
 
-            case 24:
-                createBill ( BillType.Electriciteit );
-                break;
+        if ( GameManager.currentTime.Day == 24 )
+            {
+            createBill ( BillType.Electriciteit );
+            }
+
+        if ( GameManager.currentTime.Day == 3 )
+            {
+            createBill ( BillType.GasEnLicht );
+            }
+
+        if ( GameManager.currentTime.Day == 13 )
+            {
+            createBill ( BillType.ZorgVerzekering );
+            }
+
+        if ( GameManager.currentTime.Day == 18 )
+            {
+            createBill ( BillType.Telefoon );
+            }
+        if ( GameManager.currentTime.Day == Random.Range ( 1, 30 ) )
+            {
+            createBill ( BillType.Event );
+            }
+        }
+
+    private void RandomEventNegative ( Bill bill )
+        {
+        if ( bill.Type == BillType.Event )
+            {
+            bill.Cost += Random.Range ( 100, 500 );
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+            ui.ReplaceInfoToEventNegative ( bill );
+            }
+        }
+    private void RandomEventPositive ( Bill bill )
+        {
+        if ( bill.Type == BillType.Event )
+            {
+            bill.DueDate = GameManager.currentTime.AddDays ( 0 );
+            bill.RecievedCost += Random.Range ( 100, 500 );
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+            ui.ReplaceInfoToEventPositive ( bill );
             }
         }
 
     private void Normal ( Bill bill )
         {
-        // throw new NotImplementedException ( );
+        if ( bill.Type == BillType.Electriciteit )
+            {
+            bill.Cost = 50;
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+            ui.ReplaceInfo ( bill );
+            }
+        else if ( bill.Type == BillType.Internet )
+            {
+            bill.Cost = 75;
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+            ui.ReplaceInfo ( bill );
+            }
+        else if ( bill.Type == BillType.GasEnLicht )
+            {
+            bill.Cost = 200;
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+            ui.ReplaceInfo ( bill );
+            }
+        else if ( bill.Type == BillType.Telefoon )
+            {
+            bill.Cost = 60;
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+            ui.ReplaceInfo ( bill );
+            }
+        else if ( bill.Type == BillType.ZorgVerzekering )
+            {
+            bill.Cost = 175;
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+            ui.ReplaceInfo ( bill );
+            }
         }
 
     private void billOverDueDate ( Bill bill )
@@ -146,11 +222,14 @@ public class BillManager : MonoBehaviour
     /// <param name="bill"></param>
     private void Somatie ( Bill bill )
         {
-        var fine = 100;
-        bill.Cost += fine;
-        BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-        ui.ReplaceInfo ( bill );
-        ui.AddWarning ( bill );
+        if ( bill.Type != BillType.Event )
+            {
+            var fine = 100;
+            bill.Cost += fine;
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+            ui.ReplaceInfo ( bill );
+            ui.AddWarning ( bill );
+            }
         }
 
     /// <summary>
@@ -159,11 +238,14 @@ public class BillManager : MonoBehaviour
     /// <param name="bill"></param>
     private void DagVaarding ( Bill bill )
         {
-        var fine = 150;
-        bill.Cost += fine;
-        BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-        ui = bill.Object.GetComponent<BillUI> ( );
-        ui.ReplaceInfo ( bill );
+        if ( bill.Type != BillType.Event )
+            {
+            var fine = 150;
+            bill.Cost += fine;
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+            ui = bill.Object.GetComponent<BillUI> ( );
+            ui.ReplaceInfo ( bill );
+            }
         }
 
     /// <summary>
@@ -172,11 +254,14 @@ public class BillManager : MonoBehaviour
     /// <param name="bill"></param>
     private void Vonnis ( Bill bill )
         {
-        var fine = 250;
-        bill.Cost += fine;
-        BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-        ui = bill.Object.GetComponent<BillUI> ( );
-        ui.ReplaceInfo ( bill );
+        if ( bill.Type != BillType.Event )
+            {
+            var fine = 250;
+            bill.Cost += fine;
+            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+            ui = bill.Object.GetComponent<BillUI> ( );
+            ui.ReplaceInfo ( bill );
+            }
         }
 
     /// <summary>
@@ -185,11 +270,14 @@ public class BillManager : MonoBehaviour
     /// <param name="bill"></param>
     private void Beslag ( Bill bill )
         {
-        Money.instance.currentMoney = 0;
-        gameInfo.text = "Verloren.";
-        LoadLevelsOnClick.instance.LoadMenuScene ( );
+        if ( bill.Type != BillType.Event )
+            {
+            Money.instance.currentMoney = 0;
+            gameInfo.text = "Verloren.";
+            LoadLevelsOnClick.instance.LoadMenuScene ( );
 
-        GlobalAudio.instance.SoundGameOver ( );
+            GlobalAudio.instance.SoundGameOver ( );
+            }
         }
 
     /// <summary>
@@ -223,7 +311,28 @@ public class BillManager : MonoBehaviour
                 {
                 Beslag ( bill );
                 }
-            else
+            else if ( GameManager.currentTime == bill.IssueDate && bill.Type == BillType.Event )
+                {
+                int percentPositive = 80;
+                int percentNegative = 90;
+                var randomVal = Random.Range ( 0, 100 );
+                if ( randomVal >= percentPositive && randomVal < percentNegative )
+                    {
+                    RandomEventPositive ( bill );
+                    Debug.Log ( "positive event fired" );
+                    }
+                else if ( randomVal >= percentNegative )
+                    {
+                    RandomEventNegative ( bill );
+                    Debug.Log ( "negative event fired" );
+                    }
+                else
+                    {
+                    RandomEventPositive ( bill );
+                    Debug.Log ( "positive event fired" );
+                    }
+                }
+            else if ( GameManager.currentTime == bill.IssueDate )
                 {
                 Normal ( bill );
                 }

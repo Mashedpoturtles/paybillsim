@@ -7,7 +7,6 @@ public class Envelope : MonoBehaviour
     [SerializeField]
     private Animator anim;
 
-
     private void OnMouseOver ( )
         {
         anim.SetBool ( "Hovering", true );

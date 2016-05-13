@@ -42,7 +42,7 @@ public class Difficulty : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
             if ( gameObject == easy )
                 {
-                textDisplay.text = "Moeilijkheidsgraad : Tijd x 100";
+                textDisplay.text = "Moeilijkheidsgraad : Tijd x 10";
                 return;
                 }
             return;
@@ -51,7 +51,7 @@ public class Difficulty : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
             if ( gameObject == normal )
                 {
-                textDisplay.text = "Moeilijkheidsgraad : Tijd x 200";
+                textDisplay.text = "Moeilijkheidsgraad : Tijd x 30";
                 return;
                 }
             return;
@@ -60,7 +60,7 @@ public class Difficulty : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
             if ( gameObject == hard )
                 {
-                textDisplay.text = "Moeilijkheidsgraad : Tijd x 500";
+                textDisplay.text = "Moeilijkheidsgraad : Tijd x 50";
                 return;
                 }
             return;
