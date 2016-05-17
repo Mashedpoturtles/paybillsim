@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Manager<GameManager>
     {
@@ -12,15 +13,19 @@ public class GameManager : Manager<GameManager>
     public bool IsHard;
     public float TimeSpeed;
 
-    private void Update ( )
+    void Update ( )
         {
         DayIsChanged ( );
         }
-    private void OnEnable ( )
+    void OnEnable ( )
         {
         Easy ( );
         }
-
+    private void Start ( )
+        {
+        if ( SceneManager.GetActiveScene ( ).buildIndex == 0 )
+            SceneManager.LoadScene ( 1 );
+        }
     public void Paused ( )
         {
         TimeSpeed = 0f;

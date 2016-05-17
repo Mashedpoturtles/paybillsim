@@ -9,19 +9,19 @@ public class ActivityOnLoad : MonoBehaviour
     public static List<GameObject> ObjectsToDisableForPlayScene;
     public static List<GameObject> ObjectsToDisableForStartMenu;
 
-    private void OnLevelWasLoaded ( int level )
+    void OnLevelWasLoaded ( int level )
         {
         foreach ( var obj in ObjectsToDisableForPlayScene )
             {
-            obj.SetActive ( level == 1 );
+            obj.SetActive ( level == 2 );
             }
         foreach ( var obj in ObjectsToDisableForStartMenu )
             {
-            obj.SetActive ( level == 2 );
+            obj.SetActive ( level == 3 );
             }
         }
 
-    private void Start ( )
+    void Start ( )
         {
         ObjectsToDisableForPlayScene = new List<GameObject> ( );
         ObjectsToDisableForStartMenu = new List<GameObject> ( );

@@ -56,6 +56,7 @@ public class PayZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoint
                             }
                         break;
                         }
+
                     else if ( bill.Object == data.pointerDrag && bill.Cost > Money.instance.currentMoney )
                         {
                         BillManager.instance.InsufficientFunds ( bill );
@@ -64,6 +65,7 @@ public class PayZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoint
                         BillManager.envelopes.Remove ( d.transform.parent.gameObject );
                         d.DestroyParent ( );
                         }
+
                     }
                 }
             }

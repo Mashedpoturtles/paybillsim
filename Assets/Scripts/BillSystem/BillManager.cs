@@ -64,12 +64,13 @@ public class BillManager : MonoBehaviour
         if ( Money.instance.currentMoney >= bill.Cost )
             {
             Money.instance.currentMoney -= bill.Cost;
+            Debt.instance.currentDebt -= bill.Cost;
             GlobalAudio.instance.SoundPaidBill ( );
             Destroy ( bill.Object );
             Bills.Remove ( bill );
             GameManager.Instance.UnPause ( );
             }
-        if ( Money.instance.currentMoney >= bill.RecievedCost )
+        if ( Money.instance.currentMoney >= bill.RecievedCost || Money.instance.currentMoney <= bill.RecievedCost )
             {
             Money.instance.currentMoney += bill.RecievedCost;
             GlobalAudio.instance.SoundPaidBill ( );
@@ -108,7 +109,6 @@ public class BillManager : MonoBehaviour
                     newBill.Object.transform.SetParent ( envelope.transform.FindChild ( "SpawnZone" ).transform, false );
 
                     ui.SetUI ( this, newBill );
-                    Debug.Log ( newBill.Type );
                     }
                 }
             }
@@ -155,6 +155,7 @@ public class BillManager : MonoBehaviour
             bill.Cost += Random.Range ( 100, 500 );
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui.ReplaceInfoToEventNegative ( bill );
+            Debug.Log ( "event negative" );
             }
         }
     private void RandomEventPositive ( Bill bill )
@@ -165,6 +166,7 @@ public class BillManager : MonoBehaviour
             bill.RecievedCost += Random.Range ( 100, 500 );
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui.ReplaceInfoToEventPositive ( bill );
+            Debug.Log ( "event positive" );
             }
         }
 
@@ -204,7 +206,7 @@ public class BillManager : MonoBehaviour
 
     private void billOverDueDate ( Bill bill )
         {
-        phone.SetActive ( true );
+
         }
 
     /// <summary>
@@ -313,28 +315,27 @@ public class BillManager : MonoBehaviour
                 }
             else if ( GameManager.currentTime == bill.IssueDate && bill.Type == BillType.Event )
                 {
-                int percentPositive = 80;
-                int percentNegative = 90;
-                var randomVal = Random.Range ( 0, 100 );
+                int percentPositive = 50;
+                int percentNegative = 60;
+                var randomVal = Random.Range ( 0, 60 );
+                Debug.Log ( randomVal );
                 if ( randomVal >= percentPositive && randomVal < percentNegative )
                     {
                     RandomEventPositive ( bill );
-                    Debug.Log ( "positive event fired" );
                     }
-                else if ( randomVal >= percentNegative )
+                else if ( randomVal > percentNegative )
                     {
-                    RandomEventNegative ( bill );
-                    Debug.Log ( "negative event fired" );
+                    RandomEventNegative ( bill ); // Bug: this never fires almost but when it does the bill UI doesnt seem to update properly...?
                     }
                 else
                     {
                     RandomEventPositive ( bill );
-                    Debug.Log ( "positive event fired" );
                     }
                 }
             else if ( GameManager.currentTime == bill.IssueDate )
                 {
                 Normal ( bill );
+                Debt.instance.currentDebt += bill.Cost; // Bug: bill.cost somehow gets fired twice always thus the debt increases 2x the normal amount for each bill always instead of once.
                 }
             }
         }

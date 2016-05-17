@@ -49,17 +49,18 @@ public class BillUI : MonoBehaviour
         CultureInfo ci = new CultureInfo ( "nl-NL" );
         // Sets the CurrentCulture property to dutch
         Thread.CurrentThread.CurrentCulture = new CultureInfo ( "nl-NL" );
-        this.InformationTextLabel.text = string.Format ( "Vergissing van de bank\\n Datum:\\n {0}\\n Opleverings Datum:\\n {1}\\n Te betalen: {2}\\n",
-                                bill.IssueDate.ToString ( "d MMMM yyyy", ci ),
+        this.InformationTextLabel.text = string.Format ( "{0} Vergissing van de bank\\n Datum:\\n {1}\\n Opleverings Datum:\\n {2}\\n Te betalen: {3}\\n ", Enum.GetName ( typeof ( BillType ), bill.Type ),
+        bill.IssueDate.ToString ( "d MMMM yyyy", ci ),
                                 bill.DueDate.ToString ( "d MMMM yyyy", ci ),
                                 bill.Cost ).Replace ( "\\n", "\n" );
+
         }
     public void ReplaceInfoToEventPositive ( Bill bill )
         {
         CultureInfo ci = new CultureInfo ( "nl-NL" );
         // Sets the CurrentCulture property to dutch
         Thread.CurrentThread.CurrentCulture = new CultureInfo ( "nl-NL" );
-        this.InformationTextLabel.text = string.Format ( "Vergissing van de bank\\n Datum:\\n {0}\\n Je krijgt: {1}\\n",
+        this.InformationTextLabel.text = string.Format ( "{0} Vergissing van de bank\\n Datum:\\n {1}\\n Je krijgt: {2}\\n", Enum.GetName ( typeof ( BillType ), bill.Type ),
                                 bill.IssueDate.ToString ( "d MMMM yyyy", ci ),
                                 bill.RecievedCost ).Replace ( "\\n", "\n" );
         }

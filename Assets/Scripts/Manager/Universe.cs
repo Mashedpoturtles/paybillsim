@@ -129,7 +129,8 @@ public sealed class Universe : MonoBehaviour
                             {
                             GameObject clone = Instantiate ( go ) as GameObject;
                             clone.name = type.Name;
-                            clone.transform.parent = Instance.transform;
+                            clone.transform.parent = Universe.Instance.transform;
+                            DontDestroyOnLoad ( clone.transform.root );
                             manager = clone.GetComponent ( type ) as ManagerBase;
                             }
                         }
@@ -144,10 +145,10 @@ public sealed class Universe : MonoBehaviour
 
                             go = new GameObject ( type.Name );
                             manager = go.AddComponent ( type ) as ManagerBase;
-                            manager.transform.parent = Instance.transform;
+                            manager.transform.parent = Universe.Instance.transform;
 
                             if ( manager != null && OnManagerCreated != null )
-                                OnManagerCreated ( Instance, new NewManagerEventArgs ( manager ) );
+                                OnManagerCreated ( Universe.Instance, new NewManagerEventArgs ( manager ) );
                             }
                         else
                             {
