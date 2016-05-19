@@ -11,7 +11,6 @@ public class Money : MonoBehaviour
     public int currentMoney;
     public static Money instance;
 
-
     public void Start ( )
         {
         instance = this;
@@ -22,7 +21,7 @@ public class Money : MonoBehaviour
 
     private void Update ( )
         {
-        cashInfo.text = "Geld: " + currentMoney;
         moneySlider.value = currentMoney;
+        cashInfo.text = "Geld: " + currentMoney;
         }
     }

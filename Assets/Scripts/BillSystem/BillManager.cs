@@ -25,14 +25,26 @@ public class BillManager : MonoBehaviour
     [SerializeField]
     private Text _textBillCounterNumber;
     [SerializeField]
-    private Text _textBillCounter;[SerializeField]
-    private GameObject pressSpace;
+    private Text _textBillCounter;
     [SerializeField]
     private GameObject phone;
 
-    private void Awake ( )
+    private void OnEnable ( )
         {
         Initialize ( );
+        }
+    private void Start ( )
+        {
+        if ( instance == null )
+            {
+            instance = this;
+            DontDestroyOnLoad ( gameObject );
+            }
+        else if ( instance != this )
+            {
+            Destroy ( gameObject );
+            return;
+            }
         }
 
     /// <summary>
@@ -40,17 +52,16 @@ public class BillManager : MonoBehaviour
     /// </summary>
     private void Initialize ( )
         {
-        instance = this;
         Bills = new List<Bill> ( );
         envelopes = new List<GameObject> ( );
         envelope = ( Resources.Load<GameObject> ( "Envelope" ) );
         Application.runInBackground = true;
         GameManager.Instance.OnDayChange += onDayChanged;
+        GameManager.Instance.OnDayChange += DueDateCheck;
         }
 
     void Update ( )
         {
-        DueDateCheck ( );
         EnvelopeHandler ( );
         BillCounter ( );
         }
@@ -107,7 +118,6 @@ public class BillManager : MonoBehaviour
                 if ( ui )
                     {
                     newBill.Object.transform.SetParent ( envelope.transform.FindChild ( "SpawnZone" ).transform, false );
-
                     ui.SetUI ( this, newBill );
                     }
                 }
@@ -142,6 +152,7 @@ public class BillManager : MonoBehaviour
             {
             createBill ( BillType.Telefoon );
             }
+
         if ( GameManager.currentTime.Day == Random.Range ( 1, 30 ) )
             {
             createBill ( BillType.Event );
@@ -153,9 +164,9 @@ public class BillManager : MonoBehaviour
         if ( bill.Type == BillType.Event )
             {
             bill.Cost += Random.Range ( 100, 500 );
+            bill.RecievedCost = 0;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui.ReplaceInfoToEventNegative ( bill );
-            Debug.Log ( "event negative" );
             }
         }
     private void RandomEventPositive ( Bill bill )
@@ -163,10 +174,10 @@ public class BillManager : MonoBehaviour
         if ( bill.Type == BillType.Event )
             {
             bill.DueDate = GameManager.currentTime.AddDays ( 0 );
+            bill.Cost = 0;
             bill.RecievedCost += Random.Range ( 100, 500 );
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui.ReplaceInfoToEventPositive ( bill );
-            Debug.Log ( "event positive" );
             }
         }
 
@@ -176,31 +187,31 @@ public class BillManager : MonoBehaviour
             {
             bill.Cost = 50;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.ReplaceInfo ( bill );
+            ui.SetUI ( this, bill );
             }
         else if ( bill.Type == BillType.Internet )
             {
             bill.Cost = 75;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.ReplaceInfo ( bill );
+            ui.SetUI ( this, bill );
             }
         else if ( bill.Type == BillType.GasEnLicht )
             {
             bill.Cost = 200;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.ReplaceInfo ( bill );
+            ui.SetUI ( this, bill );
             }
         else if ( bill.Type == BillType.Telefoon )
             {
             bill.Cost = 60;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.ReplaceInfo ( bill );
+            ui.SetUI ( this, bill );
             }
         else if ( bill.Type == BillType.ZorgVerzekering )
             {
             bill.Cost = 175;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.ReplaceInfo ( bill );
+            ui.SetUI ( this, bill );
             }
         }
 
@@ -287,7 +298,7 @@ public class BillManager : MonoBehaviour
     /// </summary>
     private void DueDateCheck ( )
         {
-        foreach ( var bill in Bills )
+        foreach ( Bill bill in Bills )
             {
             if ( GameManager.currentTime == bill.DueDate && GameManager.currentTime < bill.Aanmaning )
                 {
@@ -313,29 +324,30 @@ public class BillManager : MonoBehaviour
                 {
                 Beslag ( bill );
                 }
-            else if ( GameManager.currentTime == bill.IssueDate && bill.Type == BillType.Event )
-                {
-                int percentPositive = 50;
-                int percentNegative = 60;
-                var randomVal = Random.Range ( 0, 60 );
-                Debug.Log ( randomVal );
-                if ( randomVal >= percentPositive && randomVal < percentNegative )
-                    {
-                    RandomEventPositive ( bill );
-                    }
-                else if ( randomVal > percentNegative )
-                    {
-                    RandomEventNegative ( bill ); // Bug: this never fires almost but when it does the bill UI doesnt seem to update properly...?
-                    }
-                else
-                    {
-                    RandomEventPositive ( bill );
-                    }
-                }
             else if ( GameManager.currentTime == bill.IssueDate )
                 {
                 Normal ( bill );
-                Debt.instance.currentDebt += bill.Cost; // Bug: bill.cost somehow gets fired twice always thus the debt increases 2x the normal amount for each bill always instead of once.
+                Debt.instance.currentDebt += bill.Cost;
+                Debug.Log ( "triggered" );
+                Debug.Log ( bill.Cost );
+                if ( bill.Type == BillType.Event )
+                    {
+                    float percentPositive = 0.5f;
+                    float percentNegative = 0.6f;
+                    var randomVal = Random.value;
+                    if ( randomVal >= percentPositive && randomVal < percentNegative )
+                        {
+                        RandomEventPositive ( bill );
+                        }
+                    else if ( randomVal > percentNegative )
+                        {
+                        RandomEventNegative ( bill );
+                        }
+                    else
+                        {
+                        RandomEventPositive ( bill );
+                        }
+                    }
                 }
             }
         }

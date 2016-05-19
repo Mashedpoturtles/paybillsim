@@ -11,6 +11,10 @@ public class ActivityOnLoad : MonoBehaviour
 
     void OnLevelWasLoaded ( int level )
         {
+        if ( level == 1 )
+            {
+            return;
+            }
         foreach ( var obj in ObjectsToDisableForPlayScene )
             {
             obj.SetActive ( level == 2 );

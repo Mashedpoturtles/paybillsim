@@ -8,10 +8,11 @@ public class GameManager : Manager<GameManager>
     public delegate void DayChanged ( );
     public event DayChanged OnDayChange;
     public static DateTime currentTime;
-    public bool IsEasy;
-    public bool IsNormal;
-    public bool IsHard;
+    public bool SavedDifficultyIsEasy;
+    public bool SavedDifficultyIsNormal;
+    public bool SavedDifficultyIsHard;
     public float TimeSpeed;
+    public bool IsPaused;
 
     void Update ( )
         {
@@ -19,36 +20,31 @@ public class GameManager : Manager<GameManager>
         }
     void OnEnable ( )
         {
-        Easy ( );
+        SetDifficultyEasy ( );
         }
     private void Start ( )
         {
         if ( SceneManager.GetActiveScene ( ).buildIndex == 0 )
             SceneManager.LoadScene ( 1 );
         }
-    public void Paused ( )
-        {
-        TimeSpeed = 0f;
-        StartCoroutine ( AddHours ( ) );
-        }
 
-    public void Easy ( )
+    public void SetDifficultyEasy ( )
         {
-        if ( IsEasy )
+        if ( SavedDifficultyIsEasy )
             TimeSpeed = 10f;
         StartCoroutine ( AddHours ( ) );
         }
 
-    public void Normal ( )
+    public void SetDifficultyNormal ( )
         {
-        if ( IsNormal )
+        if ( SavedDifficultyIsNormal )
             TimeSpeed = 30f;
         StartCoroutine ( AddHours ( ) );
         }
 
-    public void Hard ( )
+    public void SetDifficultyHard ( )
         {
-        if ( IsHard )
+        if ( SavedDifficultyIsHard )
             TimeSpeed = 50f;
         StartCoroutine ( AddHours ( ) );
         }
@@ -63,17 +59,41 @@ public class GameManager : Manager<GameManager>
 
     public void UnPause ( )
         {
-        if ( IsEasy == true )
+        if ( IsPaused == true )
             {
-            Easy ( );
+            IsPaused = false;
+            if ( SavedDifficultyIsEasy == true )
+                {
+                SetDifficultyEasy ( );
+                }
+            else if ( SavedDifficultyIsNormal == true )
+                {
+                SetDifficultyNormal ( );
+                }
+            else if ( SavedDifficultyIsHard == true )
+                {
+                SetDifficultyHard ( );
+                }
             }
-        else if ( IsNormal == true )
+        else
             {
-            Normal ( );
+            IsPaused = true;
+            return;
             }
-        else if ( IsHard == true )
+        }
+
+    public void Paused ( )
+        {
+        if ( IsPaused == false )
             {
-            Hard ( );
+            IsPaused = true;
+            TimeSpeed = 0f;
+            StartCoroutine ( AddHours ( ) );
+            }
+        else
+            {
+            IsPaused = false;
+            return;
             }
         }
 

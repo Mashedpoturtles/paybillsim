@@ -17,6 +17,7 @@ public class GameState : MonoBehaviour
         tempInfo.text = "Druk op Start om te beginnen!";
         paused = false;
         GameManager.Instance.Paused ( );
+        GameManager.Instance.IsPaused = true;
         buttonText.text = "Start!";
         }
     /// <summary>

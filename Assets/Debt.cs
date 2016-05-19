@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class Debt : MonoBehaviour
     {
+    [SerializeField]
     private Text debtInfo;
     [SerializeField]
     private Slider debtSlider;
@@ -17,11 +18,27 @@ public class Debt : MonoBehaviour
         debtInfo = GameObject.FindWithTag ( "Debt" ).GetComponent<Text> ( );
         debtSlider.maxValue = 10000;
         debtSlider.minValue = 0;
+
+        if ( instance == null )
+            {
+            instance = this;
+            DontDestroyOnLoad ( gameObject );
+            }
+        else if ( instance != this )
+            {
+            Destroy ( gameObject );
+            return;
+            }
         }
 
     private void Update ( )
         {
-        debtInfo.text = "Schuld: " + currentDebt;
         debtSlider.value = currentDebt;
+        debtInfo.text = "Schuld: " + currentDebt;
+
+        if ( currentDebt <= 0 )
+            {
+            currentDebt = 0;
+            }
         }
     }

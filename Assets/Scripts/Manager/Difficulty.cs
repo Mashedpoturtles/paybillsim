@@ -106,23 +106,23 @@ public class Difficulty : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
         if ( gameObject == easy )
             {
-            GameManager.Instance.IsEasy = true;
-            GameManager.Instance.IsNormal = false;
-            GameManager.Instance.IsHard = false;
+            GameManager.Instance.SavedDifficultyIsEasy = true;
+            GameManager.Instance.SavedDifficultyIsNormal = false;
+            GameManager.Instance.SavedDifficultyIsHard = false;
             return;
             }
         else if ( gameObject == normal )
             {
-            GameManager.Instance.IsNormal = true;
-            GameManager.Instance.IsEasy = false;
-            GameManager.Instance.IsHard = false;
+            GameManager.Instance.SavedDifficultyIsNormal = true;
+            GameManager.Instance.SavedDifficultyIsEasy = false;
+            GameManager.Instance.SavedDifficultyIsHard = false;
             return;
             }
         else if ( gameObject == hard )
             {
-            GameManager.Instance.IsHard = true;
-            GameManager.Instance.IsEasy = false;
-            GameManager.Instance.IsNormal = false;
+            GameManager.Instance.SavedDifficultyIsHard = true;
+            GameManager.Instance.SavedDifficultyIsEasy = false;
+            GameManager.Instance.SavedDifficultyIsNormal = false;
             return;
             }
         }
