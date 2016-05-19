@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Newtonsoft.Json;
 
 public class GetWeatherUrl : MonoBehaviour
     {
@@ -13,7 +14,7 @@ public class GetWeatherUrl : MonoBehaviour
     protected string newsfeed;
     [SerializeField]
     private GameObject gWeatherObject;
-    public string url = "http://api.wunderground.com/api/d33ba8071e6bde8b/conditions/bestfct/q/autoip.json";
+    public string url = "https://api.wunderground.com/api/d33ba8071e6bde8b/conditions/bestfct/q/autoip.json";
     public Text Weather;
 
     public IEnumerator ServerCall ( )
@@ -21,11 +22,12 @@ public class GetWeatherUrl : MonoBehaviour
         while ( true )
             {
             WWW www = new WWW ( url );
+
             yield return www;
 
             json = www.text;
 
-            var MainObservation = JsonUtility.FromJson<WeatherClasses.MainObservation> ( json );
+            var MainObservation = JsonConvert.DeserializeObject<MainObservation> ( json );
             if ( MainObservation != null && MainObservation.current_observation != null )
                 {
                 for ( int i = 0 ; i < MainObservation.current_observation.weather.Length ; i++ )
@@ -38,18 +40,16 @@ public class GetWeatherUrl : MonoBehaviour
                 WeatherListComplete WeatherCompareScript = gWeatherObject.GetComponent<WeatherListComplete> ( );
                 if ( WeatherCompareScript == null )
                     WeatherCompareScript = gWeatherObject.AddComponent<WeatherListComplete> ( );
-
                 WeatherCompareScript.WeatherEffects ( );
-
-
                     {
                     Weather.text = string.Format ( "Temperatuur {0}  Gevoels temperatuur {1} Uw huidige locatie {2}"
-                        , dTemp, dFeelTempC, sCity );
+                      , dTemp, dFeelTempC, sCity );
                     }
                 }
             yield break;
             }
         }
+
     public void Fetch ( )
         {
         StartCoroutine ( ServerCall ( ) );
@@ -59,5 +59,3 @@ public class GetWeatherUrl : MonoBehaviour
         InvokeRepeating ( "Fetch", 1, 120 );
         }
     }
-
-

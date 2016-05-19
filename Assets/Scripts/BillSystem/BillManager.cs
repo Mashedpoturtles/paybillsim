@@ -26,8 +26,6 @@ public class BillManager : MonoBehaviour
     private Text _textBillCounterNumber;
     [SerializeField]
     private Text _textBillCounter;
-    [SerializeField]
-    private GameObject phone;
 
     private void OnEnable ( )
         {

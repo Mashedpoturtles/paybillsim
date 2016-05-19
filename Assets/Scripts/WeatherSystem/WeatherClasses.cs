@@ -1,40 +1,33 @@
-﻿using UnityEngine;
-using System.Collections;
-
-public class WeatherClasses : MonoBehaviour
-{   
+﻿
+[System.Serializable]
 public class MainObservation
-{
+    {
     public Response response { get; set; }
     public CurrentObservation current_observation { get; set; }
-}
+    }
+[System.Serializable]
 public class Features
-{
+    {
     public int conditions { get; set; }
-}
-
+    }
+[System.Serializable]
 public class Error
-{
+    {
     public string type { get; set; }
-}
-
+    }
+[System.Serializable]
 public class Response
-{
+    {
     public string version { get; set; }
     public string termsofService { get; set; }
     public Features features { get; set; }
     public Error error { get; set; }
-}
+    }
 
-public class Image
-{
-    public string url { get; set; }
-    public string title { get; set; }
-    public string link { get; set; }
-}
 
+[System.Serializable]
 public class DisplayLocation
-{
+    {
     public string full { get; set; }
     public string city { get; set; }
     public string state { get; set; }
@@ -47,10 +40,10 @@ public class DisplayLocation
     public string latitude { get; set; }
     public string longitude { get; set; }
     public string elevation { get; set; }
-}
-
+    }
+[System.Serializable]
 public class ObservationLocation
-{
+    {
     public string full { get; set; }
     public string city { get; set; }
     public string state { get; set; }
@@ -59,18 +52,12 @@ public class ObservationLocation
     public string latitude { get; set; }
     public string longitude { get; set; }
     public string elevation { get; set; }
-}
-
-public class Estimated
-{
-}
-
+    }
+[System.Serializable]
 public class CurrentObservation
-{
-    public Image image { get; set; }
+    {
     public DisplayLocation display_location { get; set; }
     public ObservationLocation observation_location { get; set; }
-    public Estimated estimated { get; set; }
     public string station_id { get; set; }
     public string observation_time { get; set; }
     public string observation_time_rfc822 { get; set; }
@@ -123,5 +110,4 @@ public class CurrentObservation
     public string history_url { get; set; }
     public string ob_url { get; set; }
     public string nowcast { get; set; }
-}
-}
+    }

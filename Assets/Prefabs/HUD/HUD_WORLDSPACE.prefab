@@ -1211,8 +1211,6 @@ MonoBehaviour:
   gameInfo: {fileID: 11482474}
   _textBillCounterNumber: {fileID: 11490498}
   _textBillCounter: {fileID: 11471256}
-  pressSpace: {fileID: 135812}
-  phone: {fileID: 0}
 --- !u!114 &11496134
 MonoBehaviour:
   m_ObjectHideFlags: 1
