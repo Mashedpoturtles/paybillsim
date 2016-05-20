@@ -22,7 +22,7 @@ to display accurate weather forecast realtime visually in game. ( currently only
 
 ### Created with
 * [Unity3D] (https://unity3d.com)
-* [Newtonsonft.Json](http://www.newtonsoft.com/json)
+* [Newtonsoft.Json](http://www.newtonsoft.com/json)
 * [wunderground] (http://www.wunderground.com/weather/api)
 * [A* pathfinding project] (http://arongranberg.com/astar/)
 
