@@ -36,7 +36,6 @@ public class BillManager : MonoBehaviour
         if ( instance == null )
             {
             instance = this;
-            DontDestroyOnLoad ( gameObject );
             }
         else if ( instance != this )
             {
@@ -326,8 +325,6 @@ public class BillManager : MonoBehaviour
                 {
                 Normal ( bill );
                 Debt.instance.currentDebt += bill.Cost;
-                Debug.Log ( "triggered" );
-                Debug.Log ( bill.Cost );
                 if ( bill.Type == BillType.Event )
                     {
                     float percentPositive = 0.5f;
@@ -380,11 +377,11 @@ public class BillManager : MonoBehaviour
         {
         _textBillCounter.text = "Rekeningen in wachtrij";
         _textBillCounterNumber.text = string.Format ( "{0}", Inbox.transform.childCount );
-        _textBillCounter.GetComponentInChildren<SpriteRenderer> ( ).enabled = true;
+        _textBillCounter.GetComponentInChildren<Image> ( ).enabled = true;
         if ( Inbox.transform.childCount == 0 )
             {
             _textBillCounterNumber.text = " ";
-            _textBillCounter.GetComponentInChildren<SpriteRenderer> ( ).enabled = false;
+            _textBillCounter.GetComponentInChildren<Image> ( ).enabled = false;
             _textBillCounter.text = " ";
             }
         }

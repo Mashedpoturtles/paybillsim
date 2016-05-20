@@ -6,8 +6,6 @@ public class WorkingState : MonoBehaviour
     {
     [SerializeField]
     private Text _WarningTextEnergy;
-    [SerializeField]
-    private Text _WarningTextNotworking;
     private Slider workSlider;
     [SerializeField]
     private BillManager billManager;
@@ -49,7 +47,6 @@ public class WorkingState : MonoBehaviour
             energy.text = "Energy: " + workEnergy;
             }
         WarningLowEnergy ( );
-        WarningNotWorking ( );
         }
 
     private void WarningLowEnergy ( )
@@ -69,17 +66,6 @@ public class WorkingState : MonoBehaviour
         if ( workEnergy >= 100 )
             {
             _WarningTextEnergy.text = " ";
-            }
-        }
-    private void WarningNotWorking ( )
-        {
-        if ( workSlider.value == 1 )
-            {
-            _WarningTextNotworking.text = "Je bent niet aan het werk, gebruik de slider om geld te verdienen.";
-            }
-        else
-            {
-            _WarningTextNotworking.text = "";
             }
         }
 

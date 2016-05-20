@@ -418,7 +418,7 @@ Transform:
   m_GameObject: {fileID: 185282}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.335663, y: 163.67987, z: 0}
-  m_LocalScale: {x: 0.2709796, y: 0.2709794, z: 0.2709794}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 448672}
   - {fileID: 440272}
@@ -1064,7 +1064,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayButton: {fileID: 185652, guid: 4fd73ac8e62e1ac43bc0ef1491fee493, type: 2}
   ContinueButton: {fileID: 117494, guid: 6282cd4980e4d7947b423c73a81bdf43, type: 2}
-  back: {fileID: 116228, guid: 541a68a6f36ca9349aa1179e113c53f2, type: 2}
 --- !u!114 &11433876
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1274,7 +1273,8 @@ MonoBehaviour:
   __soundPause: {fileID: 8300000, guid: 06d2cb4cd6e0439408a4b43c72291d7a, type: 3}
   __soundAttention: {fileID: 8300000, guid: 2ba41bf345a0e4a4c8c5b5ca7831d08b, type: 3}
   _soundWarning: {fileID: 8300000, guid: 77792efbcc1b86e409783412e40a61af, type: 3}
-  __soundMusic: {fileID: 8300000, guid: 9682f30a354753042995eb88328d0b0c, type: 3}
+  __soundMusicIntro: {fileID: 8300000, guid: 6064ee9d71ba6b5459a7439652d0b90e, type: 3}
+  _soundMusicPhaseTwo: {fileID: 8300000, guid: 477b5787035a17a4c9881e3c584aed0b, type: 3}
   __soundGameOver: {fileID: 8300000, guid: 5ffb8146935c8274eafc66a81960e907, type: 3}
   _soundPaperTear: {fileID: 8300000, guid: ea60caa4249fa8144ab8a705c0c016e6, type: 3}
   __soundHoverAudio: {fileID: 8300000, guid: 8647b89ce16798c41b27b3c9487095b8, type: 3}

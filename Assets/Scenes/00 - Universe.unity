@@ -85,16 +85,15 @@ NavMeshSettings:
     cellSize: 0.16666666
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &1132257990
+--- !u!1 &741159730
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 1132257992}
-  - 114: {fileID: 1132257993}
-  - 114: {fileID: 1132257991}
+  - 4: {fileID: 741159732}
+  - 114: {fileID: 741159731}
   m_Layer: 0
   m_Name: Universe
   m_TagString: Untagged
@@ -102,40 +101,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1132257991
+--- !u!114 &741159731
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1132257990}
+  m_GameObject: {fileID: 741159730}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f8f7700fb5d38e4498fb680112ed25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1132257992
+--- !u!4 &741159732
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1132257990}
+  m_GameObject: {fileID: 741159730}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
---- !u!114 &1132257993
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1132257990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ac7f6d415aefb94389d6b2f419b4b4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_RootOrder: 1
 --- !u!1 &1463835595
 GameObject:
   m_ObjectHideFlags: 1
@@ -174,4 +162,4 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0

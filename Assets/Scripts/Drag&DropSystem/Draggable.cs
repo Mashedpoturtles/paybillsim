@@ -84,8 +84,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         if ( dragOnSurfaces )
             placeholderParent = transform as RectTransform;
-        else
-            placeholderParent = canvas.transform as RectTransform;
+
         SetDraggedPosition ( eventData );
         }
 

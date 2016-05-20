@@ -22,7 +22,7 @@ public class GameManager : Manager<GameManager>
         {
         SetDifficultyEasy ( );
         }
-    private void Start ( )
+    void Awake ( )
         {
         if ( SceneManager.GetActiveScene ( ).buildIndex == 0 )
             SceneManager.LoadScene ( 1 );
