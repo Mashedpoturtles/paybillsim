@@ -26,4 +26,4 @@ to display accurate weather forecast realtime visually in game. ( currently only
 * [wunderground] (http://www.wunderground.com/weather/api)
 * [A* pathfinding project] (http://arongranberg.com/astar/)
 
-![Alt text](https://pbs.twimg.com/media/Ci5mDAVWYAA4jnW.jpg:large "Main Menu")
+![Alt text](https://i.gyazo.com/cc97c924b10df0ccec5d1701c7e33ad7.gif "Main Menu")
