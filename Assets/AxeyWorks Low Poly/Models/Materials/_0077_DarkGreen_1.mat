@@ -38,6 +38,69 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _Control
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Splat0
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Splat1
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Splat2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Splat3
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal0
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal1
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal3
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _ParallaxMap
         second:
           m_Texture: {fileID: 0}
@@ -93,6 +156,42 @@ Material:
         second: 0.5
       data:
         first:
+          name: _Shininess
+        second: 0.078125
+      data:
+        first:
+          name: _Metallic0
+        second: 0
+      data:
+        first:
+          name: _Metallic1
+        second: 0
+      data:
+        first:
+          name: _Metallic2
+        second: 0
+      data:
+        first:
+          name: _Metallic3
+        second: 0
+      data:
+        first:
+          name: _Smoothness0
+        second: 1
+      data:
+        first:
+          name: _Smoothness1
+        second: 1
+      data:
+        first:
+          name: _Smoothness2
+        second: 1
+      data:
+        first:
+          name: _Smoothness3
+        second: 1
+      data:
+        first:
           name: _Parallax
         second: 0.02
       data:
@@ -102,7 +201,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 1
+        second: 0
       data:
         first:
           name: _BumpScale
@@ -135,4 +234,8 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 0.7713996, g: 1, b: 0.6397059, a: 1}
+        second: {r: 0.14572248, g: 0.33823532, b: 0.034818336, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 1}

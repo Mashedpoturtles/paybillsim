@@ -18,10 +18,7 @@ public class GameManager : Manager<GameManager>
         {
         DayIsChanged ( );
         }
-    void OnEnable ( )
-        {
-        SetDifficultyEasy ( );
-        }
+
     void Awake ( )
         {
         if ( SceneManager.GetActiveScene ( ).buildIndex == 0 )

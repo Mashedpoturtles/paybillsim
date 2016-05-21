@@ -39,10 +39,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ad78c3cba718ab4db1e0dfff8445732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsEasy: 0
-  IsNormal: 0
-  IsHard: 0
+  SavedDifficultyIsEasy: 0
+  SavedDifficultyIsNormal: 0
+  SavedDifficultyIsHard: 0
   TimeSpeed: 0
+  IsPaused: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
