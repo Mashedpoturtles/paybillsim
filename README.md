@@ -25,5 +25,6 @@ to display accurate weather forecast realtime visually in game. ( currently only
 * [Newtonsoft.Json](http://www.newtonsoft.com/json)
 * [wunderground] (http://www.wunderground.com/weather/api)
 * [A* pathfinding project] (http://arongranberg.com/astar/)
+* [Universe game manager] (https://www.assetstore.unity3d.com/en/#!/content/24227)
 
 ![Alt text](https://i.gyazo.com/cc97c924b10df0ccec5d1701c7e33ad7.gif "GamePlay")
