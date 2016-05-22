@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
-
+using Universe;
 public class GameManager : Manager<GameManager>
     {
     public delegate void DayChanged ( );
