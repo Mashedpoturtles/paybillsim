@@ -19,7 +19,7 @@ public class WeatherListComplete : MonoBehaviour
 
 
         weatherConditions weather = ( weatherConditions ) Enum.Parse ( typeof ( weatherConditions ), GetWeatherUrl.sWeatherCondition.Replace ( " ", "" ) );
-        if ( weather == weatherConditions.Cloudy || weather == weatherConditions.PartlyCloudy || weather == weatherConditions.MostlyCloudy || weather == weatherConditions.ScatteredClouds )
+        if ( weather == weatherConditions.Cloudy || weather == weatherConditions.PartlyCloudy || weather == weatherConditions.MostlyCloudy || weather == weatherConditions.ScatteredClouds || weather == weatherConditions.Rain || weather == weatherConditions.RainShowers || weather == weatherConditions.LightDrizzle )
             {
             cloudanim.SetBool ( "IsCloudy", true );
             }

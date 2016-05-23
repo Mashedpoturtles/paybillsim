@@ -10,7 +10,6 @@ using System.Threading;
 public class BillUI : MonoBehaviour
     {
     public TextMesh InformationTextLabel;
-    public Bill bill;
     public string IssueDate;
     public string DueDate;
     public string RecievedCost;
@@ -21,7 +20,7 @@ public class BillUI : MonoBehaviour
     /// </summary>
     /// <param name="manager"></param>
     /// <param name="bill"></param>
-    public void SetUI ( BillManager manager, Bill bill )
+    public void SetUI ( Bill bill )
         {
         // Sets the CurrentCulture property to dutch
         CultureInfo ci = new CultureInfo ( "nl-NL" );

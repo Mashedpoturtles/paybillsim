@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.BillSystem;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -53,7 +55,22 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             this.transform.localScale = new Vector3 ( 1, 1, 1 );
             this.transform.localRotation = new Quaternion ( 0, 0, 0, 0 );
             }
+
+        if ( transform.parent == closeUpZone.transform || transform.parent == storage.transform )
+            if ( eventData.pointerPress )
+                {
+                List<Bill> tempBillList = new List<Bill> ( BillManager.Bills );
+                foreach ( var bill in tempBillList )
+                    if ( bill.Object == this.gameObject )
+                        {
+                        if ( TermSystem.instance.paymentInTerms == true )
+                            {
+                            BillManager.instance.SplitBillsInTerms ( bill, TermSystem.instance.Terms );
+                            }
+                        }
+                }
         }
+
     /// <summary>
     /// Implement the IbeginDraghandler interface.
     /// </summary>
