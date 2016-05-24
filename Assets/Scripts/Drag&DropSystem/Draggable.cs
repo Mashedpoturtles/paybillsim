@@ -77,7 +77,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     /// <param name="eventData"></param>
     public void OnBeginDrag ( PointerEventData eventData )
         {
-        GameManager.Instance.Paused ( );
+        if ( GameManager.Instance.IsPaused == false )
+            {
+            GameManager.Instance.Pause ( );
+            }
+
+
         var canvas = FindInParents<Canvas> ( gameObject );
         if ( canvas == null )
             return;
@@ -136,6 +141,25 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
     /// <summary>
+    /// Implement the IEndDragHandler interface
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnEndDrag ( PointerEventData eventData )
+        {
+        SetNewParent ( );
+
+        this.transform.localPosition = Vector3.zero;
+        this.transform.localScale = new Vector3 ( 1, 1, 1 );
+        this.transform.localRotation = new Quaternion ( 0, 0, 0, 0 );
+
+        Text buttonText = GameObject.FindWithTag ( "pausebutton" ).GetComponentInChildren<Text> ( );
+        if ( buttonText.text != "Start!" )
+            {
+            GameManager.Instance.UnPause ( );
+            }
+        }
+
+    /// <summary>
     /// Set the dragged position to that of the the mouse position
     /// </summary>
     /// <param name="eventData"></param>
@@ -165,7 +189,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         transform.position = parentToReturnTo.position;
         }
 
-
     public void SetNewParent ( )
         {
         this.transform.SetParent ( parentToReturnTo );
@@ -173,20 +196,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         GetComponent<CanvasGroup> ( ).blocksRaycasts = true;
 
         Destroy ( placeholder );
-        }
-
-    /// <summary>
-    /// Implement the IEndDragHandler interface
-    /// </summary>
-    /// <param name="eventData"></param>
-    public void OnEndDrag ( PointerEventData eventData )
-        {
-        SetNewParent ( );
-
-        this.transform.localPosition = Vector3.zero;
-        this.transform.localScale = new Vector3 ( 1, 1, 1 );
-        this.transform.localRotation = new Quaternion ( 0, 0, 0, 0 );
-        GameManager.Instance.UnPause ( );
         }
 
     /// <summary>
