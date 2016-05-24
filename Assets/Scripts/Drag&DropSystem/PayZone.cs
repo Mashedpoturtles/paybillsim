@@ -1,7 +1,7 @@
 ﻿using Assets.BillSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using UnityEngine.UI;
 
 public class PayZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
     {
@@ -47,6 +47,11 @@ public class PayZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoint
                     {
                     if ( bill.Object == data.pointerDrag && bill.Cost <= Money.instance.currentMoney )
                         {
+                        Text buttonText = GameObject.FindWithTag ( "pausebutton" ).GetComponentInChildren<Text> ( );
+                        if ( buttonText.text != "Start!" )
+                            {
+                            GameManager.Instance.UnPause ( );
+                            }
                         manager.PayBill ( bill );
                         BillManager.envelopes.Remove ( d.transform.parent.gameObject );
                         d.DestroyParent ( );
@@ -59,6 +64,11 @@ public class PayZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoint
 
                     else if ( bill.Object == data.pointerDrag && bill.Cost > Money.instance.currentMoney )
                         {
+                        Text buttonText = GameObject.FindWithTag ( "pausebutton" ).GetComponentInChildren<Text> ( );
+                        if ( buttonText.text != "Start!" )
+                            {
+                            GameManager.Instance.UnPause ( );
+                            }
                         BillManager.instance.InsufficientFunds ( bill );
                         d.SetNewParent ( storage.transform as RectTransform );
                         GlobalAudio.instance.SoundAttention ( );

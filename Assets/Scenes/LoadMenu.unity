@@ -316,7 +316,7 @@ MonoBehaviour:
     radius: 2
     sampleCount: 2
     sampleCountValue: 24
-    blurIterations: 4
+    blurIterations: 1
     downsampling: 0
     ambientOnly: 0
     debug: 0

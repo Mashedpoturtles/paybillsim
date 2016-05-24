@@ -1,10 +1,12 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using Universe;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using Universe;
+
 public class GameManager : Manager<GameManager>
     {
+
     public delegate void DayChanged ( );
     public event DayChanged OnDayChange;
     public static DateTime currentTime;
@@ -22,7 +24,10 @@ public class GameManager : Manager<GameManager>
     void Awake ( )
         {
         if ( SceneManager.GetActiveScene ( ).buildIndex == 0 )
+            {
             SceneManager.LoadScene ( 1 );
+            }
+        IsPaused = true;
         }
 
     public void SetDifficultyEasy ( )
@@ -45,6 +50,7 @@ public class GameManager : Manager<GameManager>
             TimeSpeed = 50f;
         StartCoroutine ( AddHours ( ) );
         }
+
     private IEnumerator AddHours ( )
         {
         while ( true )
@@ -72,14 +78,14 @@ public class GameManager : Manager<GameManager>
                 SetDifficultyHard ( );
                 }
             }
+
         else
             {
-            IsPaused = true;
-            return;
+            Pause ( );
             }
         }
 
-    public void Paused ( )
+    public void Pause ( )
         {
         if ( IsPaused == false )
             {
@@ -87,14 +93,18 @@ public class GameManager : Manager<GameManager>
             TimeSpeed = 0f;
             StartCoroutine ( AddHours ( ) );
             }
+
         else
             {
-            IsPaused = false;
+            UnPause ( );
             return;
             }
         }
 
     private DayOfWeek tmpDay = currentTime.DayOfWeek;
+    private object tempInfo;
+    private object buttonText;
+
     public void DayIsChanged ( )
         {
         if ( OnDayChange != null )

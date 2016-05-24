@@ -33,6 +33,8 @@ TagManager:
   - Dropzone
   - CloseUpZone
   - Debt
+  - pausebutton
+  - PauseButton
   layers:
   - Default
   - TransparentFX
