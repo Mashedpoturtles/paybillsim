@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class WorkingState : MonoBehaviour
     {
-    [SerializeField]
-    private Text _WarningTextEnergy;
     private Slider workSlider;
     [SerializeField]
     private BillManager billManager;
@@ -54,18 +52,6 @@ public class WorkingState : MonoBehaviour
         if ( workEnergy > 300 )
             {
             workEnergy = 300;
-            }
-        if ( workEnergy <= 100 )
-            {
-            _WarningTextEnergy.text = "Op een gewoon tempo werken herlaad je energie";
-            }
-        if ( workEnergy <= 50 )
-            {
-            _WarningTextEnergy.text = "Je energie mag niet opraken";
-            }
-        if ( workEnergy >= 100 )
-            {
-            _WarningTextEnergy.text = " ";
             }
         }
 
@@ -120,9 +106,12 @@ public class WorkingState : MonoBehaviour
         while ( currentState == WorkState.NotWorking )
             {
             yield return new WaitForSeconds ( 3 );
-            if ( workEnergy < 300 )
+            if ( GameManager.Instance.IsPaused == false )
                 {
-                workEnergy += 4;
+                if ( workEnergy < 300 )
+                    {
+                    workEnergy += 4;
+                    }
                 }
             }
         yield return null;
@@ -133,11 +122,14 @@ public class WorkingState : MonoBehaviour
         while ( currentState == WorkState.Normal )
             {
             yield return new WaitForSeconds ( 1.5f );
-            if ( workEnergy < 300 )
+            if ( GameManager.Instance.IsPaused == false )
                 {
-                workEnergy += 4;
+                if ( workEnergy < 300 )
+                    {
+                    workEnergy += 4;
+                    }
+                Money.instance.currentMoney += AddMoney ( 50 );
                 }
-            Money.instance.currentMoney += AddMoney ( 50 );
             }
         yield return null;
         }
@@ -147,11 +139,14 @@ public class WorkingState : MonoBehaviour
         while ( currentState == WorkState.Hard )
             {
             yield return new WaitForSeconds ( 2 );
-            if ( workEnergy > 0 )
+            if ( GameManager.Instance.IsPaused == false )
                 {
-                workEnergy -= 6;
+                if ( workEnergy > 0 )
+                    {
+                    workEnergy -= 6;
+                    }
+                Money.instance.currentMoney += AddMoney ( 75 );
                 }
-            Money.instance.currentMoney += AddMoney ( 75 );
             }
         yield return null;
         }
@@ -161,11 +156,14 @@ public class WorkingState : MonoBehaviour
         while ( currentState == WorkState.Workaholic )
             {
             yield return new WaitForSeconds ( 2 );
-            if ( workEnergy > 0 )
+            if ( GameManager.Instance.IsPaused == false )
                 {
-                workEnergy -= 12;
+                if ( workEnergy > 0 )
+                    {
+                    workEnergy -= 12;
+                    }
+                Money.instance.currentMoney += AddMoney ( 95 );
                 }
-            Money.instance.currentMoney += AddMoney ( 95 );
             }
         yield return null;
         }
@@ -189,7 +187,6 @@ public class WorkingState : MonoBehaviour
             CancelInvoke ( "Energy" );
             workEnergy = 0;
             GlobalAudio.instance.SoundGameOver ( );
-            _WarningTextEnergy.text = "Je hebt geen energie meer om te werken.";
             LoadLevelsOnClick.instance.LoadMenuScene ( );
             return;
             }

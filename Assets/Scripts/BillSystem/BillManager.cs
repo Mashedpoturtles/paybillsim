@@ -97,7 +97,7 @@ public class BillManager : MonoBehaviour
     /// This method creates new bills on the specified days of the month.
     /// </summary>
     /// <param name="type"></param>
-    private void createBill ( BillType type )
+    private Bill createBill ( BillType type )
         {
         if ( spawnZone )
             {
@@ -115,11 +115,41 @@ public class BillManager : MonoBehaviour
                 if ( ui )
                     {
                     newBill.Object.transform.SetParent ( envelope.transform.FindChild ( "SpawnZone" ).transform, false );
-                    ui.SetUI ( this, newBill );
+                    ui.SetUI ( newBill );
                     }
                 }
+            return newBill;
             }
+        return null;
         }
+
+    public void SplitBillsInTerms ( Bill bill, int amount )
+        {
+
+        int newBillCost = bill.Cost / amount;
+        Debug.Log ( "newbillcost" + newBillCost );
+        Debug.Log ( "billcost" + bill.Cost );
+        for ( int i = 0 ; i < amount ; i++ )
+            {
+            Bill tempBill = createBill ( bill.Type );
+            tempBill.Cost = newBillCost;
+
+            BillUI ui = tempBill.Object.GetComponentInChildren<BillUI> ( );
+            ui.ReplaceInfo ( tempBill );
+            }
+
+        if ( bill.Object.transform.parent == spawnZone )
+            {
+            Destroy ( bill.Object.transform.parent.parent );
+            envelopes.Remove ( bill.Object.transform.parent.gameObject );
+            }
+
+
+        Debt.instance.currentDebt -= bill.Cost;
+        Destroy ( bill.Object );
+        Bills.Remove ( bill );
+        }
+
     /// <summary>
     /// This method is used to set the day of the month on which a bill is ment to instantiate.
     /// </summary>
@@ -184,31 +214,31 @@ public class BillManager : MonoBehaviour
             {
             bill.Cost = 50;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.SetUI ( this, bill );
+            ui.SetUI ( bill );
             }
         else if ( bill.Type == BillType.Internet )
             {
             bill.Cost = 75;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.SetUI ( this, bill );
+            ui.SetUI ( bill );
             }
         else if ( bill.Type == BillType.GasEnLicht )
             {
             bill.Cost = 200;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.SetUI ( this, bill );
+            ui.SetUI ( bill );
             }
         else if ( bill.Type == BillType.Telefoon )
             {
             bill.Cost = 60;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.SetUI ( this, bill );
+            ui.SetUI ( bill );
             }
         else if ( bill.Type == BillType.ZorgVerzekering )
             {
             bill.Cost = 175;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.SetUI ( this, bill );
+            ui.SetUI ( bill );
             }
         }
 
