@@ -132,7 +132,7 @@ Prefab:
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11482474, guid: 70e03a7b3ee4ff64abdeef9dac0817d8,
     type: 2}
-  m_PrefabInternal: {fileID: 1225387874}
+  m_PrefabInternal: {fileID: 2015712953}
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &308427549
 Prefab:
@@ -213,19 +213,27 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11430146, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
-      propertyPath: tempInfo
-      value: 
-      objectReference: {fileID: 250686193}
     - target: {fileID: 11443548, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
       propertyPath: billManager
       value: 
       objectReference: {fileID: 1155217728}
-    - target: {fileID: 22415384, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+    - target: {fileID: 11430146, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: tempInfo
+      value: 
+      objectReference: {fileID: 250686193}
+    - target: {fileID: 22458482, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22442142, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22491070, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22415384, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
@@ -241,12 +249,28 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 22458482, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
-      propertyPath: m_AnchorMax.y
+    - target: {fileID: 154500, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11439418, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 11439418, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: m_Type
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 22442142, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
-      propertyPath: m_AnchorMax.y
+    - target: {fileID: 11439418, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11439418, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11439418, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -310,9 +334,9 @@ Prefab:
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11496028, guid: 70e03a7b3ee4ff64abdeef9dac0817d8,
     type: 2}
-  m_PrefabInternal: {fileID: 1225387874}
+  m_PrefabInternal: {fileID: 2015712953}
   m_Script: {fileID: 11500000, guid: 87d76d821fb63084ab31b60520fc9e5d, type: 3}
---- !u!1001 &1225387874
+--- !u!1001 &2015712953
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2

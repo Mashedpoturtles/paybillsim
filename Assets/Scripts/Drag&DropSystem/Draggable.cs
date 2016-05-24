@@ -63,9 +63,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 foreach ( var bill in tempBillList )
                     if ( bill.Object == this.gameObject )
                         {
-                        if ( TermSystem.instance.paymentInTerms == true )
+                        if ( InstalmentSystem.instance.PayWithInstalments == true )
                             {
-                            BillManager.instance.SplitBillsInTerms ( bill, TermSystem.instance.Terms );
+                            BillManager.instance.SplitBillsInTerms ( bill, InstalmentSystem.instance.InstalmentsToPayIn );
+                            InstalmentSystem.instance.DisableAfterInstalment ( );
                             }
                         }
                 }

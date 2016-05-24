@@ -37,6 +37,7 @@ public class PayZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoint
 
     public void OnDrop ( PointerEventData data )
         {
+
         Draggable d = data.pointerDrag.GetComponent<Draggable> ( );
         if ( d != null )
             {
@@ -47,11 +48,6 @@ public class PayZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoint
                     {
                     if ( bill.Object == data.pointerDrag && bill.Cost <= Money.instance.currentMoney )
                         {
-                        Text buttonText = GameObject.FindWithTag ( "pausebutton" ).GetComponentInChildren<Text> ( );
-                        if ( buttonText.text != "Start!" )
-                            {
-                            GameManager.Instance.UnPause ( );
-                            }
                         manager.PayBill ( bill );
                         BillManager.envelopes.Remove ( d.transform.parent.gameObject );
                         d.DestroyParent ( );
@@ -64,11 +60,6 @@ public class PayZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoint
 
                     else if ( bill.Object == data.pointerDrag && bill.Cost > Money.instance.currentMoney )
                         {
-                        Text buttonText = GameObject.FindWithTag ( "pausebutton" ).GetComponentInChildren<Text> ( );
-                        if ( buttonText.text != "Start!" )
-                            {
-                            GameManager.Instance.UnPause ( );
-                            }
                         BillManager.instance.InsufficientFunds ( bill );
                         d.SetNewParent ( storage.transform as RectTransform );
                         GlobalAudio.instance.SoundAttention ( );

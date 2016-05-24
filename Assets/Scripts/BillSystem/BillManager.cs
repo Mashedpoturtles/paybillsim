@@ -1,5 +1,6 @@
 using Assets.BillSystem;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ public class BillManager : MonoBehaviour
     private GameObject Inbox;
 
     public static List<Bill> Bills { get; set; }
+    public static List<Bill> instalmentQueue { get; set; }
     public static List<GameObject> envelopes { get; set; }
 
     [HideInInspector]
@@ -29,7 +31,13 @@ public class BillManager : MonoBehaviour
 
     private void OnEnable ( )
         {
-        Initialize ( );
+        Bills = new List<Bill> ( );
+        instalmentQueue = new List<Bill> ( );
+        envelopes = new List<GameObject> ( );
+        envelope = ( Resources.Load<GameObject> ( "Envelope" ) );
+        Application.runInBackground = true;
+        GameManager.Instance.OnDayChange += onDayChanged;
+        GameManager.Instance.OnDayChange += DueDateCheck;
         }
     private void Start ( )
         {
@@ -44,23 +52,11 @@ public class BillManager : MonoBehaviour
             }
         }
 
-    /// <summary>
-    /// Setting everything that needs to be prepared in start.
-    /// </summary>
-    private void Initialize ( )
-        {
-        Bills = new List<Bill> ( );
-        envelopes = new List<GameObject> ( );
-        envelope = ( Resources.Load<GameObject> ( "Envelope" ) );
-        Application.runInBackground = true;
-        GameManager.Instance.OnDayChange += onDayChanged;
-        GameManager.Instance.OnDayChange += DueDateCheck;
-        }
-
     void Update ( )
         {
         EnvelopeHandler ( );
         BillCounter ( );
+        Debug.Log ( instalmentQueue.Count );
         }
 
     /// <summary>
@@ -76,7 +72,14 @@ public class BillManager : MonoBehaviour
             GlobalAudio.instance.SoundPaidBill ( );
             Destroy ( bill.Object );
             Bills.Remove ( bill );
-            GameManager.Instance.UnPause ( );
+            Text buttonText = GameObject.FindWithTag ( "pausebutton" ).GetComponentInChildren<Text> ( );
+            if ( buttonText.text != "Start!" )
+                {
+                if ( GameManager.Instance.IsPaused == true )
+                    {
+                    GameManager.Instance.UnPause ( );
+                    }
+                }
             }
         if ( Money.instance.currentMoney >= bill.RecievedCost || Money.instance.currentMoney <= bill.RecievedCost )
             {
@@ -84,7 +87,14 @@ public class BillManager : MonoBehaviour
             GlobalAudio.instance.SoundPaidBill ( );
             Destroy ( bill.Object );
             Bills.Remove ( bill );
-            GameManager.Instance.UnPause ( );
+            Text buttonText = GameObject.FindWithTag ( "pausebutton" ).GetComponentInChildren<Text> ( );
+            if ( buttonText.text != "Start!" )
+                {
+                if ( GameManager.Instance.IsPaused == true )
+                    {
+                    GameManager.Instance.UnPause ( );
+                    }
+                }
             }
         }
 
@@ -122,20 +132,48 @@ public class BillManager : MonoBehaviour
             }
         return null;
         }
+    /// <summary>
+    /// Overload of the createBill method
+    /// </summary>
+    /// <param name="bill"></param>
+    /// <returns></returns>
+    private Bill createBill ( Bill bill )
+        {
+        if ( spawnZone )
+            {
+            Bill newBill = bill;
+            Bills.Add ( newBill );
+            GameObject envelope = Instantiate ( Resources.Load<GameObject> ( "Envelope" ) );
+            envelopes.Add ( envelope );
+            envelope.transform.SetParent ( Inbox.transform, false );
+            GlobalAudio.instance.SoundBillPending ( );
+            GameObject billObject = Instantiate ( Resources.Load<GameObject> ( "billprefab" ) );
+            newBill.Object = billObject;
+            if ( billObject )
+                {
+                BillUI ui = billObject.GetComponentInChildren<BillUI> ( );
+                if ( ui )
+                    {
+                    newBill.Object.transform.SetParent ( envelope.transform.FindChild ( "SpawnZone" ).transform, false );
+                    ui.SetUI ( newBill );
+                    }
+                }
+            return newBill;
+            }
+        return null;
+        }
 
     public void SplitBillsInTerms ( Bill bill, int amount )
         {
-
         int newBillCost = bill.Cost / amount;
         Debug.Log ( "newbillcost" + newBillCost );
         Debug.Log ( "billcost" + bill.Cost );
         for ( int i = 0 ; i < amount ; i++ )
             {
-            Bill tempBill = createBill ( bill.Type );
+            Bill tempBill = new Bill ( bill.Type );
             tempBill.Cost = newBillCost;
-
-            BillUI ui = tempBill.Object.GetComponentInChildren<BillUI> ( );
-            ui.ReplaceInfo ( tempBill );
+            Debt.instance.currentDebt += newBillCost;
+            instalmentQueue.Add ( tempBill );
             }
 
         if ( bill.Object.transform.parent == spawnZone )
@@ -143,7 +181,6 @@ public class BillManager : MonoBehaviour
             Destroy ( bill.Object.transform.parent.parent );
             envelopes.Remove ( bill.Object.transform.parent.gameObject );
             }
-
 
         Debt.instance.currentDebt -= bill.Cost;
         Destroy ( bill.Object );
@@ -155,6 +192,16 @@ public class BillManager : MonoBehaviour
     /// </summary>
     private void onDayChanged ( )
         {
+        if ( GameManager.currentTime.Day == 28 )
+            {
+            foreach ( Bill instalment in instalmentQueue )
+                {
+                createBill ( instalment );
+                Debug.Log ( "bill created" + instalment );
+                Debug.Log ( instalment.Cost );
+                }
+            }
+
         if ( GameManager.currentTime.Day == 21 )
             {
             createBill ( BillType.Internet );
@@ -190,10 +237,11 @@ public class BillManager : MonoBehaviour
         {
         if ( bill.Type == BillType.Event )
             {
-            bill.Cost += Random.Range ( 100, 500 );
             bill.RecievedCost = 0;
+            bill.Cost += Random.Range ( 100, 500 );
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui.ReplaceInfoToEventNegative ( bill );
+            Debt.instance.currentDebt += bill.Cost;
             }
         }
     private void RandomEventPositive ( Bill bill )
@@ -212,7 +260,7 @@ public class BillManager : MonoBehaviour
         {
         if ( bill.Type == BillType.Electriciteit )
             {
-            bill.Cost = 50;
+            bill.Cost = 150;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui.SetUI ( bill );
             }
@@ -236,7 +284,7 @@ public class BillManager : MonoBehaviour
             }
         else if ( bill.Type == BillType.ZorgVerzekering )
             {
-            bill.Cost = 175;
+            bill.Cost = 275;
             BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
             ui.SetUI ( bill );
             }
