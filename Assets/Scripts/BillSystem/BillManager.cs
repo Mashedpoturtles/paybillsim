@@ -143,6 +143,8 @@ public class BillManager : MonoBehaviour
             {
             Bill newBill = bill;
             Bills.Add ( newBill );
+            newBill.IssueDate = GameManager.currentTime;
+            newBill.DueDate = GameManager.currentTime.AddDays ( 31 );
             GameObject envelope = Instantiate ( Resources.Load<GameObject> ( "Envelope" ) );
             envelopes.Add ( envelope );
             envelope.transform.SetParent ( Inbox.transform, false );
@@ -194,12 +196,8 @@ public class BillManager : MonoBehaviour
         {
         if ( GameManager.currentTime.Day == 28 )
             {
-            foreach ( Bill instalment in instalmentQueue )
-                {
-                createBill ( instalment );
-                Debug.Log ( "bill created" + instalment );
-                Debug.Log ( instalment.Cost );
-                }
+            createBill ( instalmentQueue [ 0 ] );
+            instalmentQueue.RemoveAt ( 0 );
             }
 
         if ( GameManager.currentTime.Day == 21 )
