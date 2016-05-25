@@ -18,11 +18,11 @@ public class InstalmentSystem : MonoBehaviour
         ApplyingForInstallments = false;
         EligibleForInstalments = false;
         }
+
     public void DisableAfterInstalment ( )
         {
         ApplyingForInstallments = false;
         sliderPaymentSplitter.gameObject.SetActive ( false );
-        Debug.Log ( "Slider should be disabled" );
         }
 
     void Update ( )
@@ -52,6 +52,7 @@ public class InstalmentSystem : MonoBehaviour
             {
             sliderPaymentSplitter.gameObject.SetActive ( false );
             sliderPaymentSplitter.interactable = false;
+            PayWithInstalments = false;
             }
         }
 

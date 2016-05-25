@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using Newtonsoft.Json;
+using System;
+using System.Net;
 
 public class GetWeatherUrl : MonoBehaviour
     {

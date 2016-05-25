@@ -1,37 +1,132 @@
 ﻿using UnityEngine;
 using System;
 using DigitalRuby.RainMaker;
-
+using System.Collections;
 
 public class WeatherListComplete : MonoBehaviour
     {
     [SerializeField]
     private Animator cloudanim;
+    [SerializeField]
+    private EllipsoidParticleEmitter snow;
+    [SerializeField]
+    private Light thunderLight;
+    [SerializeField]
+    private bool isLightning;
     void Start ( )
         {
         cloudanim.GetComponent<Animator> ( );
+        snow.enabled = false;
+        StartCoroutine ( PlayThunderLight ( UnityEngine.Random.Range ( 1f, 3f ), UnityEngine.Random.Range ( 3f, 8f ) ) );
         }
+
+    IEnumerator PlayThunderLight ( float time, float addIntensity )
+        {
+        while ( isLightning )
+            {
+                {
+                var origIntensity = 0;
+                var highIntensity = origIntensity + addIntensity;
+                var origRange = 0;
+                var highRange = origRange + 3;
+                float elapsedTime = 0f;
+                while ( elapsedTime < time )
+                    {
+                    thunderLight.intensity = Mathf.Lerp ( origIntensity, highIntensity, ( elapsedTime / time ) );
+                    thunderLight.range = Mathf.Lerp ( origRange, highRange, ( elapsedTime / time ) );
+                    elapsedTime += Time.deltaTime;
+                    yield return 0f;
+                    }
+                elapsedTime = 0f;
+                while ( elapsedTime < time )
+                    {
+                    thunderLight.intensity = Mathf.Lerp ( highIntensity, origIntensity, ( elapsedTime / time ) );
+                    thunderLight.range = Mathf.Lerp ( highRange, origRange, ( elapsedTime / time ) );
+                    elapsedTime += Time.deltaTime;
+                    yield return 0f;
+                    }
+                thunderLight.range = origRange;
+                thunderLight.intensity = 0;
+                }
+            yield return new WaitForSeconds ( UnityEngine.Random.Range ( 10, 30 ) );
+            }
+        }
+
 
     public void WeatherEffects ( )
         {
         Application.runInBackground = true;
         RainScript baserainscript = GameObject.FindWithTag ( "BaseRain" ).GetComponent<RainScript> ( );
 
-
         weatherConditions weather = ( weatherConditions ) Enum.Parse ( typeof ( weatherConditions ), GetWeatherUrl.sWeatherCondition.Replace ( " ", "" ) );
         if ( weather == weatherConditions.Cloudy ||
              weather == weatherConditions.PartlyCloudy ||
              weather == weatherConditions.MostlyCloudy ||
              weather == weatherConditions.ScatteredClouds ||
-             weather == weatherConditions.Rain ||
-             weather == weatherConditions.RainShowers ||
-             weather == weatherConditions.LightDrizzle )
+             weather == weatherConditions.FunnelCloud ||
+             weather == weatherConditions.Overcast ||
+              baserainscript.RainIntensity >= 0 ||
+              snow.enabled == true )
             {
             cloudanim.SetBool ( "IsCloudy", true );
             }
         else
             {
             cloudanim.SetBool ( "IsCloudy", false );
+            }
+        if ( weather == weatherConditions.ThunderstormsandRain ||
+             weather == weatherConditions.ChanceOfAThunderstorm ||
+             weather == weatherConditions.ChanceOfThunderstorms ||
+             weather == weatherConditions.HeavyThunderstorm ||
+             weather == weatherConditions.HeavyThunderstormsandIcePellets ||
+             weather == weatherConditions.HeavyThunderstormsandRain ||
+             weather == weatherConditions.HeavyThunderstormsandSnow ||
+             weather == weatherConditions.HeavyThunderstormswithHail ||
+             weather == weatherConditions.HeavyThunderstormswithSmallHail ||
+             weather == weatherConditions.LightThunderstorm ||
+             weather == weatherConditions.LightThunderstormsandIcePellets ||
+             weather == weatherConditions.LightThunderstormsandRain ||
+             weather == weatherConditions.LightThunderstormsandSnow ||
+             weather == weatherConditions.LightThunderstormsandSnow ||
+             weather == weatherConditions.LightThunderstormswithHail ||
+             weather == weatherConditions.LightThunderstormswithSmallHail ||
+             weather == weatherConditions.Thunderstorm ||
+             weather == weatherConditions.Thunderstorms ||
+             weather == weatherConditions.ThunderstormsandIcePellets ||
+             weather == weatherConditions.ThunderstormsandRain ||
+             weather == weatherConditions.ThunderstormsandSnow ||
+             weather == weatherConditions.ThunderstormswithHail ||
+             weather == weatherConditions.ThunderstormswithSmallHail )
+            {
+            isLightning = true;
+            }
+        else
+            {
+            isLightning = false;
+            }
+        if ( weather == weatherConditions.Snow ||
+            weather == weatherConditions.LightBlowingSnow ||
+            weather == weatherConditions.LightLowDriftingSnow ||
+            weather == weatherConditions.LightSnowGrains ||
+            weather == weatherConditions.LightSnowShowers ||
+            weather == weatherConditions.LightThunderstormsandSnow ||
+            weather == weatherConditions.LowDriftingSnow ||
+            weather == weatherConditions.SnowBlowingSnowMist ||
+            weather == weatherConditions.VeryLightSnow ||
+            weather == weatherConditions.SnowGrains ||
+            weather == weatherConditions.SnowShowers ||
+            weather == weatherConditions.HeavySnowShowers ||
+            weather == weatherConditions.HeavySnowGrains ||
+            weather == weatherConditions.HeavySnowBlowingSnowMist ||
+            weather == weatherConditions.ChanceOfSnow ||
+            weather == weatherConditions.BlowingSnow ||
+            weather == weatherConditions.HeavySnow )
+            {
+            snow.enabled = true;
+            }
+        else
+            {
+            snow.enabled = false;
             }
 
         switch ( weather )

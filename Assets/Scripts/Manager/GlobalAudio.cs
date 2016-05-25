@@ -5,7 +5,6 @@ using System.Collections;
 /// </summary>
 public class GlobalAudio : MonoBehaviour
     {
-
     [SerializeField]
     private AudioSource _audioSource_ButtonPressed;
     [SerializeField]
@@ -25,9 +24,7 @@ public class GlobalAudio : MonoBehaviour
     [SerializeField]
     private AudioClip _soundWarning;
     [SerializeField]
-    private AudioClip __soundMusicIntro;
-    [SerializeField]
-    private AudioClip _soundMusicPhaseTwo;
+    private AudioClip [ ] _soundMusic;
     [SerializeField]
     private AudioClip __soundGameOver;
     [SerializeField]
@@ -40,16 +37,21 @@ public class GlobalAudio : MonoBehaviour
     private AudioClip _soundbillPending;
 
     public static GlobalAudio instance;
-    private void Start ( )
+    void Start ( )
         {
         _audioSource_ButtonPressed = GameObject.FindWithTag ( "Audio_Button_Pressed" ).GetComponent<AudioSource> ( );
         _audioSource_ButtonHover = GameObject.FindWithTag ( "Audio_Button_Hover" ).GetComponent<AudioSource> ( );
         _audioSource_Music = GameObject.FindWithTag ( "Audio_Music" ).GetComponent<AudioSource> ( );
         _audioSource_Voice = GameObject.FindWithTag ( "Audio_Voice" ).GetComponent<AudioSource> ( );
         _audioSource_SFX = GameObject.FindWithTag ( "Audio_Sfx" ).GetComponent<AudioSource> ( );
-        SoundMusic ( );
-        Invoke ( "SoundMusicPhaseTwo", __soundMusicIntro.length );
         instance = this;
+        }
+    void Update ( )
+        {
+        if ( !_audioSource_Music.isPlaying )
+            SoundMusic ( );
+        if ( _audioSource_Music.clip != null )
+            Debug.Log ( _audioSource_Music.clip.name );
         }
     public void SoundConfirm ( )
         {
@@ -98,12 +100,7 @@ public class GlobalAudio : MonoBehaviour
         }
     public void SoundMusic ( )
         {
-        _audioSource_Music.clip = __soundMusicIntro;
-        _audioSource_Music.Play ( );
-        }
-    public void SoundMusicPhaseTwo ( )
-        {
-        _audioSource_Music.clip = _soundMusicPhaseTwo;
+        _audioSource_Music.clip = _soundMusic [ Random.Range ( 0, _soundMusic.Length ) ];
         _audioSource_Music.Play ( );
         }
     }
