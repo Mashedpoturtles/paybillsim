@@ -13,42 +13,50 @@ public class WeatherListComplete : MonoBehaviour
     private Light thunderLight;
     [SerializeField]
     private bool isLightning;
+    [SerializeField]
+    private GlobalAudio globalAudio;
     void Start ( )
         {
         cloudanim.GetComponent<Animator> ( );
         snow.enabled = false;
-        StartCoroutine ( PlayThunderLight ( UnityEngine.Random.Range ( 1f, 3f ), UnityEngine.Random.Range ( 3f, 8f ) ) );
+        StartCoroutine ( PlayThunderLight ( UnityEngine.Random.Range ( 0.3f, 1f ), UnityEngine.Random.Range ( 3f, 8f ) ) );
         }
 
     IEnumerator PlayThunderLight ( float time, float addIntensity )
         {
-        while ( isLightning )
+        while ( true )
             {
+            while ( isLightning == true )
                 {
-                var origIntensity = 0;
-                var highIntensity = origIntensity + addIntensity;
-                var origRange = 0;
-                var highRange = origRange + 3;
-                float elapsedTime = 0f;
-                while ( elapsedTime < time )
                     {
-                    thunderLight.intensity = Mathf.Lerp ( origIntensity, highIntensity, ( elapsedTime / time ) );
-                    thunderLight.range = Mathf.Lerp ( origRange, highRange, ( elapsedTime / time ) );
-                    elapsedTime += Time.deltaTime;
-                    yield return 0f;
+                    Debug.Log ( "Thunder" );
+                    var origIntensity = 0;
+                    var highIntensity = origIntensity + addIntensity;
+                    var origRange = 0;
+                    var highRange = origRange + 3;
+                    float elapsedTime = 0f;
+                    while ( elapsedTime < time )
+                        {
+                        thunderLight.intensity = Mathf.Lerp ( origIntensity, highIntensity, ( elapsedTime / time ) );
+                        globalAudio.PlaySFX ( SFXType.sfxThunder );
+                        thunderLight.range = Mathf.Lerp ( origRange, highRange, ( elapsedTime / time ) );
+                        elapsedTime += Time.deltaTime;
+                        yield return 0f;
+                        }
+                    elapsedTime = 0f;
+                    while ( elapsedTime < time )
+                        {
+                        thunderLight.intensity = Mathf.Lerp ( highIntensity, origIntensity, ( elapsedTime / time ) );
+                        thunderLight.range = Mathf.Lerp ( highRange, origRange, ( elapsedTime / time ) );
+                        elapsedTime += Time.deltaTime;
+                        yield return 0f;
+                        }
+                    thunderLight.range = origRange;
+                    thunderLight.intensity = 0;
                     }
-                elapsedTime = 0f;
-                while ( elapsedTime < time )
-                    {
-                    thunderLight.intensity = Mathf.Lerp ( highIntensity, origIntensity, ( elapsedTime / time ) );
-                    thunderLight.range = Mathf.Lerp ( highRange, origRange, ( elapsedTime / time ) );
-                    elapsedTime += Time.deltaTime;
-                    yield return 0f;
-                    }
-                thunderLight.range = origRange;
-                thunderLight.intensity = 0;
+                yield return new WaitForSeconds ( UnityEngine.Random.Range ( 10, 30 ) );
                 }
-            yield return new WaitForSeconds ( UnityEngine.Random.Range ( 10, 30 ) );
+            yield return new WaitForSeconds ( 10 );
             }
         }
 
@@ -65,7 +73,7 @@ public class WeatherListComplete : MonoBehaviour
              weather == weatherConditions.ScatteredClouds ||
              weather == weatherConditions.FunnelCloud ||
              weather == weatherConditions.Overcast ||
-              baserainscript.RainIntensity >= 0 ||
+              baserainscript.RainIntensity > 0f ||
               snow.enabled == true )
             {
             cloudanim.SetBool ( "IsCloudy", true );

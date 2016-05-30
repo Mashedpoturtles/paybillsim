@@ -94,7 +94,7 @@ Material:
       data:
         first:
           name: _Exposure
-        second: 1.56
+        second: 1.05
       data:
         first:
           name: _SunDisk
@@ -102,11 +102,11 @@ Material:
       data:
         first:
           name: _SunSize
-        second: 0.057
+        second: 0.042
       data:
         first:
           name: _AtmosphereThickness
-        second: 1.25
+        second: 1.3677515
       data:
         first:
           name: _Parallax
