@@ -1,7 +1,8 @@
 # PayBillSim
 Bill and debt simulator made at dutch creditmanagement company Syncasso located in the Netherlands.
 
-This game is ment to be used for educative purposes regarding credit management.
+
+This game is ment to be used for educative purposes regarding credit management and is a work in progress. 
 ### Features
 
 - [x] Billsystem that instantiates bills with their own unique id's, issue and due date to keep track of each bill
