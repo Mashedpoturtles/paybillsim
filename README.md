@@ -1,5 +1,5 @@
 # PayBillSim
-Bill and debt simulator made at and for my internship at collection and creditmanagement company syncasso
+Bill and debt simulator made at dutch creditmanagement company Syncasso located in the Netherlands.
 
 This game is ment to be used for educative purposes regarding credit management.
 ### Features
