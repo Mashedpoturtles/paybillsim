@@ -5,11 +5,11 @@ This game is ment to be used for educative purposes regarding credit management.
 ### Features
 
 - [x] Billsystem that instantiates bills with their own unique id's, issue and due date to keep track of each bill
-- [ ] A debt system where you can make payment arangements to pay bills in terms when you cant afford them on their due date
+- [x] A debt system where you can make payment arangements to pay bills in terms when you cant afford them on their due date
 - [x] A work system that acts as a way to generate money to pay the bills
 - [x] Various levels of difficulty [UI finished]
 - [x] Several layers of consequences when bills are not being paid on time
-- [ ] Sims-like character AI 
+- [x] Sim-like character AI 
 
 ### Side features
 - [x] A weather system that uses JSON to implement wundergrounds weather api to check your ip locations weather forecast 
@@ -18,7 +18,7 @@ to display accurate weather forecast realtime visually in game. ( currently only
 - [x] Ingame display of most recent Dutch news via nu.nl's RSS feeds and parsing it into unity via xml
 - [x] Pathfinding system to work hand in hand with the upcoming sims- like AI, using the A* pathfinding project
 
-##### I will release the real time weather system for unity seperately on my github in the near future
+##### I will post a link to the weather system webGL build seperately for people to see if I can get it to work on webGL builds
 
 ### Created with
 * [Unity3D] (https://unity3d.com)
@@ -28,3 +28,6 @@ to display accurate weather forecast realtime visually in game. ( currently only
 * [Universe game manager] (https://www.assetstore.unity3d.com/en/#!/content/24227)
 
 ![Alt text](https://i.gyazo.com/cc97c924b10df0ccec5d1701c7e33ad7.gif "GamePlay")
+![Alt text](https://i.gyazo.com/17e6407a1f5bcabe7aa6e1c54730ef01.gif "Environment")
+
+
