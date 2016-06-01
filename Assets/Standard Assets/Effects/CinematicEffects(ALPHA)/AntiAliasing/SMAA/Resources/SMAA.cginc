@@ -968,7 +968,7 @@ float2 SMAACalculateDiagWeights(SMAATexture2D(edgesTex), SMAATexture2D(areaTex),
         float2 cc = mad(float2(2.0, 2.0), c.xz, c.yw);
 
         // Remove the crossing edge if we didn't found the end of the line:
-        SMAAMovc(bool2(step(0.9, d.zw)), cc, float2(0.0, 0.0));
+        SMAAMovc(bool2(step(float2(0.9, 0.9), d.zw)), cc, float2(0.0, 0.0));
 
         // Fetch the areas for this line:
         weights += SMAAAreaDiag(SMAATexturePass2D(areaTex), d.xy, cc, subsampleIndices.z);
@@ -993,7 +993,7 @@ float2 SMAACalculateDiagWeights(SMAATexture2D(edgesTex), SMAATexture2D(areaTex),
         float2 cc = mad(float2(2.0, 2.0), c.xz, c.yw);
 
         // Remove the crossing edge if we didn't found the end of the line:
-        SMAAMovc(bool2(step(0.9, d.zw)), cc, float2(0.0, 0.0));
+        SMAAMovc(bool2(step(float2(0.9, 0.9), d.zw)), cc, float2(0.0, 0.0));
 
         // Fetch the areas for this line:
         weights += SMAAAreaDiag(SMAATexturePass2D(areaTex), d.xy, cc, subsampleIndices.w).gr;
@@ -1387,7 +1387,25 @@ float4 SMAAResolvePS(float2 texcoord,
     float weight = 0.5 * saturate(1.0 - sqrt(delta) * SMAA_REPROJECTION_WEIGHT_SCALE);
 
     // Blend the pixels according to the calculated weight:
-    return lerp(current, previous, weight);
+    // return lerp(current, previous, weight);
+
+    // Neighbour clamp
+    // Contributed by pommak
+    float4 n0 = SMAASampleOffset(currentColorTex, texcoord, float2(-1, -1));
+    float4 n1 = SMAASampleOffset(currentColorTex, texcoord, float2(+1, -1));
+    float4 n2 = SMAASampleOffset(currentColorTex, texcoord, float2(-1, +1));
+    float4 n3 = SMAASampleOffset(currentColorTex, texcoord, float2(+1, +1));
+    float4 cmax = max(n0, max(n1, max(n2, n3)));
+    float4 cmin = min(n0, min(n1, min(n2, n3)));
+    float4 avg = 0.25 * (n0+n1+n2+n3);
+    float4 wk = abs(avg - current);
+    float blend = saturate(lerp(0.35, 0.85, wk));
+
+    // Clamp previous to neighbours colors
+    float4 previousClamped = clamp(previous, cmin, cmax);
+
+    float4 color = lerp(lerp(current, previousClamped, 0.5*weight), previousClamped, weight);
+    return color;
     #else
     // Just blend the pixels:
     float4 current = SMAASamplePoint(currentColorTex, texcoord);

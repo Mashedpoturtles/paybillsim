@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityStandardAssets.CinematicEffects;
 
 public class SetSunLight : MonoBehaviour
     {
@@ -7,31 +8,68 @@ public class SetSunLight : MonoBehaviour
     public Renderer water;
     public Transform stars;
     public Transform worldProbe;
-    public bool IsNight;
+    public GameObject Clouds;
+    [SerializeField]
+    private float bloomMaximumIntensity = 1.5f;
+    [SerializeField]
+    private float bloomMinimumIntensity = 0.7f;
+    [SerializeField]
+    private float timeParam = 0;
+    [SerializeField]
+    private float bloomLerpSpeed = 0.005f;
+
+    [SerializeField]
+    Bloom bloomScript;
+
+    private bool m_isNight = false;
+    public bool IsNight
+        {
+        get { return m_isNight; }
+        set
+            {
+            m_isNight = value;
+            }
+        }
 
     void Update ( )
         {
         stars.transform.rotation = transform.rotation;
         if ( IsNight )
             {
+            Clouds.SetActive ( false );
             foreach ( Renderer childRenderer in windowLight.GetComponentsInChildren<Renderer> ( ) )
                 {
-                Color final = Color.white * Mathf.LinearToGammaSpace ( 5 );
+                Color final = childRenderer.material.color * Mathf.LinearToGammaSpace ( 5 );
                 childRenderer.material.SetColor ( "_EmissionColor", final );
                 DynamicGI.SetEmissive ( childRenderer, final );
+                bloomScript.settings.radius = 1.5f;
+                timeParam = 0;
+                if ( timeParam < 1 )
+                    {
+                    timeParam += Time.deltaTime * bloomLerpSpeed;
+                    bloomScript.settings.intensity = Mathf.Lerp ( bloomScript.settings.intensity, bloomMaximumIntensity, timeParam );
+                    }
                 }
             foreach ( Light childLight in windowLight.GetComponentsInChildren<Light> ( ) )
                 {
                 childLight.enabled = true;
                 }
             }
-        else
+        else if ( !IsNight )
             {
+            Clouds.SetActive ( true );
             foreach ( Renderer childRenderer in windowLight.GetComponentsInChildren<Renderer> ( ) )
                 {
-                Color final = Color.white * Mathf.LinearToGammaSpace ( 0.1f );
+                Color final = childRenderer.material.color * Mathf.LinearToGammaSpace ( 0.1f );
                 childRenderer.material.SetColor ( "_EmissionColor", final );
                 DynamicGI.SetEmissive ( childRenderer, final );
+                bloomScript.settings.radius = 1;
+                timeParam = 0;
+                if ( timeParam < 1 )
+                    {
+                    timeParam += Time.deltaTime * bloomLerpSpeed;
+                    bloomScript.settings.intensity = Mathf.Lerp ( bloomScript.settings.intensity, bloomMinimumIntensity, timeParam );
+                    }
                 }
             foreach ( Light childLight in windowLight.GetComponentsInChildren<Light> ( ) )
                 {

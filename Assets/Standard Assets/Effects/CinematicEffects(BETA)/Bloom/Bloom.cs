@@ -6,6 +6,9 @@ namespace UnityStandardAssets.CinematicEffects
     [ExecuteInEditMode]
     [RequireComponent(typeof(Camera))]
     [AddComponentMenu("Image Effects/Cinematic/Bloom")]
+#if UNITY_5_4_OR_NEWER
+    [ImageEffectAllowedInSceneView]
+#endif
     public class Bloom : MonoBehaviour
     {
         [Serializable]
@@ -119,7 +122,6 @@ namespace UnityStandardAssets.CinematicEffects
         private void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
             var useRGBM = Application.isMobilePlatform;
-            var isGamma = QualitySettings.activeColorSpace == ColorSpace.Gamma;
 
             // source texture size
             var tw = source.width;
@@ -155,37 +157,16 @@ namespace UnityStandardAssets.CinematicEffects
             material.SetFloat("_SampleScale", 0.5f + logh - logh_i);
             material.SetFloat("_Intensity", Mathf.Max(0.0f, settings.intensity));
 
-            if (settings.highQuality)
-                material.EnableKeyword("HIGH_QUALITY");
-            else
-                material.DisableKeyword("HIGH_QUALITY");
-
-            if (settings.antiFlicker)
-                material.EnableKeyword("ANTI_FLICKER");
-            else
-                material.DisableKeyword("ANTI_FLICKER");
-
-            if (isGamma)
-            {
-                material.DisableKeyword("LINEAR_COLOR");
-                material.EnableKeyword("GAMMA_COLOR");
-            }
-            else
-            {
-                material.EnableKeyword("LINEAR_COLOR");
-                material.DisableKeyword("GAMMA_COLOR");
-            }
-
             // prefilter pass
             var prefiltered = RenderTexture.GetTemporary(tw, th, 0, rtFormat);
-            Graphics.Blit(source, prefiltered, material, 0);
+            Graphics.Blit(source, prefiltered, material, settings.antiFlicker ? 1 : 0);
 
             // construct a mip pyramid
             var last = prefiltered;
             for (var level = 0; level < iterations; level++)
             {
                 m_blurBuffer1[level] = RenderTexture.GetTemporary(last.width / 2, last.height / 2, 0, rtFormat);
-                Graphics.Blit(last, m_blurBuffer1[level], material, (level == 0) ? 1 : 2);
+                Graphics.Blit(last, m_blurBuffer1[level], material, level == 0 ? (settings.antiFlicker ? 3 : 2) : 4);
                 last = m_blurBuffer1[level];
             }
 
@@ -195,13 +176,13 @@ namespace UnityStandardAssets.CinematicEffects
                 var basetex = m_blurBuffer1[level];
                 material.SetTexture("_BaseTex", basetex);
                 m_blurBuffer2[level] = RenderTexture.GetTemporary(basetex.width, basetex.height, 0, rtFormat);
-                Graphics.Blit(last, m_blurBuffer2[level], material, 3);
+                Graphics.Blit(last, m_blurBuffer2[level], material, settings.highQuality ? 6 : 5);
                 last = m_blurBuffer2[level];
             }
 
             // finish process
             material.SetTexture("_BaseTex", source);
-            Graphics.Blit(last, destination, material, 4);
+            Graphics.Blit(last, destination, material, settings.highQuality ? 8 : 7);
 
             // release the temporary buffers
             for (var i = 0; i < kMaxIterations; i++)

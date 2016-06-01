@@ -6,8 +6,6 @@ using System.Collections;
 public class WeatherListComplete : MonoBehaviour
     {
     [SerializeField]
-    private Animator cloudanim;
-    [SerializeField]
     private EllipsoidParticleEmitter snow;
     [SerializeField]
     private Light thunderLight;
@@ -17,7 +15,6 @@ public class WeatherListComplete : MonoBehaviour
     private GlobalAudio globalAudio;
     void Start ( )
         {
-        cloudanim.GetComponent<Animator> ( );
         snow.enabled = false;
         StartCoroutine ( PlayThunderLight ( UnityEngine.Random.Range ( 0.3f, 1f ), UnityEngine.Random.Range ( 3f, 8f ) ) );
         }
@@ -76,11 +73,11 @@ public class WeatherListComplete : MonoBehaviour
               baserainscript.RainIntensity > 0f ||
               snow.enabled == true )
             {
-            cloudanim.SetBool ( "IsCloudy", true );
+
             }
         else
             {
-            cloudanim.SetBool ( "IsCloudy", false );
+
             }
         if ( weather == weatherConditions.ThunderstormsandRain ||
              weather == weatherConditions.ChanceOfAThunderstorm ||

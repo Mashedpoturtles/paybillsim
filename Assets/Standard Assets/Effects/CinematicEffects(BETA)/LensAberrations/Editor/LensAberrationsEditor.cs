@@ -10,8 +10,6 @@ namespace UnityStandardAssets.CinematicEffects
     public class LensAberrationsEditor : Editor
     {
         private Dictionary<FieldInfo, List<SerializedProperty>> m_GroupFields = new Dictionary<FieldInfo, List<SerializedProperty>>();
-        private List<SerializedProperty> m_SimpleProperties = new List<SerializedProperty>();
-        private List<SerializedProperty> m_AdvancedProperties = new List<SerializedProperty>();
 
         private LensAberrations concreteTarget
         {
@@ -32,14 +30,7 @@ namespace UnityStandardAssets.CinematicEffects
 
                 var property = serializedObject.FindProperty(searchPath + setting.Name);
                 if (property != null)
-                {
                     settingsGroup.Add(property);
-
-                    if (setting.GetCustomAttributes(typeof(LensAberrations.SimpleSetting), false).Length > 0)
-                        m_SimpleProperties.Add(property);
-                    else if (setting.GetCustomAttributes(typeof(LensAberrations.AdvancedSetting), false).Length > 0)
-                        m_AdvancedProperties.Add(property);
-                }
             }
         }
 
@@ -71,18 +62,6 @@ namespace UnityStandardAssets.CinematicEffects
                         GUILayout.Space(3);
                         foreach (var field in group.Value.Where(x => x.propertyPath != group.Key.Name + ".enabled"))
                         {
-                            if (group.Key.FieldType == typeof(LensAberrations.VignetteSettings))
-                            {
-                                if (m_SimpleProperties.Contains(field) && concreteTarget.vignette.mode != LensAberrations.SettingsMode.Simple ||
-                                    m_AdvancedProperties.Contains(field) && concreteTarget.vignette.mode != LensAberrations.SettingsMode.Advanced)
-                                    continue;
-                            }
-                            else
-                            {
-                                if (m_AdvancedProperties.Contains(field) && concreteTarget.chromaticAberration.mode != LensAberrations.SettingsMode.Advanced)
-                                    continue;
-                            }
-
                             EditorGUILayout.PropertyField(field);
                         }
                     }

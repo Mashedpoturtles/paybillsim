@@ -1156,7 +1156,7 @@ MonoBehaviour:
   RainFallParticleSystem: {fileID: 19874210}
   RainExplosionParticleSystem: {fileID: 19824318}
   RainMistParticleSystem: {fileID: 19869048}
-  RainMistThreshold: 0.5
+  RainMistThreshold: 0.05
   WindSound: {fileID: 8300000, guid: f9826f595784348498b57bcf6b2c8b1f, type: 3}
   WindSoundVolumeModifier: 0.1
   WindZone: {fileID: 18289638}
@@ -5898,7 +5898,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 32, y: 0}
+  m_AnchoredPosition: {x: 323, y: 125}
   m_SizeDelta: {x: 220.9, y: 83.3}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!224 &22435134
@@ -6004,7 +6004,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 12}
+  m_AnchoredPosition: {x: -368, y: -168}
   m_SizeDelta: {x: 354, y: 89}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &22485202

@@ -6,6 +6,9 @@ namespace UnityStandardAssets.CinematicEffects
     [ExecuteInEditMode]
     [RequireComponent(typeof(Camera))]
     [AddComponentMenu("Image Effects/Cinematic/Ambient Occlusion")]
+#if UNITY_5_4_OR_NEWER
+    [ImageEffectAllowedInSceneView]
+#endif
     public partial class AmbientOcclusion : MonoBehaviour
     {
         #region Public Properties
@@ -17,7 +20,13 @@ namespace UnityStandardAssets.CinematicEffects
         /// Checks if the ambient-only mode is supported under the current settings.
         public bool isAmbientOnlySupported
         {
-            get { return targetCamera.hdr && isGBufferAvailable; }
+            get { return targetCamera.hdr && occlusionSource == OcclusionSource.GBuffer; }
+        }
+
+        /// Checks if the G-buffer is available
+        public bool isGBufferAvailable
+        {
+            get { return targetCamera.actualRenderingPath == RenderingPath.DeferredShading; }
         }
 
         #endregion
@@ -56,9 +65,16 @@ namespace UnityStandardAssets.CinematicEffects
             }
         }
 
-        int blurIterations
+        OcclusionSource occlusionSource
         {
-            get { return settings.blurIterations; }
+            get
+            {
+                if (settings.occlusionSource == OcclusionSource.GBuffer && !isGBufferAvailable)
+                    // An unavailable source was chosen: fallback to DepthNormalsTexture.
+                    return OcclusionSource.DepthNormalsTexture;
+                else
+                    return settings.occlusionSource;
+            }
         }
 
         bool downsampling
@@ -68,7 +84,19 @@ namespace UnityStandardAssets.CinematicEffects
 
         bool ambientOnly
         {
-            get { return settings.ambientOnly && isAmbientOnlySupported; }
+            get { return settings.ambientOnly && !settings.debug && isAmbientOnlySupported; }
+        }
+
+        // Texture format used for storing AO
+        RenderTextureFormat aoTextureFormat
+        {
+            get
+            {
+                if (SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.R8))
+                    return RenderTextureFormat.R8;
+                else
+                    return RenderTextureFormat.Default;
+            }
         }
 
         // AO shader
@@ -122,16 +150,6 @@ namespace UnityStandardAssets.CinematicEffects
         // Property observer
         PropertyObserver propertyObserver { get; set; }
 
-        // Check if the G-buffer is available
-        bool isGBufferAvailable
-        {
-            get
-            {
-                var path = targetCamera.actualRenderingPath;
-                return path == RenderingPath.DeferredShading;
-            }
-        }
-
         // Reference to the quad mesh in the built-in assets
         // (used in MRT blitting)
         Mesh quadMesh
@@ -152,41 +170,43 @@ namespace UnityStandardAssets.CinematicEffects
 
             var tw = targetCamera.pixelWidth;
             var th = targetCamera.pixelHeight;
-            var format = RenderTextureFormat.R8;
+            var ts = downsampling ? 2 : 1;
+            var format = aoTextureFormat;
             var rwMode = RenderTextureReadWrite.Linear;
-
-            if (downsampling)
-            {
-                tw /= 2;
-                th /= 2;
-            }
+            var filter = FilterMode.Bilinear;
 
             // AO buffer
             var m = aoMaterial;
             var rtMask = Shader.PropertyToID("_OcclusionTexture");
-            cb.GetTemporaryRT(rtMask, tw, th, 0, FilterMode.Bilinear, format, rwMode);
+            cb.GetTemporaryRT(rtMask, tw / ts, th / ts, 0, filter, format, rwMode);
 
             // AO estimation
-            cb.Blit((Texture)null, rtMask, m, 0);
+            cb.Blit((Texture)null, rtMask, m, 2);
 
-            if (blurIterations > 0)
-            {
-                // Blur buffer
-                var rtBlur = Shader.PropertyToID("_OcclusionBlurTexture");
-                cb.GetTemporaryRT(rtBlur, tw, th, 0, FilterMode.Bilinear, format, rwMode);
+            // Blur buffer
+            var rtBlur = Shader.PropertyToID("_OcclusionBlurTexture");
 
-                // Blur iterations
-                for (var i = 0; i < blurIterations; i++)
-                {
-                    cb.SetGlobalVector("_BlurVector", Vector2.right);
-                    cb.Blit(rtMask, rtBlur, m, 1);
+            // Primary blur filter (large kernel)
+            cb.GetTemporaryRT(rtBlur, tw, th, 0, filter, format, rwMode);
+            cb.SetGlobalVector("_BlurVector", Vector2.right * 2);
+            cb.Blit(rtMask, rtBlur, m, 4);
+            cb.ReleaseTemporaryRT(rtMask);
 
-                    cb.SetGlobalVector("_BlurVector", Vector2.up);
-                    cb.Blit(rtBlur, rtMask, m, 1);
-                }
+            cb.GetTemporaryRT(rtMask, tw, th, 0, filter, format, rwMode);
+            cb.SetGlobalVector("_BlurVector", Vector2.up * 2 * ts);
+            cb.Blit(rtBlur, rtMask, m, 4);
+            cb.ReleaseTemporaryRT(rtBlur);
 
-                cb.ReleaseTemporaryRT(rtBlur);
-            }
+            // Secondary blur filter (small kernel)
+            cb.GetTemporaryRT(rtBlur, tw, th, 0, filter, format, rwMode);
+            cb.SetGlobalVector("_BlurVector", Vector2.right * ts);
+            cb.Blit(rtMask, rtBlur, m, 6);
+            cb.ReleaseTemporaryRT(rtMask);
+
+            cb.GetTemporaryRT(rtMask, tw, th, 0, filter, format, rwMode);
+            cb.SetGlobalVector("_BlurVector", Vector2.up * ts);
+            cb.Blit(rtBlur, rtMask, m, 6);
+            cb.ReleaseTemporaryRT(rtBlur);
 
             // Combine AO to the G-buffer.
             var mrt = new RenderTargetIdentifier[] {
@@ -194,7 +214,8 @@ namespace UnityStandardAssets.CinematicEffects
                 BuiltinRenderTextureType.CameraTarget   // Ambient
             };
             cb.SetRenderTarget(mrt, BuiltinRenderTextureType.CameraTarget);
-            cb.DrawMesh(quadMesh, Matrix4x4.identity, m, 0, 3);
+            cb.SetGlobalTexture("_OcclusionTexture", rtMask);
+            cb.DrawMesh(quadMesh, Matrix4x4.identity, m, 0, 8);
 
             cb.ReleaseTemporaryRT(rtMask);
         }
@@ -204,47 +225,47 @@ namespace UnityStandardAssets.CinematicEffects
         {
             var tw = source.width;
             var th = source.height;
-            var format = RenderTextureFormat.R8;
+            var ts = downsampling ? 2 : 1;
+            var format = aoTextureFormat;
             var rwMode = RenderTextureReadWrite.Linear;
-
-            if (downsampling)
-            {
-                tw /= 2;
-                th /= 2;
-            }
+            var useGBuffer = settings.occlusionSource == OcclusionSource.GBuffer;
 
             // AO buffer
             var m = aoMaterial;
-            var rtMask = RenderTexture.GetTemporary(tw, th, 0, format, rwMode);
+            var rtMask = RenderTexture.GetTemporary(tw / ts, th / ts, 0, format, rwMode);
 
             // AO estimation
-            Graphics.Blit((Texture)null, rtMask, m, 0);
+            Graphics.Blit((Texture)null, rtMask, m, (int)occlusionSource);
 
-            if (blurIterations > 0)
-            {
-                // Blur buffer
-                var rtBlur = RenderTexture.GetTemporary(tw, th, 0, format, rwMode);
+            // Primary blur filter (large kernel)
+            var rtBlur = RenderTexture.GetTemporary(tw, th, 0, format, rwMode);
+            m.SetVector("_BlurVector", Vector2.right * 2);
+            Graphics.Blit(rtMask, rtBlur, m, useGBuffer ? 4 : 3);
+            RenderTexture.ReleaseTemporary(rtMask);
 
-                // Blur iterations
-                for (var i = 0; i < blurIterations; i++)
-                {
-                    m.SetVector("_BlurVector", Vector2.right);
-                    Graphics.Blit(rtMask, rtBlur, m, 1);
+            rtMask = RenderTexture.GetTemporary(tw, th, 0, format, rwMode);
+            m.SetVector("_BlurVector", Vector2.up * 2 * ts);
+            Graphics.Blit(rtBlur, rtMask, m, useGBuffer ? 4 : 3);
+            RenderTexture.ReleaseTemporary(rtBlur);
 
-                    m.SetVector("_BlurVector", Vector2.up);
-                    Graphics.Blit(rtBlur, rtMask, m, 1);
-                }
+            // Secondary blur filter (small kernel)
+            rtBlur = RenderTexture.GetTemporary(tw, th, 0, format, rwMode);
+            m.SetVector("_BlurVector", Vector2.right * ts);
+            Graphics.Blit(rtMask, rtBlur, m, useGBuffer ? 6 : 5);
+            RenderTexture.ReleaseTemporary(rtMask);
 
-                RenderTexture.ReleaseTemporary(rtBlur);
-            }
+            rtMask = RenderTexture.GetTemporary(tw, th, 0, format, rwMode);
+            m.SetVector("_BlurVector", Vector2.up * ts);
+            Graphics.Blit(rtBlur, rtMask, m, useGBuffer ? 6 : 5);
+            RenderTexture.ReleaseTemporary(rtBlur);
 
             // Combine AO with the source.
             m.SetTexture("_OcclusionTexture", rtMask);
 
             if (!settings.debug)
-                Graphics.Blit(source, destination, m, 2);
+                Graphics.Blit(source, destination, m, 7);
             else
-                Graphics.Blit(source, destination, m, 4);
+                Graphics.Blit(source, destination, m, 9);
 
             RenderTexture.ReleaseTemporary(rtMask);
         }
@@ -253,21 +274,10 @@ namespace UnityStandardAssets.CinematicEffects
         void UpdateMaterialProperties()
         {
             var m = aoMaterial;
-            m.shaderKeywords = null;
-
             m.SetFloat("_Intensity", intensity);
             m.SetFloat("_Radius", radius);
             m.SetFloat("_TargetScale", downsampling ? 0.5f : 1);
-
-            // Use G-buffer if available.
-            if (isGBufferAvailable)
-                m.EnableKeyword("_SOURCE_GBUFFER");
-
-            // Sample count
-            if (sampleCount == SampleCount.Lowest)
-                m.EnableKeyword("_SAMPLECOUNT_LOWEST");
-            else
-                m.SetInt("_SampleCount", sampleCountValue);
+            m.SetInt("_SampleCount", sampleCountValue);
         }
 
         #endregion
@@ -287,8 +297,11 @@ namespace UnityStandardAssets.CinematicEffects
             if (ambientOnly)
                 targetCamera.AddCommandBuffer(CameraEvent.BeforeReflections, aoCommands);
 
-            // Requires DepthNormals when G-buffer is not available.
-            if (!isGBufferAvailable)
+            // Enable depth textures which the occlusion source requires.
+            if (occlusionSource == OcclusionSource.DepthTexture)
+                targetCamera.depthTextureMode |= DepthTextureMode.Depth;
+
+            if (occlusionSource != OcclusionSource.GBuffer)
                 targetCamera.depthTextureMode |= DepthTextureMode.DepthNormals;
         }
 
