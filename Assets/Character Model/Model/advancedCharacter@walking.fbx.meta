@@ -59,7 +59,7 @@ ModelImporter:
     400048: Rig1
     400050: Spine1
     400052: Spine2
-    7400000: mixamo.com
+    7400000: walking
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -81,7 +81,89 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: walking
+      takeName: mixamo.com
+      firstFrame: 0
+      lastFrame: 29
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Rig1
+        weight: 1
+      - path: Rig1/LegL1
+        weight: 1
+      - path: Rig1/LegL1/LegL2
+        weight: 1
+      - path: Rig1/LegL1/LegL2/LegL3
+        weight: 1
+      - path: Rig1/LegL1/LegL2/LegL3/FootL1
+        weight: 1
+      - path: Rig1/LegR1
+        weight: 1
+      - path: Rig1/LegR1/LegR2
+        weight: 1
+      - path: Rig1/LegR1/LegR2/LegR3
+        weight: 1
+      - path: Rig1/LegR1/LegR2/LegR3/FootR1
+        weight: 1
+      - path: Rig1/Spine1
+        weight: 1
+      - path: Rig1/Spine1/Spine2
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmL1
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmL1/ArmL2
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmL1/ArmL2/FingerL1
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmL1/ArmL2/FingerL1/FingerL2
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmL1/ArmL2/HandL1
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmL1/ArmL2/HandL1/HandL2
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmL1/ArmL2/HandL1/HandL2/HandL3
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmR1
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmR1/ArmR2
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmR1/ArmR2/FingerR1
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmR1/ArmR2/FingerR1/FingerR2
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmR1/ArmR2/HandR1
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmR1/ArmR2/HandR1/HandR2
+        weight: 1
+      - path: Rig1/Spine1/Spine2/ArmR1/ArmR2/HandR1/HandR2/HandR3
+        weight: 1
+      - path: Rig1/Spine1/Spine2/Neck1
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []

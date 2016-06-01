@@ -11,16 +11,24 @@ namespace UnityStandardAssets.CinematicEffects
         SerializedProperty _radius;
         SerializedProperty _sampleCount;
         SerializedProperty _sampleCountValue;
-        SerializedProperty _blurIterations;
         SerializedProperty _downsampling;
+        SerializedProperty _occlusionSource;
         SerializedProperty _ambientOnly;
         SerializedProperty _debug;
 
         static GUIContent _textValue = new GUIContent("Value");
 
+        static string _textNoGBuffer =
+            "G-buffer is currently unavailable. " +
+            "Change Renderring Path in camera settings to Deferred.";
+
         static string _textNoAmbientOnly =
             "The ambient-only mode is currently disabled; " +
-            "it needs deferred shading and HDR rendering.";
+            "it requires G-buffer source and HDR rendering.";
+
+        static string _textGBufferNote =
+            "Forward opaque objects don't go in the G-buffer. " +
+            "This may lead to artifacts.";
 
         void OnEnable()
         {
@@ -28,14 +36,16 @@ namespace UnityStandardAssets.CinematicEffects
             _radius = serializedObject.FindProperty("settings.radius");
             _sampleCount = serializedObject.FindProperty("settings.sampleCount");
             _sampleCountValue = serializedObject.FindProperty("settings.sampleCountValue");
-            _blurIterations = serializedObject.FindProperty("settings.blurIterations");
             _downsampling = serializedObject.FindProperty("settings.downsampling");
+            _occlusionSource = serializedObject.FindProperty("settings.occlusionSource");
             _ambientOnly = serializedObject.FindProperty("settings.ambientOnly");
             _debug = serializedObject.FindProperty("settings.debug");
         }
 
         public override void OnInspectorGUI()
         {
+            var targetInstance = (AmbientOcclusion)target;
+
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(_intensity);
@@ -50,15 +60,28 @@ namespace UnityStandardAssets.CinematicEffects
                 EditorGUI.indentLevel--;
             }
 
-            EditorGUILayout.PropertyField(_blurIterations);
             EditorGUILayout.PropertyField(_downsampling);
-            EditorGUILayout.PropertyField(_ambientOnly);
-            EditorGUILayout.PropertyField(_debug);
+            EditorGUILayout.PropertyField(_occlusionSource);
 
-            // Show a warning if the ambient-only mode is not supported.
-            if (!_ambientOnly.hasMultipleDifferentValues && _ambientOnly.boolValue)
-                if (!((AmbientOcclusion)target).isAmbientOnlySupported)
-                    EditorGUILayout.HelpBox(_textNoAmbientOnly, MessageType.Info);
+            if (!_occlusionSource.hasMultipleDifferentValues &&
+                _occlusionSource.enumValueIndex == (int)AmbientOcclusion.OcclusionSource.GBuffer)
+            {
+                if (!targetInstance.isGBufferAvailable)
+                    EditorGUILayout.HelpBox(_textNoGBuffer, MessageType.Warning);
+                else if (!_ambientOnly.hasMultipleDifferentValues && !_ambientOnly.boolValue)
+                    EditorGUILayout.HelpBox(_textGBufferNote, MessageType.Info);
+            }
+
+            EditorGUILayout.PropertyField(_ambientOnly);
+
+            if (!_ambientOnly.hasMultipleDifferentValues &&
+                _ambientOnly.boolValue &&
+                !targetInstance.isAmbientOnlySupported)
+            {
+                EditorGUILayout.HelpBox(_textNoAmbientOnly, MessageType.Warning);
+            }
+
+            EditorGUILayout.PropertyField(_debug);
 
             serializedObject.ApplyModifiedProperties();
         }

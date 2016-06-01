@@ -14,21 +14,11 @@ namespace UnityStandardAssets.CinematicEffects
         {}
 
         [AttributeUsage(AttributeTargets.Field)]
-        public class SimpleSetting : Attribute
-        {}
-
-        [AttributeUsage(AttributeTargets.Field)]
         public class AdvancedSetting : Attribute
         {}
         #endregion
 
         #region Settings
-        public enum SettingsMode
-        {
-            Simple,
-            Advanced
-        }
-
         [Serializable]
         public struct DistortionSettings
         {
@@ -37,19 +27,19 @@ namespace UnityStandardAssets.CinematicEffects
             [Range(-100f, 100f), Tooltip("Distortion amount.")]
             public float amount;
 
-            [Range(0f, 1f), Tooltip("Distortion center point (X axis).")]
+            [Range(-1f, 1f), Tooltip("Distortion center point (X axis).")]
             public float centerX;
 
-            [Range(0f, 1f), Tooltip("Distortion center point (Y axis).")]
+            [Range(-1f, 1f), Tooltip("Distortion center point (Y axis).")]
             public float centerY;
 
-            [Range(0f, 2f), Tooltip("Amount multiplier on X axis.")]
+            [Range(0f, 1f), Tooltip("Amount multiplier on X axis. Set it to 0 to disable distortion on this axis.")]
             public float amountX;
 
-            [Range(0f, 2f), Tooltip("Amount multiplier on Y axis.")]
+            [Range(0f, 1f), Tooltip("Amount multiplier on Y axis. Set it to 0 to disable distortion on this axis.")]
             public float amountY;
 
-            [Range(0.5f, 2f), Tooltip("Global screen scaling.")]
+            [Range(0.01f, 5f), Tooltip("Global screen scaling.")]
             public float scale;
 
             public static DistortionSettings defaultSettings
@@ -57,15 +47,15 @@ namespace UnityStandardAssets.CinematicEffects
                 get
                 {
                     return new DistortionSettings
-                           {
-                               enabled = false,
-                               amount = 0f,
-                               centerX = 0.5f,
-                               centerY = 0.5f,
-                               amountX = 1f,
-                               amountY = 1f,
-                               scale = 1f
-                           };
+                    {
+                        enabled = false,
+                        amount = 0f,
+                        centerX = 0f,
+                        centerY = 0f,
+                        amountX = 1f,
+                        amountY = 1f,
+                        scale = 1f
+                    };
                 }
             }
         }
@@ -75,26 +65,18 @@ namespace UnityStandardAssets.CinematicEffects
         {
             public bool enabled;
 
-            [Tooltip("Use the \"Advanced\" mode if you need more control over the vignette shape and smoothness at the expense of performances.")]
-            public SettingsMode mode;
-
+            [ColorUsage(false)]
             [Tooltip("Vignette color. Use the alpha channel for transparency.")]
             public Color color;
 
-            [SimpleSetting, Range(0f, 3f), Tooltip("Amount of vignetting on screen.")]
+            [Tooltip("Sets the vignette center point (screen center is [0.5,0.5]).")]
+            public Vector2 center;
+
+            [Range(0f, 3f), Tooltip("Amount of vignetting on screen.")]
             public float intensity;
 
-            [SimpleSetting, Range(0.1f, 3f), Tooltip("Smoothness of the vignette borders.")]
+            [Range(0.01f, 3f), Tooltip("Smoothness of the vignette borders.")]
             public float smoothness;
-
-            [AdvancedSetting, Range(0f, 1f), Tooltip("Vignette radius in screen coordinates.")]
-            public float radius;
-
-            [AdvancedSetting, Range(0f, 1f), Tooltip("Smoothness of the vignette border. Tweak this at the same time as \"Falloff\" to get more control over the vignette gradient.")]
-            public float spread;
-
-            [AdvancedSetting, Range(0f, 1f), Tooltip("Smoothness of the vignette border. Tweak this at the same time as \"Spread\" to get more control over the vignette gradient.")]
-            public float falloff;
 
             [AdvancedSetting, Range(0f, 1f), Tooltip("Lower values will make a square-ish vignette.")]
             public float roundness;
@@ -110,19 +92,16 @@ namespace UnityStandardAssets.CinematicEffects
                 get
                 {
                     return new VignetteSettings
-                           {
-                               enabled = false,
-                               mode = SettingsMode.Simple,
-                               color = Color.black,
-                               intensity = 1.2f,
-                               smoothness = 1.5f,
-                               radius = 0.7f,
-                               spread = 0.4f,
-                               falloff = 0.5f,
-                               roundness = 1f,
-                               blur = 0f,
-                               desaturate = 0f
-                           };
+                    {
+                        enabled = false,
+                        color = new Color(0f, 0f, 0f, 1f),
+                        center = new Vector2(0.5f, 0.5f),
+                        intensity = 1.4f,
+                        smoothness = 0.8f,
+                        roundness = 1f,
+                        blur = 0f,
+                        desaturate = 0f
+                    };
                 }
             }
         }
@@ -132,30 +111,24 @@ namespace UnityStandardAssets.CinematicEffects
         {
             public bool enabled;
 
-            [Tooltip("Use the \"Advanced\" mode if you need more control over the chromatic aberrations at the expense of performances.")]
-            public SettingsMode mode;
+            [ColorUsage(false)]
+            [Tooltip("Channels to apply chromatic aberration to.")]
+            public Color color;
 
-            [Range(-2f, 2f)]
-            public float tangential;
-
-            [AdvancedSetting, Range(0f, 2f)]
-            public float axial;
-
-            [AdvancedSetting, Range(0f, 2f)]
-            public float contrastDependency;
+            [Range(-50f, 50f)]
+            [Tooltip("Amount of tangential distortion.")]
+            public float amount;
 
             public static ChromaticAberrationSettings defaultSettings
             {
                 get
                 {
                     return new ChromaticAberrationSettings
-                           {
-                               enabled = false,
-                               mode = SettingsMode.Simple,
-                               tangential = 0f,
-                               axial = 0f,
-                               contrastDependency = 0f
-                           };
+                    {
+                        enabled = false,
+                        color = Color.green,
+                        amount = 0f
+                    };
                 }
             }
         }
@@ -173,12 +146,13 @@ namespace UnityStandardAssets.CinematicEffects
         private enum Pass
         {
             BlurPrePass,
-            Simple,
-            Desaturate,
-            Blur,
-            BlurDesaturate,
-            ChromaticAberrationOnly,
-            DistortOnly
+            Chroma,
+            Distort,
+            Vignette,
+            ChromaDistort,
+            ChromaVignette,
+            DistortVignette,
+            ChromaDistortVignette
         }
 
         [SerializeField]
@@ -206,10 +180,14 @@ namespace UnityStandardAssets.CinematicEffects
             }
         }
 
+        private RenderTextureUtility m_RTU;
+
         private void OnEnable()
         {
             if (!ImageEffectHelper.IsSupported(shader, false, false, this))
                 enabled = false;
+
+            m_RTU = new RenderTextureUtility();
         }
 
         private void OnDisable()
@@ -218,6 +196,7 @@ namespace UnityStandardAssets.CinematicEffects
                 DestroyImmediate(m_Material);
 
             m_Material = null;
+            m_RTU.ReleaseAllTemporaryRenderTextures();
         }
 
         private void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -228,101 +207,105 @@ namespace UnityStandardAssets.CinematicEffects
                 return;
             }
 
-            material.DisableKeyword("DISTORT");
-            material.DisableKeyword("UNDISTORT");
+            material.shaderKeywords = null;
 
             if (distortion.enabled)
             {
                 float amount = 1.6f * Math.Max(Mathf.Abs(distortion.amount), 1f);
                 float theta = 0.01745329251994f * Math.Min(160f, amount);
                 float sigma = 2f * Mathf.Tan(theta * 0.5f);
-                Vector4 p0 = new Vector4(2f * distortion.centerX - 1f, 2f * distortion.centerY - 1f, distortion.amountX, distortion.amountY);
-                Vector3 p1 = new Vector3(distortion.amount >= 0f ? theta : 1f / theta, sigma, 1f / distortion.scale);
+                var p0 = new Vector4(distortion.centerX, distortion.centerY, Mathf.Max(distortion.amountX, 1e-4f), Mathf.Max(distortion.amountY, 1e-4f));
+                var p1 = new Vector3(distortion.amount >= 0f ? theta : 1f / theta, sigma, 1f / distortion.scale);
+                material.EnableKeyword(distortion.amount >= 0f ? "DISTORT" : "UNDISTORT");
                 material.SetVector("_DistCenterScale", p0);
                 material.SetVector("_DistAmount", p1);
-
-                if (distortion.amount >= 0f)
-                    material.EnableKeyword("DISTORT");
-                else
-                    material.EnableKeyword("UNDISTORT");
             }
 
-            material.SetColor("_VignetteColor", vignette.color);
-
-            if (vignette.mode == SettingsMode.Simple)
+            if (chromaticAberration.enabled)
             {
-                material.SetVector("_Vignette1", new Vector4(vignette.intensity, vignette.smoothness, vignette.blur, 1f - vignette.desaturate));
-                material.DisableKeyword("VIGNETTE_ADVANCED");
-            }
-            else
-            {
-                float r1 = 0.5f * vignette.radius;
-                float r2 = r1 + vignette.spread;
-                float falloff = Math.Max(0.000001f, (1f - vignette.falloff) * 0.5f);
-                float roundness = (1f - vignette.roundness) * 6f + vignette.roundness * 2f;
-                material.SetVector("_Vignette1", new Vector4(r1, 1f / (r2 - r1), vignette.blur, 1f - vignette.desaturate));
-                material.SetVector("_Vignette2", new Vector3(falloff, 0.5f / falloff, roundness));
-                material.EnableKeyword("VIGNETTE_ADVANCED");
-            }
-
-            material.DisableKeyword("CHROMATIC_SIMPLE");
-            material.DisableKeyword("CHROMATIC_ADVANCED");
-
-            if (chromaticAberration.enabled && !Mathf.Approximately(chromaticAberration.tangential, 0f))
-            {
-                if (chromaticAberration.mode == SettingsMode.Advanced)
-                    material.EnableKeyword("CHROMATIC_ADVANCED");
-                else
-                    material.EnableKeyword("CHROMATIC_SIMPLE");
-
-                Vector4 chromaParams = new Vector4(2.5f * chromaticAberration.tangential, 5f * chromaticAberration.axial, 5f / Mathf.Max(Mathf.Epsilon, chromaticAberration.contrastDependency), 5f);
+                material.EnableKeyword("CHROMATIC_ABERRATION");
+                var chromaParams = new Vector4(chromaticAberration.color.r, chromaticAberration.color.g, chromaticAberration.color.b, chromaticAberration.amount * 0.001f);
                 material.SetVector("_ChromaticAberration", chromaParams);
             }
 
-            if (vignette.enabled && vignette.blur > 0f)
+            if (vignette.enabled)
             {
-                // Downscale + gaussian blur (2 passes)
-                int w = source.width / 2;
-                int h = source.height / 2;
-                RenderTexture tmp1 = RenderTexture.GetTemporary(w, h, 0, source.format);
-                RenderTexture tmp2 = RenderTexture.GetTemporary(w, h, 0, source.format);
+                material.SetColor("_VignetteColor", vignette.color);
 
-                material.SetVector("_BlurPass", new Vector2(1f / w, 0f));
-                Graphics.Blit(source, tmp1, material, (int)Pass.BlurPrePass);
-                material.SetVector("_BlurPass", new Vector2(0f, 1f / h));
-                Graphics.Blit(tmp1, tmp2, material, (int)Pass.BlurPrePass);
+                if (vignette.blur > 0f)
+                {
+                    // Downscale + gaussian blur (2 passes)
+                    int w = source.width / 2;
+                    int h = source.height / 2;
+                    var rt1 = m_RTU.GetTemporaryRenderTexture(w, h, 0, source.format);
+                    var rt2 = m_RTU.GetTemporaryRenderTexture(w, h, 0, source.format);
 
-                material.SetVector("_BlurPass", new Vector2(1f / w, 0f));
-                Graphics.Blit(tmp2, tmp1, material, (int)Pass.BlurPrePass);
-                material.SetVector("_BlurPass", new Vector2(0f, 1f / h));
-                Graphics.Blit(tmp1, tmp2, material, (int)Pass.BlurPrePass);
+                    material.SetVector("_BlurPass", new Vector2(1f / w, 0f));
+                    Graphics.Blit(source, rt1, material, (int)Pass.BlurPrePass);
 
-                material.SetTexture("_BlurTex", tmp2);
+                    if (distortion.enabled)
+                    {
+                        material.DisableKeyword("DISTORT");
+                        material.DisableKeyword("UNDISTORT");
+                    }
+
+                    material.SetVector("_BlurPass", new Vector2(0f, 1f / h));
+                    Graphics.Blit(rt1, rt2, material, (int)Pass.BlurPrePass);
+
+                    material.SetVector("_BlurPass", new Vector2(1f / w, 0f));
+                    Graphics.Blit(rt2, rt1, material, (int)Pass.BlurPrePass);
+                    material.SetVector("_BlurPass", new Vector2(0f, 1f / h));
+                    Graphics.Blit(rt1, rt2, material, (int)Pass.BlurPrePass);
+
+                    material.SetTexture("_BlurTex", rt2);
+                    material.SetFloat("_VignetteBlur", vignette.blur * 3f);
+                    material.EnableKeyword("VIGNETTE_BLUR");
+
+                    if (distortion.enabled)
+                        material.EnableKeyword(distortion.amount >= 0f ? "DISTORT" : "UNDISTORT");
+                }
 
                 if (vignette.desaturate > 0f)
-                    Graphics.Blit(source, destination, material, (int)Pass.BlurDesaturate);
-                else
-                    Graphics.Blit(source, destination, material, (int)Pass.Blur);
+                {
+                    material.EnableKeyword("VIGNETTE_DESAT");
+                    material.SetFloat("_VignetteDesat", 1f - vignette.desaturate);
+                }
 
-                RenderTexture.ReleaseTemporary(tmp2);
-                RenderTexture.ReleaseTemporary(tmp1);
+                material.SetVector("_VignetteCenter", vignette.center);
+
+                if (Mathf.Approximately(vignette.roundness, 1f))
+                {
+                    material.EnableKeyword("VIGNETTE_CLASSIC");
+                    material.SetVector("_VignetteSettings", new Vector2(vignette.intensity, vignette.smoothness));
+                }
+                else
+                {
+                    material.EnableKeyword("VIGNETTE_FILMIC");
+                    float roundness = (1f - vignette.roundness) * 6f + vignette.roundness;
+                    material.SetVector("_VignetteSettings", new Vector3(vignette.intensity, vignette.smoothness, roundness));
+                }
             }
-            else if (vignette.enabled && vignette.desaturate > 0f)
-            {
-                Graphics.Blit(source, destination, material, (int)Pass.Desaturate);
-            }
+
+            int pass = 0;
+
+            if (vignette.enabled && chromaticAberration.enabled && distortion.enabled)
+                pass = (int)Pass.ChromaDistortVignette;
+            else if (vignette.enabled && chromaticAberration.enabled)
+                pass = (int)Pass.ChromaVignette;
+            else if (vignette.enabled && distortion.enabled)
+                pass = (int)Pass.DistortVignette;
+            else if (chromaticAberration.enabled && distortion.enabled)
+                pass = (int)Pass.ChromaDistort;
             else if (vignette.enabled)
-            {
-                Graphics.Blit(source, destination, material, (int)Pass.Simple);
-            }
+                pass = (int)Pass.Vignette;
             else if (chromaticAberration.enabled)
-            {
-                Graphics.Blit(source, destination, material, (int)Pass.ChromaticAberrationOnly);
-            }
-            else // Distortion enabled
-            {
-                Graphics.Blit(source, destination, material, (int)Pass.DistortOnly);
-            }
+                pass = (int)Pass.Chroma;
+            else if (distortion.enabled)
+                pass = (int)Pass.Distort;
+
+            Graphics.Blit(source, destination, material, pass);
+
+            m_RTU.ReleaseAllTemporaryRenderTextures();
         }
     }
 }

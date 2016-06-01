@@ -453,7 +453,8 @@ namespace UnityStandardAssets.CinematicEffects
                             Graphics.Blit(rt1, destination);
                         }
 
-                        Graphics.Blit(rt1, m_Accumulation);
+                        //Graphics.Blit(rt1, m_Accumulation);
+                        Graphics.Blit(destination, m_Accumulation);
                         RenderTexture.active = null;
                     }
                     else

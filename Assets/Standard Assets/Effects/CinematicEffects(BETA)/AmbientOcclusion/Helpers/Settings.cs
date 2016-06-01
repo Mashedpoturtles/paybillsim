@@ -11,6 +11,12 @@ namespace UnityStandardAssets.CinematicEffects
             Lowest, Low, Medium, High, Variable
         }
 
+        /// Values for Settings.occlusionSource, determining the source buffer of occlusion.
+        public enum OcclusionSource
+        {
+            DepthTexture, DepthNormalsTexture, GBuffer
+        }
+
         /// Class used for storing settings of AmbientOcclusion.
         [Serializable]
         public class Settings
@@ -35,24 +41,26 @@ namespace UnityStandardAssets.CinematicEffects
             [Tooltip("Determines the sample count when SampleCount.Variable is used.")]
             public int sampleCountValue;
 
-            /// Number of iterations of blur filter.
-            [SerializeField, Range(0, 4)]
-            [Tooltip("Number of iterations of the blur filter.")]
-            public int blurIterations;
-
             /// Halves the resolution of the effect to increase performance.
             [SerializeField]
             [Tooltip("Halves the resolution of the effect to increase performance.")]
             public bool downsampling;
 
             /// Enables the ambient-only mode in that the effect only affects
-            /// ambient lighting. This mode is only available with deferred
-            /// shading and HDR rendering.
+            /// ambient lighting. This mode is only available with G-buffer
+            /// source and HDR rendering.
             [SerializeField]
             [Tooltip("If checked, the effect only affects ambient lighting.")]
             public bool ambientOnly;
 
+            /// Source buffer on which the occlusion estimator is based.
             [SerializeField]
+            [Tooltip("Source buffer on which the occlusion estimator is based.")]
+            public OcclusionSource occlusionSource;
+
+            /// Displays occlusion for debug purpose.
+            [SerializeField]
+            [Tooltip("Displays occlusion for debug purpose.")]
             public bool debug;
 
             /// Returns the default settings.
@@ -66,9 +74,9 @@ namespace UnityStandardAssets.CinematicEffects
                         radius = 0.3f,
                         sampleCount = SampleCount.Medium,
                         sampleCountValue = 24,
-                        blurIterations = 2,
                         downsampling = false,
-                        ambientOnly = false
+                        ambientOnly = false,
+                        occlusionSource = OcclusionSource.DepthNormalsTexture
                     };
                 }
             }

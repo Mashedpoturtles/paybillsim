@@ -35,6 +35,7 @@ TagManager:
   - Debt
   - pausebutton
   - PauseButton
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -45,8 +46,8 @@ TagManager:
   - 
   - 
   - CanvasToIgnore
-  - 
-  - 
+  - Floor
+  - Obstacles
   - 
   - 
   - 

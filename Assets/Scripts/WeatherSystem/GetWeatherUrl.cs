@@ -44,8 +44,8 @@ public class GetWeatherUrl : MonoBehaviour
                     WeatherCompareScript = gWeatherObject.AddComponent<WeatherListComplete> ( );
                 WeatherCompareScript.WeatherEffects ( );
                     {
-                    Weather.text = string.Format ( "Temperatuur {0}  Gevoels temperatuur {1} Uw huidige locatie {2}"
-                      , dTemp, dFeelTempC, sCity );
+                    Weather.text = string.Format ( "Temperatuur {0}\\n  Gevoels temperatuur {1}\\n Uw huidige locatie {2}"
+                      , dTemp, dFeelTempC, sCity ).Replace ( "\\n", "\n" );
                     Debug.Log ( sWeatherCondition );
                     }
                 }
