@@ -36,12 +36,12 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 0
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 589200175}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 6
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_LightmapsMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -4652,22 +4652,22 @@ ReflectionProbe:
   m_Resolution: 128
   m_UpdateFrequency: 0
   m_Importance: 1
-  m_BoxSize: {x: 10, y: 10, z: 10}
+  m_BoxSize: {x: 400, y: 400, z: 400}
   m_BoxOffset: {x: 0, y: 0, z: 0}
   m_NearClip: 0.3
-  m_FarClip: 1000
-  m_ShadowDistance: 100
+  m_FarClip: 3000
+  m_ShadowDistance: 200
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 4294967295
   m_IntensityMultiplier: 1
   m_BlendDistance: 1
   m_HDR: 1
   m_BoxProjection: 0
   m_RenderDynamicObjects: 0
-  m_UseOcclusionCulling: 1
+  m_UseOcclusionCulling: 0
   m_CustomBakedTexture: {fileID: 0}
 --- !u!1 &931080558
 GameObject:
@@ -7129,8 +7129,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 918157299}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -118.6, y: 6.2, z: 287}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -17.75, y: -6.1, z: 115}
+  m_LocalScale: {x: 4.2683973, y: 4.2683983, z: 4.2683983}
   m_Children: []
   m_Father: {fileID: 1839911646}
   m_RootOrder: 2

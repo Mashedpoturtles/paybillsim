@@ -106,7 +106,15 @@ Material:
       data:
         first:
           name: _AtmosphereThickness
-        second: 1.3649482
+        second: 1.3018144
+      data:
+        first:
+          name: _Glossiness
+        second: 0.5
+      data:
+        first:
+          name: _Metallic
+        second: 0
       data:
         first:
           name: _Parallax
@@ -115,10 +123,6 @@ Material:
         first:
           name: _ZWrite
         second: 1
-      data:
-        first:
-          name: _Glossiness
-        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -138,10 +142,6 @@ Material:
       data:
         first:
           name: _Mode
-        second: 0
-      data:
-        first:
-          name: _Metallic
         second: 0
     m_Colors:
       data:
