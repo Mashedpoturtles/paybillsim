@@ -36,6 +36,7 @@ TagManager:
   - pausebutton
   - PauseButton
   - Ground
+  - NPC
   layers:
   - Default
   - TransparentFX

@@ -13,7 +13,7 @@ public class Pathing : MonoBehaviour
     public Path path;
     public Transform target;
     public int currentWaypoint;
-    public float speed = 40f;
+    public float speed = 15f;
     public float maxWaypointDistance = 2f;
     public float maxTargetDistance = 5f;
     private Transform existingTarget;
@@ -23,7 +23,6 @@ public class Pathing : MonoBehaviour
         anim = GetComponent<Animator> ( );
         characterController = GetComponent<CharacterController> ( );
         seeker.GetComponent<Seeker> ( );
-        // seeker.StartPath ( transform.position, target.position, OnPathComplete );
         }
 
     public void OnPathComplete ( Path p )
@@ -41,10 +40,6 @@ public class Pathing : MonoBehaviour
 
     void FixedUpdate ( )
         {
-        //keep the npc from falling over by forcing its rotation upright
-        Vector3 oldRot = transform.rotation.eulerAngles;
-        transform.rotation = Quaternion.Euler ( 0, 90, oldRot.z );
-
         if ( path == null )
             {
             return;
@@ -59,7 +54,6 @@ public class Pathing : MonoBehaviour
         characterController.SimpleMove ( dir );
 
         anim.SetFloat ( "Speed", characterController.velocity.magnitude );
-        characterController.transform.LookAt ( target );
 
         //if the distance between the character and next waypoint is less than the M.W.P.D. then keep moving through W.P.'s
         if ( Vector3.Distance ( transform.position, path.vectorPath [ currentWaypoint ] ) < maxWaypointDistance )
@@ -77,8 +71,11 @@ public class Pathing : MonoBehaviour
             speed = 40f;
             }
         }
-
-    public void MoveMultipleRandom ( Transform target )
+    /// <summary>
+    /// This will move the npc to a random child transform inside the target.
+    /// </summary>
+    /// <param name="target"></param>
+    public void MoveToRandom ( Transform target )
         {
         //initialize array
         Transform [ ] targetArray;
@@ -94,9 +91,10 @@ public class Pathing : MonoBehaviour
         //finally the target will be assigned the new existing target value and start moving to the target
         target = existingTarget;
         seeker.StartPath ( transform.position, target.position, OnPathComplete );
-        foreach ( var trans in targetArray )
+        foreach ( var Object in targetArray )
             {
-            Debug.Log ( this.gameObject.name + " is moving to: " + existingTarget );
+            //Debug.Log ( this.gameObject.name + " is moving to: " + existingTarget );
+            characterController.transform.LookAt ( existingTarget );
             }
         }
     }

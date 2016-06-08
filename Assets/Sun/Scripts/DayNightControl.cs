@@ -37,6 +37,7 @@ public class DayNightControl : MonoBehaviour
         if ( IsNight )
             {
             Clouds.SetActive ( false );
+
             foreach ( Renderer childRenderer in windowLight.GetComponentsInChildren<Renderer> ( ) )
                 {
                 Color final = childRenderer.material.color * Mathf.LinearToGammaSpace ( 5 );
