@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Manager<GameManager>
     {
-
     public delegate void DayChanged ( );
     public event DayChanged OnDayChange;
     public static DateTime currentTime;

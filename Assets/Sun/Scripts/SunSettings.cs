@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 
-public class AutoIntensity : MonoBehaviour
+public class SunSettings : MonoBehaviour
     {
-
     public float maxIntensity = 3f;
     public float minIntensity = 0f;
     public float minPoint = -0.2f;
@@ -20,7 +19,7 @@ public class AutoIntensity : MonoBehaviour
     float skySpeed = 1;
 
     [SerializeField]
-    SetSunLight setLight;
+    DayNightControl dayNightControl;
 
 
     Light mainLight;
@@ -29,10 +28,8 @@ public class AutoIntensity : MonoBehaviour
 
     void Start ( )
         {
-
         mainLight = GetComponent<Light> ( );
         skyMat = RenderSettings.skybox;
-
         }
 
     void Update ( )
@@ -54,7 +51,7 @@ public class AutoIntensity : MonoBehaviour
         skyMat.SetFloat ( "_AtmosphereThickness", i );
         if ( dot > 0.4 )
             {
-            setLight.IsNight = false;
+            dayNightControl.IsNight = false;
             }
         if ( dot > 0 )
             {
@@ -63,7 +60,7 @@ public class AutoIntensity : MonoBehaviour
         else
             {
             transform.Rotate ( nightRotateSpeed * Time.deltaTime * skySpeed );
-            setLight.IsNight = true;
+            dayNightControl.IsNight = true;
             }
         }
     }

@@ -4,49 +4,15 @@ using System.Collections.Generic;
 using Pathfinding;
 using Pathfinding.RVO;
 
-/** AI for following paths.
- * This AI is the default movement script which comes with the A* Pathfinding Project.
- * It is in no way required by the rest of the system, so feel free to write your own. But I hope this script will make it easier
- * to set up movement for the characters in your game. This script is not written for high performance, so I do not recommend using it for large groups of units.
- * \n
- * \n
- * This script will try to follow a target transform, in regular intervals, the path to that target will be recalculated.
- * It will on FixedUpdate try to move towards the next point in the path.
- * However it will only move in the forward direction, but it will rotate around it's Y-axis
- * to make it reach the target.
- *
- * \section variables Quick overview of the variables
- * In the inspector in Unity, you will see a bunch of variables. You can view detailed information further down, but here's a quick overview.\n
- * The #repathRate determines how often it will search for new paths, if you have fast moving targets, you might want to set it to a lower value.\n
- * The #target variable is where the AI will try to move, it can be a point on the ground where the player has clicked in an RTS for example.
- * Or it can be the player object in a zombie game.\n
- * The speed is self-explanatory, so is turningSpeed, however #slowdownDistance might require some explanation.
- * It is the approximate distance from the target where the AI will start to slow down. Note that this doesn't only affect the end point of the path
- * but also any intermediate points, so be sure to set #forwardLook and #pickNextWaypointDist to a higher value than this.\n
- * #pickNextWaypointDist is simply determines within what range it will switch to target the next waypoint in the path.\n
- * #forwardLook will try to calculate an interpolated target point on the current segment in the path so that it has a distance of #forwardLook from the AI\n
- * Below is an image illustrating several variables as well as some internal ones, but which are relevant for understanding how it works.
- * Note that the #forwardLook range will not match up exactly with the target point practically, even though that's the goal.
- * \shadowimage{aipath_variables.png}
- * This script has many movement fallbacks.
- * If it finds a NavmeshController, it will use that, otherwise it will look for a character controller, then for a rigidbody and if it hasn't been able to find any
- * it will use Transform.Translate which is guaranteed to always work.
- */
 [RequireComponent ( typeof ( Seeker ) )]
 [AddComponentMenu ( "Pathfinding/AI/AIPath (3D)" )]
 [HelpURL ( "http://arongranberg.com/astar/docs/class_a_i_path.php" )]
 public class AIPath : MonoBehaviour
     {
-    /** Determines how often it will search for new paths.
-	 * If you have fast moving targets or AIs, you might want to set it to a lower value.
-	 * The value is in seconds between path requests.
-	 */
-    public float repathRate = 0.5F;
 
-    /** Target to move towards.
-	 * The AI will try to follow/move towards this target.
-	 * It can be a point on the ground where the player has clicked in an RTS for example, or it can be the player object in a zombie game.
-	 */
+    public float repathRate = 0.1F;
+
+    public Animator anim;
     public Transform target;
 
     /** Enables or disables searching for paths.
@@ -122,6 +88,7 @@ public class AIPath : MonoBehaviour
 
     /** Holds if the end-of-path is reached
 	 * \see TargetReached */
+    [SerializeField]
     protected bool targetReached = false;
 
     /** Only when the previous path has been returned should be search for a new path */
@@ -159,38 +126,19 @@ public class AIPath : MonoBehaviour
         //Cache some other components (not all are necessarily there)
         controller = GetComponent<CharacterController> ( );
         rigid = GetComponent<Rigidbody> ( );
+        anim = GetComponent<Animator> ( );
         }
 
-    /** Starts searching for paths.
-	 * If you override this function you should in most cases call base.Start () at the start of it.
-	 * \see OnEnable
-	 * \see RepeatTrySearchPath
-	 */
-    protected virtual void Start ( )
-        {
-        startHasRun = true;
-        OnEnable ( );
-        }
-
-    /** Run at start and when reenabled.
-	 * Starts RepeatTrySearchPath.
-	 *
-	 * \see Start
-	 */
-    protected virtual void OnEnable ( )
+    public void StartMoving ( )
         {
         lastRepath = -9999;
         canSearchAgain = true;
-
         lastFoundWaypointPosition = GetFeetPosition ( );
 
-        if ( startHasRun )
-            {
-            //Make sure we receive callbacks when paths complete
-            seeker.pathCallback += OnPathComplete;
+        //Make sure we receive callbacks when paths complete
+        seeker.pathCallback += OnPathComplete;
+        StartCoroutine ( RepeatTrySearchPath ( ) );
 
-            StartCoroutine ( RepeatTrySearchPath ( ) );
-            }
         }
 
     public void OnDisable ( )
@@ -209,7 +157,7 @@ public class AIPath : MonoBehaviour
     /** Tries to search for a path every #repathRate seconds.
 	 * \see TrySearchPath
 	 */
-    protected IEnumerator RepeatTrySearchPath ( )
+    public IEnumerator RepeatTrySearchPath ( )
         {
         while ( true )
             {
@@ -259,11 +207,8 @@ public class AIPath : MonoBehaviour
 
     public virtual void OnTargetReached ( )
         {
-        //End of path has been reached
-        //If you want custom logic for when the AI has reached it's destination
-        //add it here
-        //You can also create a new script which inherits from this one
-        //and override the function in that script
+        //canMove = false;
+        rigid.velocity = Vector3.zero;
         }
 
     /** Called when a requested path has finished calculation.
@@ -353,6 +298,7 @@ public class AIPath : MonoBehaviour
         else if ( rigid != null )
             {
             rigid.AddForce ( dir );
+            anim.SetFloat ( "Speed", rigid.velocity.magnitude );
             }
         else {
             tr.Translate ( dir * Time.deltaTime, Space.World );
@@ -388,7 +334,10 @@ public class AIPath : MonoBehaviour
 	 */
     protected Vector3 CalculateVelocity ( Vector3 currentPosition )
         {
-        if ( path == null || path.vectorPath == null || path.vectorPath.Count == 0 ) return Vector3.zero;
+        if ( path == null || path.vectorPath == null || path.vectorPath.Count == 0 )
+            {
+            return Vector3.zero;
+            }
 
         List<Vector3> vPath = path.vectorPath;
 

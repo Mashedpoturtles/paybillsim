@@ -58,7 +58,7 @@ public class GlobalAudio : MonoBehaviour
         if ( !_audioSource_Music.isPlaying )
             SoundMusic ( );
         if ( _audioSource_Music.clip != null )
-            Debug.Log ( _audioSource_Music.clip.name );
+            Debug.Log ( "Music track currently Playing:" + _audioSource_Music.clip.name );
         }
 
     public void SoundConfirm ( )

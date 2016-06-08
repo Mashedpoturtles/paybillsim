@@ -2,13 +2,14 @@
 using System.Collections;
 using UnityStandardAssets.CinematicEffects;
 
-public class SetSunLight : MonoBehaviour
+public class DayNightControl : MonoBehaviour
     {
     public GameObject windowLight;
     public Renderer water;
     public Transform stars;
     public Transform worldProbe;
     public GameObject Clouds;
+
     [SerializeField]
     private float bloomMaximumIntensity = 1.5f;
     [SerializeField]
@@ -17,7 +18,6 @@ public class SetSunLight : MonoBehaviour
     private float timeParam = 0;
     [SerializeField]
     private float bloomLerpSpeed = 0.005f;
-
     [SerializeField]
     Bloom bloomScript;
 

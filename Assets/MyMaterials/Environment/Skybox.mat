@@ -94,7 +94,7 @@ Material:
       data:
         first:
           name: _Exposure
-        second: 1.05
+        second: 0.2
       data:
         first:
           name: _SunDisk
@@ -102,7 +102,7 @@ Material:
       data:
         first:
           name: _SunSize
-        second: 0.042
+        second: 0.07
       data:
         first:
           name: _AtmosphereThickness
@@ -155,8 +155,8 @@ Material:
       data:
         first:
           name: _SkyTint
-        second: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+        second: {r: 0.47058815, g: 0, b: 0, a: 1}
       data:
         first:
           name: _GroundColor
-        second: {r: 0, g: 0, b: 0, a: 1}
+        second: {r: 0.9896552, g: 1, b: 1, a: 0.478}
