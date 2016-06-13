@@ -40,7 +40,11 @@ public class StateConditions : MonoBehaviour
             _Work = true;
             if ( !dayNightControl.IsNight )
                 {
-                path.MoveToRandom ( path.target );
+                path.MoveToRandom ( path.dayTimeTarget );
+                }
+            else
+                {
+                path.MoveToRandom ( path.nightTimeTarget );
                 }
             }
         if ( workTimer == maxDesireToWork )
@@ -85,7 +89,11 @@ public class StateConditions : MonoBehaviour
             _Social = true;
             if ( !dayNightControl.IsNight )
                 {
-                path.MoveToRandom ( path.target );
+                path.MoveToRandom ( path.dayTimeTarget );
+                }
+            else
+                {
+                path.MoveToRandom ( path.nightTimeTarget );
                 }
             }
         if ( socialTimer == maxDesireToSocialize )
@@ -97,20 +105,16 @@ public class StateConditions : MonoBehaviour
     void OnTriggerEnter ( Collider other )
         {
         var em = ps.emission;
-        if ( this._Social == true && other.gameObject.GetComponent<StateConditions> ( )._Social == true )
+        if ( !dayNightControl.IsNight && this._Social == true && other.gameObject.GetComponent<StateConditions> ( )._Social == true )
             {
             transform.LookAt ( other.gameObject.transform );
             em.enabled = true;
-            Debug.Log ( "Both npc's are feeling social!" );
-            Debug.Log ( gameObject.name + " is socially interacting with" + other.gameObject.name );
             }
         else
             {
-            //Debug.Log ( gameObject.name + " is not feeling very social right now." );
             em.enabled = false;
             return;
             }
-        //  Debug.Log ( gameObject.name + " is in interaction range with: " + other.gameObject.name );
         }
     void OnTriggerExit ( Collider other )
         {

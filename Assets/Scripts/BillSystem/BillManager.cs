@@ -36,8 +36,6 @@ public class BillManager : MonoBehaviour
         envelopes = new List<GameObject> ( );
         envelope = ( Resources.Load<GameObject> ( "Envelope" ) );
         Application.runInBackground = true;
-        GameManager.Instance.OnDayChange += onDayChanged;
-        GameManager.Instance.OnDayChange += DueDateCheck;
         }
     private void Start ( )
         {
@@ -50,13 +48,15 @@ public class BillManager : MonoBehaviour
             Destroy ( gameObject );
             return;
             }
+        GameManager.Instance.OnDayChange += onDayChanged;
+        GameManager.Instance.OnDayChange += DueDateCheck;
         }
 
     void Update ( )
         {
         EnvelopeHandler ( );
         BillCounter ( );
-        Debug.Log ( instalmentQueue.Count );
+        DebugPanel.Log ( "realtime look at the instalments in queue", instalmentQueue.Count );
         }
 
     /// <summary>
@@ -121,7 +121,7 @@ public class BillManager : MonoBehaviour
             newBill.Object = billObject;
             if ( billObject )
                 {
-                BillUI ui = billObject.GetComponentInChildren<BillUI> ( );
+                BillUI ui = newBill.Object.GetComponentInChildren<BillUI> ( );
                 if ( ui )
                     {
                     newBill.Object.transform.SetParent ( envelope.transform.FindChild ( "SpawnZone" ).transform, false );
@@ -141,25 +141,28 @@ public class BillManager : MonoBehaviour
         {
         if ( spawnZone )
             {
+            DebugPanel.Log ( " this got passed into the create instalment ", bill );
             Bill newBill = bill;
+            DebugPanel.Log ( " Bill newbill is made and got assigned bill and now looks like ", newBill );
             Bills.Add ( newBill );
+            DebugPanel.Log ( " the newbill got added to the blls list and we are at a count of ", Bills.Count );
             newBill.IssueDate = GameManager.currentTime;
             newBill.DueDate = GameManager.currentTime.AddDays ( 31 );
+
             GameObject envelope = Instantiate ( Resources.Load<GameObject> ( "Envelope" ) );
             envelopes.Add ( envelope );
+
             envelope.transform.SetParent ( Inbox.transform, false );
             GlobalAudio.instance.SoundBillPending ( );
             GameObject billObject = Instantiate ( Resources.Load<GameObject> ( "billprefab" ) );
             newBill.Object = billObject;
-            if ( billObject )
-                {
-                BillUI ui = billObject.GetComponentInChildren<BillUI> ( );
-                if ( ui )
-                    {
-                    newBill.Object.transform.SetParent ( envelope.transform.FindChild ( "SpawnZone" ).transform, false );
-                    ui.SetUI ( newBill );
-                    }
-                }
+            DebugPanel.Log ( " newbil.object looks like this after being assigned billObject ", newBill.Object );
+            BillUI ui = billObject.GetComponentInChildren<BillUI> ( );
+            DebugPanel.Log ( "newbill cost on creation ", newBill.Cost );
+            newBill.Object.transform.SetParent ( envelope.transform.FindChild ( "SpawnZone" ).transform, false );
+            ui.SetUI ( newBill );
+            DebugPanel.Log ( " hello ui script what can you tell us? ", ui );
+            DebugPanel.Log ( "newbill cost after ui set ", newBill.Cost );
             return newBill;
             }
         return null;
@@ -168,14 +171,20 @@ public class BillManager : MonoBehaviour
     public void SplitBillsInTerms ( Bill bill, int amount )
         {
         int newBillCost = bill.Cost / amount;
-        Debug.Log ( "newbillcost" + newBillCost );
-        Debug.Log ( "billcost" + bill.Cost );
+
         for ( int i = 0 ; i < amount ; i++ )
             {
+            DebugPanel.Log ( "bill is split into : ", amount );
             Bill tempBill = new Bill ( bill.Type );
+            DebugPanel.Log ( "suposed new bill cost after splitting", newBillCost );
+            DebugPanel.Log ( "tempbill cost before the split newbillcost is assigned ", tempBill.Cost );
             tempBill.Cost = newBillCost;
+            DebugPanel.Log ( "tempbill cost after the split newbillcost is assigned ", tempBill.Cost );
+            DebugPanel.Log ( "current debt before newbillcost is added to it ", Debt.instance.currentDebt );
             Debt.instance.currentDebt += newBillCost;
+            DebugPanel.Log ( "current debt after newbillcost is added to it ", Debt.instance.currentDebt );
             instalmentQueue.Add ( tempBill );
+            DebugPanel.Log ( "tempbil got added ", tempBill );
             }
 
         if ( bill.Object.transform.parent == spawnZone )
@@ -185,6 +194,7 @@ public class BillManager : MonoBehaviour
             }
 
         Debt.instance.currentDebt -= bill.Cost;
+        DebugPanel.Log ( "current debt after the old bill cost is detracted from it ", Debt.instance.currentDebt );
         Destroy ( bill.Object );
         Bills.Remove ( bill );
         }
@@ -194,10 +204,15 @@ public class BillManager : MonoBehaviour
     /// </summary>
     private void onDayChanged ( )
         {
-        if ( GameManager.currentTime.Day == 28 )
+        if ( GameManager.currentTime.Day == 28 && instalmentQueue.Count > 0 ) // look at this.
             {
+
             createBill ( instalmentQueue [ 0 ] );
+            DebugPanel.Log ( " looking at the instalmentque's first object ", instalmentQueue [ 0 ] );
+            DebugPanel.Log ( "the cost of the instalment now that its been created", instalmentQueue [ 0 ].Cost );
+            DebugPanel.Log ( " the stamp count before the instalment got created", instalmentQueue.Count );
             instalmentQueue.RemoveAt ( 0 );
+            DebugPanel.Log ( " the stamp count after the instalment got created", instalmentQueue.Count );
             }
 
         if ( GameManager.currentTime.Day == 21 )

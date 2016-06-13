@@ -11,7 +11,8 @@ public class Pathing : MonoBehaviour
     private Seeker seeker;
     [SerializeField]
     public Path path;
-    public Transform target;
+    public Transform dayTimeTarget;
+    public Transform nightTimeTarget;
     public int currentWaypoint;
     public float speed = 15f;
     public float maxWaypointDistance = 2f;

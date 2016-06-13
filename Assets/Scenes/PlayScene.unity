@@ -96,15 +96,9 @@ MonoBehaviour:
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11451666, guid: dfb4977941e5b674ca8c52c3d487c121,
     type: 2}
-  m_PrefabInternal: {fileID: 569062269}
+  m_PrefabInternal: {fileID: 460320933}
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
---- !u!114 &514673122 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11446886, guid: dfb4977941e5b674ca8c52c3d487c121,
-    type: 2}
-  m_PrefabInternal: {fileID: 569062269}
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
---- !u!1001 &569062269
+--- !u!1001 &460320933
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -183,15 +177,27 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11430146, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
-      propertyPath: tempInfo
-      value: 
-      objectReference: {fileID: 250686193}
     - target: {fileID: 11443548, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
       propertyPath: billManager
       value: 
       objectReference: {fileID: 1155217728}
-    - target: {fileID: 22415018, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+    - target: {fileID: 11430146, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: tempInfo
+      value: 
+      objectReference: {fileID: 250686193}
+    - target: {fileID: 22498106, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22415554, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22491070, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22415384, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
@@ -203,29 +209,33 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 22415384, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+    - target: {fileID: 22415018, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 22491070, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
+    - target: {fileID: 172872, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 22498106, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 22415554, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400690, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
-      propertyPath: m_Color.a
-      value: 0.81
-      objectReference: {fileID: 0}
+    - target: {fileID: 11456200, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
+      propertyPath: instalRequestText
+      value: 
+      objectReference: {fileID: 460320934}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dfb4977941e5b674ca8c52c3d487c121, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &460320934 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11455634, guid: dfb4977941e5b674ca8c52c3d487c121,
+    type: 2}
+  m_PrefabInternal: {fileID: 460320933}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!114 &514673122 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11446886, guid: dfb4977941e5b674ca8c52c3d487c121,
+    type: 2}
+  m_PrefabInternal: {fileID: 460320933}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &570504747
 Prefab:
   m_ObjectHideFlags: 0

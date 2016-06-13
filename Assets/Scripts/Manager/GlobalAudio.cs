@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 /// <summary>
 /// Audio manager to call all soundclips in this project from.
 /// </summary>
@@ -37,6 +38,8 @@ public class GlobalAudio : MonoBehaviour
     private AudioClip _soundConfirmation;
     [SerializeField]
     private AudioClip _soundbillPending;
+    [SerializeField]
+    private Text currentTrack;
 
     public static GlobalAudio instance;
     void Start ( )
@@ -58,7 +61,7 @@ public class GlobalAudio : MonoBehaviour
         if ( !_audioSource_Music.isPlaying )
             SoundMusic ( );
         if ( _audioSource_Music.clip != null )
-            Debug.Log ( "Music track currently Playing:" + _audioSource_Music.clip.name );
+            currentTrack.text = ( "Music track currently Playing: " + _audioSource_Music.clip.name );
         }
 
     public void SoundConfirm ( )

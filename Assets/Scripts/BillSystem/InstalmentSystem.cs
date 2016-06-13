@@ -8,6 +8,7 @@ public class InstalmentSystem : MonoBehaviour
     public static InstalmentSystem instance;
     public Slider sliderPaymentSplitter;
     public Button ButtonCall;
+    public Text instalRequestText;
     public int InstalmentsToPayIn;
     public bool ApplyingForInstallments;
     public bool EligibleForInstalments;
@@ -32,12 +33,14 @@ public class InstalmentSystem : MonoBehaviour
         if ( Debt.instance.currentDebt >= 500 )
             {
             ButtonCall.gameObject.SetActive ( true );
+            instalRequestText.gameObject.SetActive ( true );
             EligibleForInstalments = true;
             }
 
         else
             {
             ButtonCall.gameObject.SetActive ( false );
+            instalRequestText.gameObject.SetActive ( false );
             sliderPaymentSplitter.gameObject.SetActive ( false );
             }
 
@@ -60,5 +63,6 @@ public class InstalmentSystem : MonoBehaviour
         {
         ApplyingForInstallments = true;
         ButtonCall.gameObject.SetActive ( false );
+        instalRequestText.gameObject.SetActive ( false );
         }
     }

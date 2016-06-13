@@ -13,7 +13,6 @@ public class NewsFeed : MonoBehaviour
     public string [ ] descriptions;
     //currently selected node
     public int currentTextNode = 0;
-    StringFast stringfast;
     void Fetch ( )
         {
         StartCoroutine ( News ( ) );
