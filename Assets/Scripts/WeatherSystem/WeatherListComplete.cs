@@ -347,7 +347,7 @@ public class WeatherListComplete : MonoBehaviour
                 baserainscript.RainIntensity = 1f;
                 break;
             case weatherConditions.LightRainShowers:
-                baserainscript.RainIntensity = 4f;
+                baserainscript.RainIntensity = 0.4f;
                 break;
             case weatherConditions.RainShowers:
                 baserainscript.RainIntensity = 0.6f;

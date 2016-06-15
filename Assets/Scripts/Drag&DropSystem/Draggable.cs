@@ -61,14 +61,21 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 {
                 List<Bill> tempBillList = new List<Bill> ( BillManager.Bills );
                 foreach ( var bill in tempBillList )
+                    {
+                    Debug.Log ( "Bill cost unsplit" + bill.Cost );
                     if ( bill.Object == this.gameObject )
                         {
                         if ( InstalmentSystem.instance.PayWithInstalments == true )
                             {
+                            Debug.Log ( "Splitting bill: " + bill.Cost + " to parts: " + InstalmentSystem.instance.InstalmentsToPayIn );
                             BillManager.instance.SplitBillsInTerms ( bill, InstalmentSystem.instance.InstalmentsToPayIn );
+                            Debug.Log ( "bill costs after split: " + bill.Cost );
                             InstalmentSystem.instance.DisableAfterInstalment ( );
                             }
                         }
+                    }
+                foreach ( var bill in BillManager.Bills )
+                    Debug.Log ( "Bill cost unsplit" + bill.Cost );
                 }
         }
 

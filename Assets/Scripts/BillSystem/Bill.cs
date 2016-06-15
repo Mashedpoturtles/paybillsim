@@ -18,7 +18,7 @@ namespace Assets.BillSystem
         /// <summary>
         /// The amount you must pay for this bill initially.
         /// </summary>
-        public int Cost { get; set; }
+        public int Cost = 0;
         public int RecievedCost { get; set; }
         /// <summary>
         /// The kind of bill, for e.g. internet, electricity or water bills.

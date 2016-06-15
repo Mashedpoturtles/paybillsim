@@ -314,6 +314,62 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 470264, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 470264, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 470264, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 448672, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 448672, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 448672, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11495524, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: RainIntensity
+      value: 0.716
+      objectReference: {fileID: 0}
+    - target: {fileID: 470264, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0.87962335
+      objectReference: {fileID: 0}
+    - target: {fileID: 470264, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.47567093
+      objectReference: {fileID: 0}
+    - target: {fileID: 470264, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -352
+      objectReference: {fileID: 0}
+    - target: {fileID: 470264, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 672
+      objectReference: {fileID: 0}
+    - target: {fileID: 470264, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -1020
+      objectReference: {fileID: 0}
+    - target: {fileID: 11495524, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: RainHeight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11495524, guid: be2936f3859f772439bf37fcad657252, type: 2}
+      propertyPath: RainForwardOffset
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: be2936f3859f772439bf37fcad657252, type: 2}
   m_IsPrefabParent: 0
