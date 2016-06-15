@@ -56,12 +56,6 @@ public class BillManager : MonoBehaviour
         {
         EnvelopeHandler ( );
         BillCounter ( );
-        foreach ( var bill in Bills )
-            {
-            if ( bill.Type == BillType.GasEnLicht )
-                Debug.Log ( " and update shows bill list containing these cost: " + bill.Cost );
-
-            }
         }
 
     /// <summary>
@@ -158,8 +152,6 @@ public class BillManager : MonoBehaviour
         bill.Object.transform.SetParent ( envelope.transform.FindChild ( "SpawnZone" ).transform, false );
         ui.SetUI ( bill );
 
-        Debug.Log ( "split cost" + bill.Cost );
-
         return bill;
         }
 
@@ -189,12 +181,14 @@ public class BillManager : MonoBehaviour
     /// </summary>
     private void onDayChanged ( )
         {
-        if ( GameManager.currentTime.Day == 28 && instalmentQueue.Count != 0 )
+        if ( GameManager.currentTime.Day == 28 )
             {
-            Bill bill = instalmentQueue [ 0 ];
-            Debt.instance.currentDebt += bill.Cost;
-            createInstalment ( bill );
-            instalmentQueue.Remove ( bill );
+            if ( instalmentQueue.Count != 0 )
+                {
+                Bill bill = instalmentQueue [ 0 ];
+                createInstalment ( bill );
+                instalmentQueue.Remove ( bill );
+                }
             }
 
         if ( GameManager.currentTime.Day == 21 )
@@ -253,35 +247,42 @@ public class BillManager : MonoBehaviour
 
     private void Normal ( Bill bill )
         {
-        if ( bill.Type == BillType.Electriciteit )
+        if ( GameManager.currentTime.Day != 28 )
             {
-            bill.Cost = 150;
-            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.SetUI ( bill );
+            if ( bill.Type == BillType.Electriciteit )
+                {
+                bill.Cost = 150;
+                BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+                ui.SetUI ( bill );
+                }
+            else if ( bill.Type == BillType.Internet )
+                {
+                bill.Cost = 75;
+                BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+                ui.SetUI ( bill );
+                }
+            else if ( bill.Type == BillType.GasEnLicht )
+                {
+                bill.Cost = 200;
+                BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+                ui.SetUI ( bill );
+                }
+            else if ( bill.Type == BillType.Telefoon )
+                {
+                bill.Cost = 60;
+                BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+                ui.SetUI ( bill );
+                }
+            else if ( bill.Type == BillType.ZorgVerzekering )
+                {
+                bill.Cost = 275;
+                BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+                ui.SetUI ( bill );
+                }
             }
-        else if ( bill.Type == BillType.Internet )
+        else
             {
-            bill.Cost = 75;
-            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.SetUI ( bill );
-            }
-        else if ( bill.Type == BillType.GasEnLicht && bill.Cost != 50 )
-            {
-            bill.Cost = 200;
-            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.SetUI ( bill );
-            }
-        else if ( bill.Type == BillType.Telefoon )
-            {
-            bill.Cost = 60;
-            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.SetUI ( bill );
-            }
-        else if ( bill.Type == BillType.ZorgVerzekering )
-            {
-            bill.Cost = 275;
-            BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
-            ui.SetUI ( bill );
+            return;
             }
         }
 
