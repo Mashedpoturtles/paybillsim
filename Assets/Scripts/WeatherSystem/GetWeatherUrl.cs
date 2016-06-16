@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using MovementEffects;
 using UnityEngine.UI;
 using Newtonsoft.Json;
-using System;
-using System.Net;
+
 
 public class GetWeatherUrl : MonoBehaviour
     {
@@ -19,13 +19,13 @@ public class GetWeatherUrl : MonoBehaviour
     public string url = "https://api.wunderground.com/api/d33ba8071e6bde8b/conditions/bestfct/q/autoip.json";
     public Text Weather;
 
-    public IEnumerator ServerCall ( )
+    public IEnumerator<float> _ServerCall ( )
         {
         while ( true )
             {
             WWW www = new WWW ( url );
 
-            yield return www;
+            yield return Timing.WaitUntilDone ( www );
 
             json = www.text;
 
@@ -54,7 +54,7 @@ public class GetWeatherUrl : MonoBehaviour
 
     public void Fetch ( )
         {
-        StartCoroutine ( ServerCall ( ) );
+        Timing.RunCoroutine ( _ServerCall ( ) );
         }
     public void Start ( )
         {

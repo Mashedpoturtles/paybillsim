@@ -1,6 +1,5 @@
 using Assets.BillSystem;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -187,7 +186,7 @@ public class BillManager : MonoBehaviour
                 {
                 Bill bill = instalmentQueue [ 0 ];
                 createInstalment ( bill );
-                instalmentQueue.Remove ( bill );
+                instalmentQueue.RemoveAt ( 0 );//remove or removeAt?
                 }
             }
 
@@ -438,6 +437,7 @@ public class BillManager : MonoBehaviour
                     if ( distance <= 1f )
                         {
                         envelope.transform.SetParent ( spawnZone.transform, false );
+
                         }
                     return;
                     }

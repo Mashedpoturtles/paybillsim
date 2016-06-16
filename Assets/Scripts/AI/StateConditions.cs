@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using MovementEffects;
 
 public class StateConditions : MonoBehaviour
     {
@@ -49,29 +50,29 @@ public class StateConditions : MonoBehaviour
             }
         if ( workTimer == maxDesireToWork )
             {
-            StartCoroutine ( ResetWorkDesire ( ) );
+            Timing.RunCoroutine ( _ResetWorkDesire ( ) );
             }
         }
 
-    public IEnumerator ResetWorkDesire ( )
+    public IEnumerator<float> _ResetWorkDesire ( )
         {
             {
             if ( workTimer == maxDesireToWork )
                 {
                 random_waitTimeBored = Random.Range ( 5, 10 );
-                yield return new WaitForSeconds ( random_waitTimeBored );
+                yield return Timing.WaitForSeconds ( random_waitTimeBored );
                 workTimer = 0;
                 }
             }
         }
 
-    public IEnumerator ResetSocialDesire ( )
+    public IEnumerator<float> _ResetSocialDesire ( )
         {
             {
             if ( socialTimer == maxDesireToSocialize )
                 {
                 random_waitTimeSocial = Random.Range ( 5, 10 );
-                yield return new WaitForSeconds ( random_waitTimeSocial );
+                yield return Timing.WaitForSeconds ( random_waitTimeSocial );
                 socialTimer = 0;
                 }
             }
@@ -98,7 +99,7 @@ public class StateConditions : MonoBehaviour
             }
         if ( socialTimer == maxDesireToSocialize )
             {
-            StartCoroutine ( ResetSocialDesire ( ) );
+            Timing.RunCoroutine ( _ResetSocialDesire ( ) );
             }
         }
 

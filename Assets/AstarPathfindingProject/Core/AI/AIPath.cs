@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using MovementEffects;
 using System.Collections.Generic;
 using Pathfinding;
 using Pathfinding.RVO;
@@ -137,7 +137,7 @@ public class AIPath : MonoBehaviour
 
         //Make sure we receive callbacks when paths complete
         seeker.pathCallback += OnPathComplete;
-        StartCoroutine ( RepeatTrySearchPath ( ) );
+        Timing.RunCoroutine ( _RepeatTrySearchPath ( ) );
 
         }
 
@@ -157,12 +157,12 @@ public class AIPath : MonoBehaviour
     /** Tries to search for a path every #repathRate seconds.
 	 * \see TrySearchPath
 	 */
-    public IEnumerator RepeatTrySearchPath ( )
+    public IEnumerator<float> _RepeatTrySearchPath ( )
         {
         while ( true )
             {
             float v = TrySearchPath ( );
-            yield return new WaitForSeconds ( v );
+            yield return Timing.WaitForSeconds ( v );
             }
         }
 

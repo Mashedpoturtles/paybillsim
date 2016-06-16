@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 /// <summary>
 /// Audio manager to call all soundclips in this project from.

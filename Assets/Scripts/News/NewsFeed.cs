@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Text;
+﻿using System.Collections.Generic;
+using MovementEffects;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +15,7 @@ public class NewsFeed : MonoBehaviour
     public int currentTextNode = 0;
     void Fetch ( )
         {
-        StartCoroutine ( News ( ) );
+        Timing.RunCoroutine ( _News ( ) );
         }
 
     void Start ( )
@@ -39,13 +39,12 @@ public class NewsFeed : MonoBehaviour
 
         textNode.text = descriptions [ currentTextNode ].Replace ( "&nbsp;", " " ).Replace ( "<br />", " " ).Replace ( "&nbsp;", " " );
         }
-    public IEnumerator News ( )
+    public IEnumerator<float> _News ( )
         {
         //Create WWW Object via URL
         WWW www = new WWW ( url );
 
-        yield return www;
-        if ( www.isDone )
+        yield return Timing.WaitUntilDone ( www );
             {
             //create instance of XML Document
             XmlDocument xmlDoc = new XmlDocument ( );

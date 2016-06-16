@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+//TODO
 
 public class Clouds : MonoBehaviour
     {

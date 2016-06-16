@@ -1,7 +1,8 @@
 ﻿using System;
 using Universe;
 using UnityEngine;
-using System.Collections;
+using MovementEffects;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Manager<GameManager>
@@ -33,29 +34,29 @@ public class GameManager : Manager<GameManager>
         {
         if ( SavedDifficultyIsEasy )
             TimeSpeed = 10f;
-        StartCoroutine ( AddHours ( ) );
+        Timing.RunCoroutine ( _AddHours ( ) );
         }
 
     public void SetDifficultyNormal ( )
         {
         if ( SavedDifficultyIsNormal )
             TimeSpeed = 30f;
-        StartCoroutine ( AddHours ( ) );
+        Timing.RunCoroutine ( _AddHours ( ) );
         }
 
     public void SetDifficultyHard ( )
         {
         if ( SavedDifficultyIsHard )
             TimeSpeed = 50f;
-        StartCoroutine ( AddHours ( ) );
+        Timing.RunCoroutine ( _AddHours ( ) );
         }
 
-    private IEnumerator AddHours ( )
+    private IEnumerator<float> _AddHours ( )
         {
         while ( true )
             {
             currentTime = currentTime.AddHours ( 1 );
-            yield return new WaitForSeconds ( 1.0f / TimeSpeed );
+            yield return Timing.WaitForSeconds ( 1.0f / TimeSpeed );
             }
         }
 
@@ -90,7 +91,7 @@ public class GameManager : Manager<GameManager>
             {
             IsPaused = true;
             TimeSpeed = 0f;
-            StartCoroutine ( AddHours ( ) );
+            Timing.RunCoroutine ( _AddHours ( ) );
             }
 
         else

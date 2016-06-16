@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityStandardAssets.CinematicEffects;
 
 public class DayNightControl : MonoBehaviour

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
+using MovementEffects;
 using DigitalRuby.RainMaker;
-using System.Collections;
 
 public class WeatherListComplete : MonoBehaviour
     {
@@ -16,10 +17,10 @@ public class WeatherListComplete : MonoBehaviour
     void Start ( )
         {
         snow.enabled = false;
-        StartCoroutine ( PlayThunderLight ( UnityEngine.Random.Range ( 0.3f, 1f ), UnityEngine.Random.Range ( 3f, 8f ) ) );
+        Timing.RunCoroutine ( _PlayThunderLight ( UnityEngine.Random.Range ( 0.3f, 1f ), UnityEngine.Random.Range ( 3f, 8f ) ) );
         }
 
-    IEnumerator PlayThunderLight ( float time, float addIntensity )
+    IEnumerator<float> _PlayThunderLight ( float time, float addIntensity )
         {
         while ( true )
             {
@@ -51,9 +52,9 @@ public class WeatherListComplete : MonoBehaviour
                     thunderLight.range = origRange;
                     thunderLight.intensity = 0;
                     }
-                yield return new WaitForSeconds ( UnityEngine.Random.Range ( 10, 30 ) );
+                yield return Timing.WaitForSeconds ( UnityEngine.Random.Range ( 10, 30 ) );
                 }
-            yield return new WaitForSeconds ( 10 );
+            yield return Timing.WaitForSeconds ( 10 );
             }
         }
 

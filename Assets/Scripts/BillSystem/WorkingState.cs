@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
+//todo: refactor this whole coroutine statemachine.
 public class WorkingState : MonoBehaviour
     {
     private Slider workSlider;
