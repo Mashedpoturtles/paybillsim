@@ -1,4 +1,7 @@
-# PayBillSim
+
+![Alt text](https://i.gyazo.com/cc97c924b10df0ccec5d1701c7e33ad7.gif "GamePlay")
+![Alt text](https://i.gyazo.com/17e6407a1f5bcabe7aa6e1c54730ef01.gif "Environment")
+
 Bill and debt simulator made at dutch creditmanagement company Syncasso located in the Netherlands.
 
 
@@ -28,7 +31,5 @@ to display accurate weather forecast realtime visually in game. ( currently only
 * [A* pathfinding project] (http://arongranberg.com/astar/)
 * [Universe game manager] (https://www.assetstore.unity3d.com/en/#!/content/24227)
 
-![Alt text](https://i.gyazo.com/cc97c924b10df0ccec5d1701c7e33ad7.gif "GamePlay")
-![Alt text](https://i.gyazo.com/17e6407a1f5bcabe7aa6e1c54730ef01.gif "Environment")
 
 
