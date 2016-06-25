@@ -1,6 +1,5 @@
 
 ![Alt text](https://media.giphy.com/media/xT8qBurJfFJKDy54MU/giphy.gif "DayNight")
-![Alt text](https://i.gyazo.com/cc97c924b10df0ccec5d1701c7e33ad7.gif "GamePlay")
 ![Alt text](https://i.gyazo.com/17e6407a1f5bcabe7aa6e1c54730ef01.gif "Environment")
 
 Bill and debt simulator made at dutch creditmanagement company Syncasso located in the Netherlands.
