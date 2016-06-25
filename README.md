@@ -1,5 +1,5 @@
 
-![Alt text](https://i.gyazo.com/3f4110c67ad918ff554bef67c358ec28.gif "GamePlay")
+![Alt text](https://i.gyazo.com/218113a87afeac37433e48708ff9d540.gif "GamePlay")
 ![Alt text](https://i.gyazo.com/6709ac3ee1d07b3a39f8da1601180a61.gif "GamePlay")
 ![Alt text](https://i.gyazo.com/885d6f8f5711385a1b383ffd444df6df.gif "GamePlay")
 ![Alt text](https://i.gyazo.com/17e6407a1f5bcabe7aa6e1c54730ef01.gif "Environment")
