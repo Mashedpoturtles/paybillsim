@@ -304,7 +304,7 @@ public class BillManager : MonoBehaviour
     /// Sends a debt collector personally telling you to pay up, with increased costs.
     /// </summary>
     /// <param name="bill"></param>
-    private void DagVaarding ( Bill bill )
+    private void DagVaarding ( Bill bill )  // replace all these with IncreaseFine method...
         {
         if ( bill.Type != BillType.Event )
             {
@@ -315,6 +315,17 @@ public class BillManager : MonoBehaviour
             ui.ReplaceInfo ( bill );
             }
         }
+  private void IncreaseFine(Bill bill, int fine) {  
+  bill.Cost += fine;
+  BillUI ui = bill.Object.GetComponentInChildren<BillUI> ( );
+  ui.ReplaceInfo ( bill );
+}
+
+//note if you are calling Somatie make sure you do ui.AddWarning(bill);
+//ex:
+//IncreaseFine(bill, 100);
+//ui.AddWarning(bill);
+
 
     /// <summary>
     /// The judge will get involved and a debt collector will bring the verdict.
