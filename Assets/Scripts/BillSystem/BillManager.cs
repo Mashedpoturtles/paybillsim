@@ -362,7 +362,7 @@ public class BillManager : MonoBehaviour
     /// <summary>
     /// Comparison between the current time and the set due dates in the bill class.
     /// </summary>
-    private void DueDateCheck ( )
+    private void DueDateCheck ( ) //put in two switchcases (bill.duedate) and (bill.billtype)
         {
         foreach ( Bill bill in Bills )
             {
