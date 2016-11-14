@@ -61,40 +61,25 @@ public class BillManager : MonoBehaviour
     /// This method checks whether the player has sufficient money to pay the bill and takes care of removing it if so.
     /// </summary>
     /// <param name="bill"></param>
-    public void PayBill ( Bill bill )
+ public void PayBill ( Bill bill )
         {
-        if ( Money.instance.currentMoney >= bill.Cost )
-            {
+        if ( Money.instance.currentMoney >= bill.Cost ){
             Money.instance.currentMoney -= bill.Cost;
-            Debt.instance.currentDebt -= bill.Cost;
-            GlobalAudio.instance.SoundPaidBill ( );
-            Destroy ( bill.Object );
-            Bills.Remove ( bill );
-            Text buttonText = GameObject.FindWithTag ( "pausebutton" ).GetComponentInChildren<Text> ( );
-            if ( buttonText.text != "Start!" )
-                {
-                if ( GameManager.Instance.IsPaused == true )
-                    {
-                    GameManager.Instance.UnPause ( );
-                    }
-                }
-            }
-        if ( Money.instance.currentMoney >= bill.RecievedCost || Money.instance.currentMoney <= bill.RecievedCost )
-            {
-            Money.instance.currentMoney += bill.RecievedCost;
-            GlobalAudio.instance.SoundPaidBill ( );
-            Destroy ( bill.Object );
-            Bills.Remove ( bill );
-            Text buttonText = GameObject.FindWithTag ( "pausebutton" ).GetComponentInChildren<Text> ( );
-            if ( buttonText.text != "Start!" )
-                {
-                if ( GameManager.Instance.IsPaused == true )
-                    {
-                    GameManager.Instance.UnPause ( );
-                    }
-                }
-            }
+            Debt.instance.currentDebt -= bill.Cost;           
         }
+        if ( Money.instance.currentMoney >= bill.RecievedCost || Money.instance.currentMoney <= bill.RecievedCost ){
+            Money.instance.currentMoney += bill.RecievedCost;           
+        } 
+        GlobalAudio.instance.SoundPaidBill ( );
+        Destroy ( bill.Object );
+        Bills.Remove ( bill );
+        Text buttonText = GameObject.FindWithTag ( "pausebutton" ).GetComponentInChildren<Text> ( );
+        if ( buttonText.text != "Start!" ){
+          if ( GameManager.Instance.IsPaused == true ){
+            GameManager.Instance.UnPause ( );
+          }
+        }
+       } //ninja edit fix later
 
     public void InsufficientFunds ( Bill bill )
         {
@@ -178,7 +163,7 @@ public class BillManager : MonoBehaviour
     /// <summary>
     /// This method is used to set the day of the month on which a bill is ment to instantiate.
     /// </summary>
-    private void onDayChanged ( )
+    private void onDayChanged ( )  // change to switch (currentTime.Day) 
         {
         if ( GameManager.currentTime.Day == 28 )
             {
@@ -215,7 +200,7 @@ public class BillManager : MonoBehaviour
             createBill ( BillType.Telefoon );
             }
 
-        if ( GameManager.currentTime.Day == Random.Range ( 1, 30 ) )
+        if ( GameManager.currentTime.Day == Random.Range ( 1, 30 ) ) // start at 0 to 30 or 31?
             {
             createBill ( BillType.Event );
             }
